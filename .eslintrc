@@ -1,0 +1,16 @@
+{
+  "extends": "airbnb",
+  "env": {
+    "node": true,
+    "commonjs": true,
+    "es6": true
+  },
+  "globals": {
+    "Core": true
+  },
+  "rules": {
+    "no-underscore-dangle": "off",
+    "no-empty": "off",
+    "class-methods-use-this": "off"
+  }
+}
