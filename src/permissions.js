@@ -53,7 +53,7 @@ class PermissionsManager {
     // always return true for global admins and bot owners
     if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
     if (!guild) return false; // DMs have no guild object
-    if (user.id === g.owner_id) return true; // Owner of guild
+    if (user.id === guild.owner_id) return true; // Owner of guild
     const member = user.memberOf(guild);
     if (!member) return false; // wut?
     const rolesTofind = this.adminRoles.concat(this.djRoles);

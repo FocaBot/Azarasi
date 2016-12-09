@@ -12,8 +12,8 @@ class GuildAudioPlayer {
   constructor(guild) {
     /** Associated guild */
     this.guild = guild;
-    /** Current voice channel */
-    this.voiceChannel = undefined;
+    /** Current voice connection */
+    this.voiceConnection = undefined;
     /** Current encoder object */
     this.currentEncoder = undefined;
     /** Current encoder stream */
@@ -48,7 +48,7 @@ class GuildAudioPlayer {
       this.encoderStream = encoder.play();
       this.encoderStream.resetTimestamp();
       this._offset = offset;
-      this.voiceConnection.getEncoder().setVolume(this.volume);
+      // this.voiceConnection.getEncoder().setVolume(this.volume);
       encoder.on('end', () => this.clean());
       return encoder;
     });
@@ -65,7 +65,7 @@ class GuildAudioPlayer {
       // bot is connected to another voice channel
       if (this.voiceConnection.channelId === audioChannel.id) {
         // it happens to be the same voice channel, so we just resolve the current value
-        return Promise.resolve(this.voiceChannel);
+        return Promise.resolve(this.voiceConnection);
       }
       // The bot is in another voice channel.
       if (this.currentStream) return Promise.reject('Bot is already in another voice channel.');

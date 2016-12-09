@@ -1,6 +1,8 @@
 # FocaBotCore
 
-A Discord bot framework built on top of [Discordie]() to make bot development easier.
+A Discord bot framework built on top of [Discordie](https://qeled.github.io/discordie/) to make bot development easier.
+
+```npm install --save focabot-core```
 
 Currently, it provides:
 
