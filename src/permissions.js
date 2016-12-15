@@ -57,7 +57,7 @@ class PermissionsManager {
     const member = user.memberOf(guild);
     if (!member) return false; // wut?
     const rolesTofind = this.adminRoles.concat(this.djRoles);
-    return member.roles.filter(i => rolesTofind.indexOf(i.name)).length > 0;
+    return member.roles.filter(i => rolesTofind.indexOf(i.name) >= 0).length > 0;
   }
 
   /**
