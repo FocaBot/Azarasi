@@ -60,19 +60,6 @@ class GuildAudioPlayer {
    * @return {Promise<Object>} Discordie voice connection object
    */
   join(audioChannel) {
-    // if hell :D
-    if (this.voiceConnection) {
-      // bot is connected to another voice channel
-      if (this.voiceConnection.channelId === audioChannel.id) {
-        // it happens to be the same voice channel, so we just resolve the current value
-        return Promise.resolve(this.voiceConnection);
-      }
-      // The bot is in another voice channel.
-      if (this.currentStream) return Promise.reject('Bot is already in another voice channel.');
-      // If there's nothing being played, leave the current voice channel.
-      this.clean(true);
-    }
-
     return audioChannel.join().then((info) => {
       this.voiceConnection = info.voiceConnection;
       return info.voiceConnection;
