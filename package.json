@@ -1,6 +1,6 @@
 {
   "name": "focabot-core",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Useful framework to make discord bots",
   "main": "src/index.js",
   "scripts": {
