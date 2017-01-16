@@ -14,6 +14,7 @@ class BotCommand {
    * @param {boolean} options.argSeparator - The argument delimiter
    * @param {boolean} options.includeCommandNameInArgs - Useful for aliases
    * @param {boolean} options.allowDM - Allow this command to be executed in DMs
+   * @param {boolean} options.everyone - For SelfBots, allow this command to be executed by others.
    * @param {function} func - Command handler
    */
   constructor(name, options, func) {
@@ -113,7 +114,10 @@ class CommandManager {
    * Gets the current prefix.
    * @return {Promise<string>}
    */
-  getPrefix() {
+  getPrefix(msg) {
+    if (Core.settings.selfBot && Core.settings.publicPrefix && msg.author.id !== Core.bot.User.id) {
+      return Promise.resolve(Core.settings.publicPrefix);
+    }
     return Promise.resolve(Core.settings.prefix);
   }
 
@@ -131,6 +135,7 @@ class CommandManager {
       if (!command) return;
       // Check if it can be executed
       if (!msg.guild && !command.allowDM) return;
+      if (Core.settings.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return;
       if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return;
       if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return;
       if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return;

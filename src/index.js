@@ -17,6 +17,7 @@ class FocaBotCore {
    * @param {object} settings - The settings object.
    * @param {string} settings.prefix - Default bot prefix
    * @param {string} settings.token - Bot token
+   * @param {string} settings.selfBot - Defines this bot as a selfbot
    * @param {string[]} settings.owner - Bot owner user IDs
    * @param {string[]} settings.admins - Global admin user IDs
    * @param {string[]} settings.adminRoles - Admin role names
@@ -57,7 +58,12 @@ class FocaBotCore {
      */
     this.modules = new ModuleManager();
 
-    this.bot.Dispatcher.on('GATEWAY_READY', () => this.log('Connected!.'));
+    this.bot.Dispatcher.on('GATEWAY_READY', () => {
+      this.log('Connected!.');
+      if (this.settings.selfBot) {
+        this.permissions.owner.push(this.bot.User.id);
+      }
+    });
     this.bot.Dispatcher.on('MESSAGE_CREATE', e => this.processMessage(e.message));
 
     this.bootDate = moment();

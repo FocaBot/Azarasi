@@ -26,6 +26,23 @@ class PermissionsManager {
   }
 
   /**
+   * Checks if an user has certain roles (by name).
+   *
+   * Note: Only one of the roles passed is required for this to return a positive value.
+   * @param {string|string[]} roles - Role name(s) to check.
+   * @param {object} user - The user to check. Can also be a Discordie IGuildMember.
+   * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @return {boolean}
+   */
+  hasRoles(roles, user, guild = user.guild) {
+    if (!guild) return false; // DMs have no guild object
+    const member = user.memberOf(guild);
+    if (!member) return false; // wut?
+    const r = (typeof roles === 'string') ? [roles] : roles;
+    return member.roles.filter(i => r.indexOf(i.name) >= 0).length > 0;
+  }
+
+  /**
    * Checks if an user has admin rights.
    * @param {object} user - The user to check. Can also be a Discordie IGuildMember.
    * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
@@ -34,13 +51,11 @@ class PermissionsManager {
    */
   isAdmin(user, guild = user.guild, globalOnly) {
     // always return true for global admins and bot owners
-    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;    
+    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
     if (globalOnly) return false;
-    if (!guild) return false; // DMs have no guild object
+    if (!guild) return false;
     if (user.id === guild.owner_id) return true; // Owner of guild
-    const member = user.memberOf(guild);
-    if (!member) return false; // wut?
-    return member.roles.filter(i => this.adminRoles.indexOf(i.name) >= 0).length > 0; // Has admin role(s).
+    return this.hasRoles(this.adminRoles, user, guild);
   }
 
   /**
@@ -54,10 +69,7 @@ class PermissionsManager {
     if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
     if (!guild) return false; // DMs have no guild object
     if (user.id === guild.owner_id) return true; // Owner of guild
-    const member = user.memberOf(guild);
-    if (!member) return false; // wut?
-    const rolesTofind = this.adminRoles.concat(this.djRoles);
-    return member.roles.filter(i => rolesTofind.indexOf(i.name) >= 0).length > 0;
+    return this.hasRoles(this.djRoles, user, guild);
   }
 
   /**
