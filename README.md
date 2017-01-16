@@ -43,5 +43,6 @@ For a more complex example, check out the [example](example/) directory.
 
   - [FocaBot](https://bots.discord.pw/bots/181986129011146752) [(source code)](https://github.com/FocaBot/FocaBot)
   - [MIDIBot](https://bots.discord.pw/bots/206474253531348992)
+  - [SelfBot-Base](https://github.com/TheBITLINK/SelfBot-Base) (source only)
 
 If you want to add your bot to the list, feel free to make a PR or contact me on Discord (TheBITLINK#3141). 
