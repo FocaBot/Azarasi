@@ -69,7 +69,7 @@ class PermissionsManager {
     if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
     if (!guild) return false; // DMs have no guild object
     if (user.id === guild.owner_id) return true; // Owner of guild
-    return this.hasRoles(this.djRoles, user, guild);
+    return this.hasRoles(this.djRoles, user, guild) || this.hasRoles(this.adminRoles, user, guild);
   }
 
   /**
