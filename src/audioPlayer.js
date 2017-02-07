@@ -41,7 +41,10 @@ class GuildAudioPlayer {
       source: path,
       format: 'opus', // opus doesn't allow volume change on the fly :C
       frameDuration: 60,
-      inputArgs: flags.input,
+      inputArgs: [
+        '-reconnect', '1', '-reconnect_at_eof', '1',
+        '-reconnect_streamed', '1', '-reconnect_delay_max', '2',
+      ].concat(flags.input || []),
       outputArgs: flags.output,
     })).then((encoder) => {
       this.currentEncoder = encoder;
@@ -77,7 +80,7 @@ class GuildAudioPlayer {
     } catch (e) { }
   }
   */
-  
+
   /**
    * Attempts to stop playback.
    * @param {boolean} disconnect - Set to true to also disconnect from the voice channel
