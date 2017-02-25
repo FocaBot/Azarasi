@@ -128,7 +128,7 @@ class CommandManager {
     // Build a regex
     this.getPrefix(msg).then((prefix) => {
       const escapedPrefix = prefix.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&');
-      const match = msg.content.match(new RegExp(`^${escapedPrefix}(\\S+)\\s?([\\S\\s]*)$`));
+      const match = msg.content.match(new RegExp(`^${escapedPrefix}(\\S+)\\s?([\\S\\s]*)$`, 'i'));
       if (!match) return;
       // Get the command
       const command = this.plain[match[1].toLowerCase()];
