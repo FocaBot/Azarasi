@@ -156,9 +156,10 @@ class CommandManager {
    * @param {object} msg - Discordie IMessage
    * @param {string|string[]} args - Arguments
    */
-  run(name, msg, args) {
+  run(n, msg, args) {
     // Get the command
-    const command = (name instanceof BotCommand) ? name : this.plain[name];
+    const command = (n instanceof BotCommand) ? n : this.plain[name];
+    const name = (n instanceof BotCommand) ? n.name : n;
     if (!command) return false;
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return;
@@ -166,9 +167,9 @@ class CommandManager {
     if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return;
     if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return;
     if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return;
-    let a = args
+    let a = args;
     if (command.includeCommandNameInArgs) {
-      a = Array.concat([name], args)
+      a = [ name ].concat(args);
     }
     command.exec(msg, a);
   }
