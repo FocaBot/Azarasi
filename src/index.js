@@ -23,6 +23,7 @@ class FocaBotCore {
    * @param {string[]} settings.admins - Global admin user IDs
    * @param {string[]} settings.adminRoles - Admin role names
    * @param {string[]} settings.djRoles - "DJ" role names
+   * @param {string[]} settings.blacklist - Blacklisted User IDs
    * @param {number} settings.shardIndex - Current shard id
    * @param {number} settings.shardCount - Total shard count
    * @param {string} settings.modulePath - Path to load modules from
@@ -84,7 +85,10 @@ class FocaBotCore {
    * @param {object} msg - Discordie message object
    */
   processMessage(msg) {
-    this.commands.processMessage(msg);
+    // Check if the user isn't in the blacklist
+    if (this.settings.blacklist && this.settings.blacklist.indexOf(msg.author.id) < 0) {
+      this.commands.processMessage(msg);  
+    }
   }
 
   /**

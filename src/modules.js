@@ -46,7 +46,6 @@ class BotModule {
     }
   }
 
-
   shutdown() {
     if (typeof this.unload === 'function') this.unload();
     Core.commands.unregister(this.commands);

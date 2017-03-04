@@ -63,7 +63,11 @@ class CommandManager {
    *
    * If a command with the same name exists, it will be overwritten.
    *
-   * @return {BotCommand|BotCommand[]} The registered command instance(s).
+   * @param {string} name - Name of the command
+   * @param {object} options - Command options
+   * @param {function} func - Function to execute
+   * @returns {BotCommand|BotCommand[]} The registered command instance(s).
+   * @see {BotCommand}
    */
   register(name, options, func) {
     // Arrays can be used as first parameters
@@ -88,6 +92,7 @@ class CommandManager {
   /**
    * Unregisters command(s)
    * First parameter can be either a name, a {BotCommand} instance or an array of both.
+   * @param {string|BotCommand|Array} c - Command(s) to unregister.
    */
   unregister(c) {
     // Arrays
@@ -132,26 +137,40 @@ class CommandManager {
       if (!match) return;
       // Get the command
       const command = this.plain[match[1].toLowerCase()];
-      if (!command) return;
-      // Check if it can be executed
-      if (!msg.guild && !command.allowDM) return;
-      if (Core.settings.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return;
-      if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return;
-      if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return;
-      if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return;
-      // Get arguments
-      let args = [];
-      if (command.includeCommandNameInArgs) args.push(match[1]);
-      if (command.argSeparator) args = args.concat(match[2].split(command.argSeparator));
-      else args.push(match[2]);
-      if (args.length === 1 && !command.argSeparator) args = args[0];
+      let args;
+      // Split args
+      if (command.argSeparator) args = match[2].split(command.argSeparator);
+      else args = match[2]
       // Run the command!
       try {
-        command.exec(msg, args);
+        this.run(command, msg, args);
       } catch (e) {
         Core.log(e, 2);
       }
     });
+  }
+
+  /**
+   * Executes a command.
+   * @param {string} name - Name of the command
+   * @param {object} msg - Discordie IMessage
+   * @param {string|string[]} args - Arguments
+   */
+  run(name, msg, args) {
+    // Get the command
+    const command = (name instanceof BotCommand) ? name : this.plain[name];
+    if (!command) return false;
+    // Check if it can be executed
+    if (!msg.guild && !command.allowDM) return;
+    if (Core.settings.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return;
+    if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return;
+    if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return;
+    if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return;
+    let a = args
+    if (command.includeCommandNameInArgs) {
+      a = Array.concat([name], args)
+    }
+    command.exec(msg, a);
   }
 }
 
