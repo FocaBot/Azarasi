@@ -137,13 +137,14 @@ class CommandManager {
       if (!match) return;
       // Get the command
       const command = this.plain[match[1].toLowerCase()];
+      if (!command) return;
       let args;
       // Split args
       if (command.argSeparator) args = match[2].split(command.argSeparator);
       else args = match[2]
       // Run the command!
       try {
-        this.run(command, msg, args);
+        this.run(match[1].toLowerCase(), msg, args);
       } catch (e) {
         Core.log(e, 2);
       }
