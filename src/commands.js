@@ -159,7 +159,7 @@ class CommandManager {
    */
   run(n, msg, args) {
     // Get the command
-    const command = (n instanceof BotCommand) ? n : this.plain[name];
+    const command = (n instanceof BotCommand) ? n : this.plain[n];
     const name = (n instanceof BotCommand) ? n.name : n;
     if (!command) return false;
     // Check if it can be executed
