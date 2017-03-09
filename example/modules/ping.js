@@ -2,16 +2,16 @@
  * Ping Module
  */
 class PingModule extends BotModule {
-  init() {
+  init () {
     // A ping command.
     this.registerCommand('ping', (msg) => {
-      msg.reply('Pong!');
-    });
+      msg.reply('Pong!')
+    })
     // Another command.
     this.registerCommand('pong', (msg) => {
-      msg.reply('Ping?');
-    });
+      msg.reply('Ping?')
+    })
   }
 }
 
-module.exports = PingModule;
+module.exports = PingModule

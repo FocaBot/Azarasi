@@ -2,27 +2,27 @@
  * Handles permissions depending on roles.
  */
 class PermissionsManager {
-  constructor() {
+  constructor () {
     /**
      * Array of owner user IDs
      * @type {string[]}
      */
-    this.owner = Core.settings.owner || [];
+    this.owner = Core.settings.owner || []
     /**
      * Array of admin user IDs
      * @type {string[]}
      */
-    this.admins = Core.settings.admins || [];
+    this.admins = Core.settings.admins || []
     /**
      * Array of admin role names
      * @type {string[]}
      */
-    this.adminRoles = Core.settings.adminRoles || [];
+    this.adminRoles = Core.settings.adminRoles || []
     /**
      * Array of DJ role names
      * @type {string[]}
      */
-    this.djRoles = Core.settings.djRoles || [];
+    this.djRoles = Core.settings.djRoles || []
   }
 
   /**
@@ -34,12 +34,12 @@ class PermissionsManager {
    * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
    * @return {boolean}
    */
-  hasRoles(roles, user, guild = user.guild) {
-    if (!guild) return false; // DMs have no guild object
-    const member = user.memberOf(guild);
-    if (!member) return false; // wut?
-    const r = (typeof roles === 'string') ? [roles] : roles;
-    return member.roles.filter(i => r.indexOf(i.name) >= 0).length > 0;
+  hasRoles (roles, user, guild = user.guild) {
+    if (!guild) return false // DMs have no guild object
+    const member = user.memberOf(guild)
+    if (!member) return false // wut?
+    const r = (typeof roles === 'string') ? [roles] : roles
+    return member.roles.filter(i => r.indexOf(i.name) >= 0).length > 0
   }
 
   /**
@@ -49,13 +49,13 @@ class PermissionsManager {
    * @param {boolean} globalOnly - Check only for global admins.
    * @return {boolean}
    */
-  isAdmin(user, guild = user.guild, globalOnly) {
+  isAdmin (user, guild = user.guild, globalOnly) {
     // always return true for global admins and bot owners
-    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
-    if (globalOnly) return false;
-    if (!guild) return false;
-    if (user.id === guild.owner_id) return true; // Owner of guild
-    return this.hasRoles(this.adminRoles, user, guild);
+    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true
+    if (globalOnly) return false
+    if (!guild) return false
+    if (user.id === guild.owner_id) return true // Owner of guild
+    return this.hasRoles(this.adminRoles, user, guild)
   }
 
   /**
@@ -64,12 +64,12 @@ class PermissionsManager {
    * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
    * @return {boolean}
    */
-  isDJ(user, guild = user.guild) {
+  isDJ (user, guild = user.guild) {
     // always return true for global admins and bot owners
-    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true;
-    if (!guild) return false; // DMs have no guild object
-    if (user.id === guild.owner_id) return true; // Owner of guild
-    return this.hasRoles(this.djRoles, user, guild) || this.hasRoles(this.adminRoles, user, guild);
+    if (this.admins.indexOf(user.id) >= 0 || this.isOwner(user)) return true
+    if (!guild) return false // DMs have no guild object
+    if (user.id === guild.owner_id) return true // Owner of guild
+    return this.hasRoles(this.djRoles, user, guild) || this.hasRoles(this.adminRoles, user, guild)
   }
 
   /**
@@ -78,8 +78,8 @@ class PermissionsManager {
    * @param {object} guild - The guild to check
    * @return {boolean}
    */
-  isGuildOwner(user, guild = user.guild) {
-    return user.id === guild.owner_id || this.isOwner(user);
+  isGuildOwner (user, guild = user.guild) {
+    return user.id === guild.owner_id || this.isOwner(user)
   }
 
   /**
@@ -87,9 +87,9 @@ class PermissionsManager {
    * @param {object} user - User to check
    * @return {boolean}
    */
-  isOwner(user) {
-    return this.owner.indexOf(user.id) >= 0;
+  isOwner (user) {
+    return this.owner.indexOf(user.id) >= 0
   }
 }
 
-module.exports = PermissionsManager;
+module.exports = PermissionsManager

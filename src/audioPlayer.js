@@ -9,15 +9,15 @@ class GuildAudioPlayer {
    * Instantiates a new audio player.
    * @param {object} guild - Discordie guild object.
    */
-  constructor(guild) {
+  constructor (guild) {
     /** Associated guild */
-    this.guild = guild;
+    this.guild = guild
     /** Current voice connection */
-    this.voiceConnection = undefined;
+    this.voiceConnection = undefined
     /** Current encoder object */
-    this.currentEncoder = undefined;
+    this.currentEncoder = undefined
     /** Current encoder stream */
-    this.encoderStream = undefined;
+    this.encoderStream = undefined
     // this.volume = 50;
   }
 
@@ -30,9 +30,9 @@ class GuildAudioPlayer {
    * @param {string[]} flags.output - Output flags
    * @return {Promise<Object>} Discordie encoder object
    */
-  play(audioChannel, path, flags={}, offset=0) {
+  play (audioChannel, path, flags = {}, offset = 0) {
     if (this.currentEncoder) {
-      return Promise.reject('Bot is currently playing another file on the server.');
+      return Promise.reject('Bot is currently playing another file on the server.')
     }
 
     return this.join(audioChannel)
@@ -43,18 +43,18 @@ class GuildAudioPlayer {
       frameDuration: 60,
       inputArgs: [
         '-reconnect', '1', '-reconnect_at_eof', '1',
-        '-reconnect_streamed', '1', '-reconnect_delay_max', '2',
+        '-reconnect_streamed', '1', '-reconnect_delay_max', '2'
       ].concat(flags.input || []),
-      outputArgs: flags.output,
+      outputArgs: flags.output
     })).then((encoder) => {
-      this.currentEncoder = encoder;
-      this.encoderStream = encoder.play();
-      this.encoderStream.resetTimestamp();
-      this._offset = offset;
+      this.currentEncoder = encoder
+      this.encoderStream = encoder.play()
+      this.encoderStream.resetTimestamp()
+      this._offset = offset
       // this.voiceConnection.getEncoder().setVolume(this.volume);
-      encoder.on('end', () => this.clean());
-      return encoder;
-    });
+      encoder.on('end', () => this.clean())
+      return encoder
+    })
   }
 
   /**
@@ -62,11 +62,11 @@ class GuildAudioPlayer {
    * @param {object} audioChannel - Discordie voice channel object
    * @return {Promise<Object>} Discordie voice connection object
    */
-  join(audioChannel) {
+  join (audioChannel) {
     return audioChannel.join().then((info) => {
-      this.voiceConnection = info.voiceConnection;
-      return info.voiceConnection;
-    });
+      this.voiceConnection = info.voiceConnection
+      return info.voiceConnection
+    })
   }
 
   /**
@@ -85,35 +85,35 @@ class GuildAudioPlayer {
    * Attempts to stop playback.
    * @param {boolean} disconnect - Set to true to also disconnect from the voice channel
    */
-  stop(disconnect) {
+  stop (disconnect) {
     try {
-      this.currentEncoder.stop();
+      this.currentEncoder.stop()
     } catch (e) {}
-    this.clean(disconnect);
+    this.clean(disconnect)
   }
 
   /**
    * Current playback timestamp.
    * @type {number}
    */
-  get timestamp() {
-    return this.encoderStream.timestamp + this._offset;
+  get timestamp () {
+    return this.encoderStream.timestamp + this._offset
   }
 
   /**
    * Cleans resources and (optionally) disconnects from the voice channel.
    * @param {boolean} disconnect - Set to true to disconnect
    */
-  clean(disconnect) {
-    delete this.currentEncoder;
-    delete this.encoderStream;
+  clean (disconnect) {
+    delete this.currentEncoder
+    delete this.encoderStream
     if (disconnect) {
       try {
-        this.voiceConnection.disconnect();
-        delete this.voiceConnection;
+        this.voiceConnection.disconnect()
+        delete this.voiceConnection
       } catch (e) { }
     }
   }
 }
 
-module.exports = GuildAudioPlayer;
+module.exports = GuildAudioPlayer
