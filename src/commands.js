@@ -116,38 +116,35 @@ class CommandManager {
   }
 
   /**
-   * Gets the current prefix.
-   * @return {Promise<string>}
-   */
-  getPrefix (msg) {
-    if (Core.settings.selfBot && Core.settings.publicPrefix && msg.author.id !== Core.bot.User.id) {
-      return Promise.resolve(Core.settings.publicPrefix)
-    }
-    if (msg.guild) {
-      return Core.guilds.getGuild(msg.guild).then(g => g.data.prefix || Core.settings.prefix)
-    }
-    return Promise.resolve(Core.settings.prefix)
-  }
-
-  /**
    * Processes a message.
    */
   processMessage (msg) {
-    // Build a regex
-    this.getPrefix(msg).then((prefix) => {
-      const escapedPrefix = prefix.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&')
-      const match = msg.content.match(new RegExp(`^${escapedPrefix}(\\S+)\\s?([\\S\\s]*)$`, 'i'))
-      if (!match) return
+    // Check if command execution is allowed
+    Core.guilds.getGuild(msg.guild).then(g => {
+      // Check if command execution is not restricted
+      if (g.data.restrict && !Core.permissions.isDJ(msg.member)) return
+      // Global prefix
+      let pfx = Core.settings.prefix
+      // Public SelfBot prefix
+      if (Core.settings.selfBot && Core.settings.publicPrefix && msg.author.id !== Core.bot.User.id) {
+        pfx = Core.settings.publicPrefix
+      }
+      // Guild Prefix
+      if (g.data.prefix && msg.content.toLowerCase().indexOf(g.data.prefix.toLowerCase()) === 0) {
+        pfx = g.data.prefix
+      }
+      // Return if the message contains no prefix
+      if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
       // Get the command
-      const command = this.plain[match[1].toLowerCase()]
+      const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
+      const command = this.plain[c] 
       if (!command) return
-      let args
-      // Split args
-      if (command.argSeparator) args = match[2].split(command.argSeparator)
-      else args = match[2]
+      // Arguments
+      let args = msg.content.slice(pfx.length + c.length).trim()
+      if (command.argSeparator) args = args.split(command.argSeparator)
       // Run the command!
       try {
-        this.run(match[1].toLowerCase(), msg, args)
+        this.run(command, msg, args)
       } catch (e) {
         Core.log(e, 2)
       }

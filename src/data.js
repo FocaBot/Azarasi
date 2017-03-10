@@ -18,14 +18,20 @@ class DataStore extends EventEmitter {
     this.connected = false
     this.ready = false
     /**
-     * ioredis object
+     * ioredis object.
      *
-     * Don't use this directly unless necessary.
+     * Don't use this directly unless necessary
      */
     this.redis = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1', {
       stringNumbers: true,
       enableOfflineQueue: false
     })
+    /**
+     * Another ioredis object, this one used to subscribe to channels
+     * 
+     * Don't use this directly unless necessary
+     */
+    this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1')
     this.redis.on('ready', () => {
       this.connected = true
       this.ready = true
@@ -43,7 +49,7 @@ class DataStore extends EventEmitter {
     this.redis.on('error', () => {
       // empty handler
     })
-    this.redis.on('message', (channel, message) => {
+    this.subscriber.on('message', (channel, message) => {
       this.emit('message', channel, JSON.parse(message))
     })
   }
@@ -112,7 +118,7 @@ class DataStore extends EventEmitter {
     return this.ensureReady()
     .then(() => {
       if (this.connected) {
-        return this.redis.subscribe(name)
+        return this.subscriber.subscribe(name)
       } else {
         if (_subscribed.indexOf(name) < 0) _subscribed.push(name)
       }
@@ -127,7 +133,7 @@ class DataStore extends EventEmitter {
     return this.ensureReady()
     .then(() => {
       if (this.connected) {
-        return this.redis.unsubscribe(name)
+        return this.subscriber.unsubscribe(name)
       } else {
         if (_subscribed.indexOf(name) >= 0) _subscribed.splice(_subscribed.indexOf(name), 1)
       }
