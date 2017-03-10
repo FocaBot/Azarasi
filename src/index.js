@@ -96,9 +96,10 @@ class FocaBotCore {
    */
   processMessage (msg) {
     // Check if the user isn't in the blacklist
-    if (this.settings.blacklist && this.settings.blacklist.indexOf(msg.author.id) < 0) {
-      this.commands.processMessage(msg)
+    if (this.settings.blacklist && this.settings.blacklist.indexOf(msg.author.id) >= 0) {
+      return
     }
+    this.commands.processMessage(msg)
   }
 
   /**
