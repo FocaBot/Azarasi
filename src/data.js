@@ -111,6 +111,22 @@ class DataStore extends EventEmitter {
   }
 
   /**
+   * Deletes a key
+   * @param {string} key - Key to delete
+   */
+  del (key) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.redis.del(key)
+      } else {
+        delete _cache[key]
+        return 'OK'
+      }
+    })
+  }
+
+  /**
    * Subscribes to a channel
    * @param {string} name - Channel name
    */
