@@ -54,7 +54,7 @@ class AudioPlayer {
       this.encoderStream.resetTimestamp()
       this._offset = offset
       // this.voiceConnection.getEncoder().setVolume(this.volume);
-      encoder.on('end', () => this.clean())
+      encoder.once('end', () => this.clean())
       return encoder
     })
   }

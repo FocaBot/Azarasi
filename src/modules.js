@@ -97,6 +97,13 @@ class ModuleManager {
         const Module = reload(path.join(this.modulePath, mod))
         this.loaded[mod] = new Module()
         if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
+        if (typeof this.loaded[mod].ready === 'function') {
+          if (Core.ready) {
+            this.loaded[mod].ready()
+          } else {
+            this.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
+          }
+        }
       } catch (e) {
         Core.log(e, 2)
       }

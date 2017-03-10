@@ -71,11 +71,16 @@ class FocaBotCore {
      * @type {ModuleManager}
      */
     this.modules = new ModuleManager()
+    /**
+     * Is the bot ready?
+     */
+    this.ready = false
 
     this.AudioPlayer = AudioPlayer
 
     this.bot.Dispatcher.on('GATEWAY_READY', () => {
       this.log('Connected!.')
+      this.ready = true
       if (this.settings.selfBot) {
         this.permissions.owner.push(this.bot.User.id)
       }
