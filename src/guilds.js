@@ -28,6 +28,7 @@ class Guild {
     return Core.data.get(`Guild:${this.discordGuild.id}`)
     .then(data => {
       this.data = data || {}
+      return this
     })
   }
 

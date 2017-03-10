@@ -31,7 +31,7 @@ class DataStore extends EventEmitter {
       this.ready = true
       this.emit('connected')
     })
-    this.redis.on('error', () => {
+    this.redis.once('error', () => {
       if (this.connected) return
       this.ready = true
       this.emit('fallback')
@@ -39,6 +39,9 @@ class DataStore extends EventEmitter {
       Core.log(
         "WARNING: Couldn't connect to a Redis server, no data will be saved to disk."
       , 2)
+    })
+    this.redis.on('error', () => {
+      // empty handler
     })
     this.redis.on('message', (channel, message) => {
       this.emit('message', channel, JSON.parse(message))
