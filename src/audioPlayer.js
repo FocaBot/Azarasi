@@ -1,10 +1,12 @@
+const _guilds = {}
+
 /**
  * Handles audio playback on guilds.
  *
  * An instance is automatically created for each guild by the GuildManager
  * To access it from a command callback, use the data.audioPlayerObject.
  */
-class GuildAudioPlayer {
+class AudioPlayer {
   /**
    * Instantiates a new audio player.
    * @param {object} guild - Discordie guild object.
@@ -114,6 +116,11 @@ class GuildAudioPlayer {
       } catch (e) { }
     }
   }
+
+  static getForGuild (guild) {
+    if (!_guilds[guild.id]) _guilds[guild.id] = new AudioPlayer(guild)
+    return _guilds[guild.id]
+  }
 }
 
-module.exports = GuildAudioPlayer
+module.exports = AudioPlayer

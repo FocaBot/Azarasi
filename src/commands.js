@@ -123,6 +123,9 @@ class CommandManager {
     if (Core.settings.selfBot && Core.settings.publicPrefix && msg.author.id !== Core.bot.User.id) {
       return Promise.resolve(Core.settings.publicPrefix)
     }
+    if (msg.guild) {
+      return Core.guilds.getGuild(msg.guild).then(g => g.data.prefix || Core.settings.prefix)
+    }
     return Promise.resolve(Core.settings.prefix)
   }
 
