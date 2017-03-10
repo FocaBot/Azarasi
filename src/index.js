@@ -31,6 +31,7 @@ class FocaBotCore {
    * @param {string} settings.modulePath - Path to load modules from
    * @param {string} settings.redisURL - Redis server URL (redis://)
    * @param {boolean} settings.debug - True to enable debug mode
+   * @param {boolean} settings.watch - True to enable automatic hot-reloading of modules (doesn't support subdirectories)
    */
   constructor (settings) {
     global.Core = this

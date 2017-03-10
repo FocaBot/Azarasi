@@ -1,5 +1,6 @@
 const reload = require('require-reload')(require)
 const path = require('path')
+const fs = require('fs')
 
 /**
  * Module Base class
@@ -59,7 +60,18 @@ class ModuleManager {
   constructor () {
     /** Currently loaded modules */
     this.loaded = {}
-    this.modulePath = Core.settings.modulePath || path.join(__dirname, '../modules')
+    this.modulePath = Core.settings.modulePath || './modules'
+    // Hot Module Reloading
+    if (Core.settings.watch) {
+      fs.watch(this.modulePath, (event, file)=> {
+        // Get module name
+        const modName = path.parse(file).name
+        // Ignore if the module isn't loaded
+        if (!this.loaded[modName]) return
+        // Reload the module
+        this.reload(modName)
+      })
+    }
   }
 
   /**
