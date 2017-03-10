@@ -7,6 +7,7 @@ const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
+const AudioPlayer = require('./audioPlayer')
 const pkg = require('../package.json')
 
 /**
@@ -69,6 +70,8 @@ class FocaBotCore {
      * @type {ModuleManager}
      */
     this.modules = new ModuleManager()
+
+    this.AudioPlayer = AudioPlayer
 
     this.bot.Dispatcher.on('GATEWAY_READY', () => {
       this.log('Connected!.')
