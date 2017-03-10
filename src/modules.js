@@ -63,13 +63,24 @@ class ModuleManager {
     this.modulePath = Core.settings.modulePath || './modules'
     // Hot Module Reloading
     if (Core.settings.watch) {
+      this.pendingReloads = {}
       fs.watch(this.modulePath, (event, file)=> {
         // Get module name
         const modName = path.parse(file).name
         // Ignore if the module isn't loaded
         if (!this.loaded[modName]) return
-        // Reload the module
-        this.reload(modName)
+        try {
+          // Avoid reloading twice
+          if (this.pendingReloads[modName]) clearTimeout(this.pendingReloads[modName])
+          // Reload the module
+          this.pendingReloads[modName] = setTimeout(() => {
+            this.reload(modName)
+            Core.log(`Reloaded Module "${modName}"!`)
+            delete this.pendingReloads[modName]
+          }, 100)
+        } catch (e) {
+          console.error(e)
+        }
       })
     }
   }
@@ -81,11 +92,11 @@ class ModuleManager {
   load (modules) {
     const m = (typeof modules === 'string') ? [modules] : modules
     if (!m.forEach) throw new Error('This function only accepts strings or arrays.')
-    m.forEach((module) => {
+    m.forEach((mod) => {
       try {
-        const Module = reload(path.join(this.modulePath, module))
-        this.loaded[module] = new Module()
-        if (typeof this.loaded[module].init === 'function') this.loaded[module].init()
+        const Module = reload(path.join(this.modulePath, mod))
+        this.loaded[mod] = new Module()
+        if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
       } catch (e) {
         Core.log(e, 2)
       }
@@ -99,10 +110,10 @@ class ModuleManager {
   unload (modules) {
     const m = (typeof modules === 'string') ? [modules] : modules
     if (!m.forEach) throw new Error('This function only accepts strings or arrays.')
-    m.forEach((module) => {
+    m.forEach((mod) => {
       try {
-        this.loaded[module].shutdown()
-        delete this.loaded[module]
+        this.loaded[mod].shutdown()
+        delete this.loaded[mod]
       } catch (e) {
         Core.log(e, 2)
       }
@@ -115,7 +126,7 @@ class ModuleManager {
    */
   reload (modules) {
     this.unload(modules)
-    this.reload(modules)
+    this.load(modules)
   }
 }
 
