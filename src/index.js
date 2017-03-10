@@ -6,6 +6,7 @@ const CommandManager = require('./commands')
 const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
+const DataStore = require('./data')
 const pkg = require('../package.json')
 
 /**
@@ -15,8 +16,8 @@ class FocaBotCore {
   /**
    * Instantiates a new Bot.
    * @param {object} settings - The settings object.
-   * @param {string} settings.prefix - Default bot prefix
-   * @param {string} settings.token - Bot token
+   * @param {string} settings.prefix - Default bot prefix (REQUIRED)
+   * @param {string} settings.token - Bot token (REQUIRED)
    * @param {boolean} settings.selfBot - Defines this bot as a selfbot
    * @param {string} settings.publicPrefix - Public Prefix (SelfBots only)
    * @param {string[]} settings.owner - Bot owner user IDs
@@ -27,18 +28,27 @@ class FocaBotCore {
    * @param {number} settings.shardIndex - Current shard id
    * @param {number} settings.shardCount - Total shard count
    * @param {string} settings.modulePath - Path to load modules from
+   * @param {string} settings.redisURL - Redis server URL (redis://)
    * @param {boolean} settings.debug - True to enable debug mode
    */
   constructor (settings) {
     global.Core = this
     /** The settings object */
     this.settings = settings
+    // Some checks
+    if (!this.settings) throw new Error('No settings object.')
+    if (!this.settings.prefix) throw new Error('No prefix set.')
+    if (!this.settings.token) throw new Error('Missing bot token.')
     /** The discordie Client */
     this.bot = new Discordie({
       autoReconnect: true,
       shardId: settings.shardIndex,
       shardCount: settings.shardCount
     })
+    /**
+     * The data store
+     */
+    this.data = new DataStore()
     /**
      * The guild manager
      * @type {GuildManager}
