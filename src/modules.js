@@ -64,7 +64,7 @@ class ModuleManager {
     // Hot Module Reloading
     if (Core.settings.watch) {
       this.pendingReloads = {}
-      fs.watch(this.modulePath, (event, file)=> {
+      fs.watch(this.modulePath, (event, file) => {
         // Get module name
         const modName = path.parse(file).name
         // Ignore if the module isn't loaded

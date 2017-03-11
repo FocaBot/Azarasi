@@ -36,7 +36,7 @@ class Guild {
    * Should return data that will be used for default on new guilds
    * @return {object}
    */
-  static defaultData() {
+  static defaultData () {
     return {}
   }
 
