@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: PermissionsManager</title>
+    <title>JSDoc: Class: DataStore</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: PermissionsManager</h1>
+    <h1 class="page-title">Class: DataStore</h1>
 
     
 
@@ -28,9 +28,11 @@
 
 <header>
     
-        <h2>PermissionsManager</h2>
+        <h2>DataStore</h2>
         
-            <div class="class-description">Handles permissions depending on roles.</div>
+            <div class="class-description">Global Data Store.
+
+Uses Redis when available, and falls back to in-memory cache when not</div>
         
     
 </header>
@@ -44,7 +46,7 @@
     <h2>Constructor</h2>
     
 
-    <h4 class="name" id="PermissionsManager"><span class="type-signature"></span>new PermissionsManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="DataStore"><span class="type-signature"></span>new DataStore<span class="signature">()</span><span class="type-signature"></span></h4>
 
     
 
@@ -91,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line4">line 4</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line11">line 11</a>
     </li></ul></dd>
     
 
@@ -135,13 +137,13 @@
 
         
             
-<h4 class="name" id="adminRoles"><span class="type-signature"></span>adminRoles<span class="type-signature"> :Array.&lt;string></span></h4>
+<h4 class="name" id="connected"><span class="type-signature"></span>connected<span class="type-signature"> :boolean</span></h4>
 
 
 
 
 <div class="description">
-    Array of admin role names
+    Is the redis connection active?
 </div>
 
 
@@ -150,7 +152,7 @@
     <ul>
         <li>
             
-<span class="param-type">Array.&lt;string></span>
+<span class="param-type">boolean</span>
 
 
         </li>
@@ -189,7 +191,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line20">line 20</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -207,26 +209,18 @@
 
         
             
-<h4 class="name" id="admins"><span class="type-signature"></span>admins<span class="type-signature"> :Array.&lt;string></span></h4>
+<h4 class="name" id="redis"><span class="type-signature"></span>redis<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Array of admin user IDs
+    ioredis object.
+
+Don't use this directly unless necessary
 </div>
 
 
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
 
 
 
@@ -261,7 +255,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line15">line 15</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line25">line 25</a>
     </li></ul></dd>
     
 
@@ -279,26 +273,18 @@
 
         
             
-<h4 class="name" id="djRoles"><span class="type-signature"></span>djRoles<span class="type-signature"> :Array.&lt;string></span></h4>
+<h4 class="name" id="subscriber"><span class="type-signature"></span>subscriber<span class="type-signature"></span></h4>
 
 
 
 
 <div class="description">
-    Array of DJ role names
+    Another ioredis object, this one used to subscribe to channels
+
+Don't use this directly unless necessary
 </div>
 
 
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
 
 
 
@@ -333,79 +319,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line25">line 25</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-        
-            
-<h4 class="name" id="owner"><span class="type-signature"></span>owner<span class="type-signature"> :Array.&lt;string></span></h4>
-
-
-
-
-<div class="description">
-    Array of owner user IDs
-</div>
-
-
-
-    <h5>Type:</h5>
-    <ul>
-        <li>
-            
-<span class="param-type">Array.&lt;string></span>
-
-
-        </li>
-    </ul>
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line10">line 10</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line34">line 34</a>
     </li></ul></dd>
     
 
@@ -432,16 +346,14 @@
 
     
 
-    <h4 class="name" id="hasRoles"><span class="type-signature"></span>hasRoles<span class="signature">(roles, user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="del"><span class="type-signature"></span>del<span class="signature">(key)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Checks if an user has certain roles (by name).
-
-Note: Only one of the roles passed is required for this to return a positive value.
+    Deletes a key
 </div>
 
 
@@ -477,16 +389,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 
         <tr>
             
-                <td class="name"><code>roles</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
             
                 
 <span class="param-type">string</span>
-|
-
-<span class="param-type">Array.&lt;string></span>
 
 
             
@@ -496,53 +405,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">Role name(s) to check.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>user</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>guild</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
+            <td class="description last">Key to delete</td>
         </tr>
 
     
@@ -583,7 +446,90 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line37">line 37</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line117">line 117</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    <h4 class="name" id="ensureReady"><span class="type-signature"></span>ensureReady<span class="signature">()</span><span class="type-signature"> &rarr; {Promise.&lt;Boolean>}</span></h4>
+
+    
+
+
+
+<div class="description">
+    Returns a Promise that resolves either when the Redis connection
+or the fallback cache are ready
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line62">line 62</a>
     </li></ul></dd>
     
 
@@ -617,7 +563,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">Promise.&lt;Boolean></span>
 
 
     </dd>
@@ -632,14 +578,14 @@ Note: Only one of the roles passed is required for this to return a positive val
 
     
 
-    <h4 class="name" id="isAdmin"><span class="type-signature"></span>isAdmin<span class="signature">(user, guild, globalOnly)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="get"><span class="type-signature"></span>get<span class="signature">(key)</span><span class="type-signature"> &rarr; {object}</span></h4>
 
     
 
 
 
 <div class="description">
-    Checks if an user has admin rights.
+    Gets an object by its key
 </div>
 
 
@@ -675,13 +621,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 
         <tr>
             
-                <td class="name"><code>user</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -691,53 +637,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>guild</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>globalOnly</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">boolean</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Check only for global admins.</td>
+            <td class="description last">Key to find</td>
         </tr>
 
     
@@ -778,7 +678,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line52">line 52</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line75">line 75</a>
     </li></ul></dd>
     
 
@@ -812,7 +712,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     </dt>
     <dd>
         
-<span class="param-type">boolean</span>
+<span class="param-type">object</span>
 
 
     </dd>
@@ -827,14 +727,14 @@ Note: Only one of the roles passed is required for this to return a positive val
 
     
 
-    <h4 class="name" id="isDJ"><span class="type-signature"></span>isDJ<span class="signature">(user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="publish"><span class="type-signature"></span>publish<span class="signature">(channel, message)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Checks if an user has DJ roles.
+    Publishes a message to a channel
 </div>
 
 
@@ -870,13 +770,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 
         <tr>
             
-                <td class="name"><code>user</code></td>
+                <td class="name"><code>channel</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -886,14 +786,14 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
+            <td class="description last">Channel name</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>guild</code></td>
+                <td class="name"><code>message</code></td>
             
 
             <td class="type">
@@ -909,7 +809,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
+            <td class="description last">Message to send</td>
         </tr>
 
     
@@ -950,7 +850,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line67">line 67</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line164">line 164</a>
     </li></ul></dd>
     
 
@@ -973,24 +873,6 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -999,14 +881,15 @@ Note: Only one of the roles passed is required for this to return a positive val
 
     
 
-    <h4 class="name" id="isGuildOwner"><span class="type-signature"></span>isGuildOwner<span class="signature">(user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="set"><span class="type-signature"></span>set<span class="signature">(key, value, exp)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Checks if an user is the guild owner.
+    Sets the value of a key
+NOTE: Objects get converted to JSON before saving
 </div>
 
 
@@ -1042,13 +925,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 
         <tr>
             
-                <td class="name"><code>user</code></td>
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -1058,14 +941,14 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user or member to check</td>
+            <td class="description last">Key to set</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>guild</code></td>
+                <td class="name"><code>value</code></td>
             
 
             <td class="type">
@@ -1081,7 +964,30 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The guild to check</td>
+            <td class="description last">New value</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>exp</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Time before expiration (seconds)</td>
         </tr>
 
     
@@ -1122,7 +1028,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line81">line 81</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line94">line 94</a>
     </li></ul></dd>
     
 
@@ -1145,24 +1051,6 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -1171,14 +1059,14 @@ Note: Only one of the roles passed is required for this to return a positive val
 
     
 
-    <h4 class="name" id="isOwner"><span class="type-signature"></span>isOwner<span class="signature">(user)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    <h4 class="name" id="subscribe"><span class="type-signature"></span>subscribe<span class="signature">(name)</span><span class="type-signature"></span></h4>
 
     
 
 
 
 <div class="description">
-    Check if an user is the bot owner
+    Subscribes to a channel
 </div>
 
 
@@ -1214,13 +1102,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 
         <tr>
             
-                <td class="name"><code>user</code></td>
+                <td class="name"><code>name</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">string</span>
 
 
             
@@ -1230,7 +1118,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">User to check</td>
+            <td class="description last">Channel name</td>
         </tr>
 
     
@@ -1271,7 +1159,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line90">line 90</a>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line133">line 133</a>
     </li></ul></dd>
     
 
@@ -1294,24 +1182,137 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
-<h5>Returns:</h5>
+
+
 
         
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type">boolean</span>
-
-
-    </dd>
-</dl>
+            
 
     
+
+    <h4 class="name" id="unsubscribe"><span class="type-signature"></span>unsubscribe<span class="signature">(name)</span><span class="type-signature"></span></h4>
+
+    
+
+
+
+<div class="description">
+    Unsubscribes from a channel
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Channel name</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="data.js.html">data.js</a>, <a href="data.js.html#line148">line 148</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

@@ -45,16 +45,16 @@ class BotCommand {
    * @param {boolean} options.everyone - For SelfBots, allow this command to be executed by others.
    * @param {function} func - Command handler
    */
-  constructor(name, options, func) {
+  constructor (name, options, func) {
     /** Command name */
-    this.name = name;
-    if (!name) throw new Error('You must specify a command name!');
+    this.name = name
+    if (!name) throw new Error('You must specify a command name!')
     if (typeof options === 'function') {
       // Function as 2nd argument
-      this.func = options;
+      this.func = options
     } else if (typeof options === 'object') {
-      Object.assign(this, options);
-      this.func = func;
+      Object.assign(this, options)
+      this.func = func
     }
   }
 
@@ -63,9 +63,9 @@ class BotCommand {
    * @param {object} msg - Message object
    * @param {string|string[]} args - Arguments
    */
-  exec(msg, args) {
+  exec (msg, args) {
     Core.guilds.getGuild(msg.guild).then(data => this.func(msg, args, data, Core.bot, Core))
-    .catch(err => Core.log(err, 2));
+    .catch(err => Core.log(err, 2))
   }
 }
 
@@ -76,11 +76,11 @@ class CommandManager {
   /**
    * Instantiates a new command manager.
    */
-  constructor() {
+  constructor () {
     /** Registered commands */
-    this.registered = {};
+    this.registered = {}
     /** Registered commands including aliases */
-    this.plain = {};
+    this.plain = {}
   }
 
   /**
@@ -97,24 +97,24 @@ class CommandManager {
    * @returns {BotCommand|BotCommand[]} The registered command instance(s).
    * @see {BotCommand}
    */
-  register(name, options, func) {
+  register (name, options, func) {
     // Arrays can be used as first parameters
     if (name.forEach &amp;&amp; !options &amp;&amp; !func) {
-      const r = [];
-      name.forEach(command => r.push(this.register(command)));
-      return r;
+      const r = []
+      name.forEach(command => r.push(this.register(command)))
+      return r
     }
     // Command instances can be used as first parameters
-    const command = (name instanceof BotCommand) ? name : new BotCommand(name, options, func);
-    this.registered[command.name] = command;
-    this.plain[command.name] = command;
+    const command = (name instanceof BotCommand) ? name : new BotCommand(name, options, func)
+    this.registered[command.name] = command
+    this.plain[command.name] = command
     // :D
     if (command.aliases &amp;&amp; command.aliases.forEach) {
       command.aliases.forEach((alias) => {
-        this.plain[alias] = command;
-      });
+        this.plain[alias] = command
+      })
     }
-    return command;
+    return command
   }
 
   /**
@@ -122,60 +122,61 @@ class CommandManager {
    * First parameter can be either a name, a {BotCommand} instance or an array of both.
    * @param {string|BotCommand|Array} c - Command(s) to unregister.
    */
-  unregister(c) {
+  unregister (c) {
     // Arrays
     if (c.forEach) {
-      const r = [];
-      c.forEach(command => r.push(this.unregister(command)));
-      return r;
+      const r = []
+      c.forEach(command => r.push(this.unregister(command)))
+      return r
     }
-    const command = (c instanceof BotCommand) ? c : this.commands[c];
+    const command = (c instanceof BotCommand) ? c : this.commands[c]
     if (command &amp;&amp; command.name &amp;&amp; this.registered[command.name]) {
       if (command.aliases &amp;&amp; command.aliases.forEach) {
         command.aliases.forEach((alias) => {
-          delete this.plain[alias];
-        });
+          delete this.plain[alias]
+        })
       }
-      delete this.registered[command.name];
-      delete this.plain[command.name];
-      return true;
+      delete this.registered[command.name]
+      delete this.plain[command.name]
+      return true
     }
-    return false;
-  }
-
-  /**
-   * Gets the current prefix.
-   * @return {Promise&lt;string>}
-   */
-  getPrefix(msg) {
-    if (Core.settings.selfBot &amp;&amp; Core.settings.publicPrefix &amp;&amp; msg.author.id !== Core.bot.User.id) {
-      return Promise.resolve(Core.settings.publicPrefix);
-    }
-    return Promise.resolve(Core.settings.prefix);
+    return false
   }
 
   /**
    * Processes a message.
    */
-  processMessage(msg) {
-    // Build a regex
-    this.getPrefix(msg).then((prefix) => {
-      const escapedPrefix = prefix.replace(/[-/\\^$*+?.()|[\]{}]/g, '\\$&amp;');
-      const match = msg.content.match(new RegExp(`^${escapedPrefix}(\\S+)\\s?([\\S\\s]*)$`, 'i'));
-      if (!match) return;
+  processMessage (msg) {
+    // Check if command execution is allowed
+    Core.guilds.getGuild(msg.guild).then(g => {
+      // Check if command execution is not restricted
+      if (g.data.restrict &amp;&amp; !Core.permissions.isDJ(msg.member)) return
+      // Global prefix
+      let pfx = Core.settings.prefix
+      // Public SelfBot prefix
+      if (Core.settings.selfBot &amp;&amp; Core.settings.publicPrefix &amp;&amp; msg.author.id !== Core.bot.User.id) {
+        pfx = Core.settings.publicPrefix
+      }
+      // Guild Prefix
+      if (g.data.prefix &amp;&amp; msg.content.toLowerCase().indexOf(g.data.prefix.toLowerCase()) === 0) {
+        pfx = g.data.prefix
+      }
+      // Return if the message contains no prefix
+      if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
       // Get the command
-      const command = this.plain[match[1].toLowerCase()];
-      let args;
-      // Split args
-      if (command.argSeparator) args = match[2].split(command.argSeparator);
-      else args = match[2]
+      const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
+      const command = this.plain[c]
+      if (!command) return
+      // Arguments
+      let args = msg.content.slice(pfx.length + c.length).trim()
+      if (command.argSeparator) args = args.split(command.argSeparator)
       // Run the command!
       try {
-        this.run(command, msg, args);
+        this.run(command, msg, args)
       } catch (e) {
-        Core.log(e, 2);
+        Core.log(e, 2)
       }
-    });
+    })
   }
 
   /**
@@ -184,26 +185,27 @@ class CommandManager {
    * @param {object} msg - Discordie IMessage
    * @param {string|string[]} args - Arguments
    */
-  run(name, msg, args) {
+  run (n, msg, args) {
     // Get the command
-    const command = (name instanceof BotCommand) ? name : this.plain[name];
-    if (!command) return false;
+    const command = (n instanceof BotCommand) ? n : this.plain[n]
+    const name = (n instanceof BotCommand) ? n.name : n
+    if (!command) return false
     // Check if it can be executed
-    if (!msg.guild &amp;&amp; !command.allowDM) return;
-    if (Core.settings.selfBot &amp;&amp; !command.everyone &amp;&amp; msg.author.id !== Core.bot.User.id) return;
-    if (command.adminOnly &amp;&amp; !Core.permissions.isAdmin(msg.author, msg.guild)) return;
-    if (command.djOnly &amp;&amp; !Core.permissions.isDJ(msg.author, msg.guild)) return;
-    if (command.ownerOnly &amp;&amp; !Core.permissions.isOwner(msg.author)) return;
+    if (!msg.guild &amp;&amp; !command.allowDM) return
+    if (Core.settings.selfBot &amp;&amp; !command.everyone &amp;&amp; msg.author.id !== Core.bot.User.id) return
+    if (command.adminOnly &amp;&amp; !Core.permissions.isAdmin(msg.author, msg.guild)) return
+    if (command.djOnly &amp;&amp; !Core.permissions.isDJ(msg.author, msg.guild)) return
+    if (command.ownerOnly &amp;&amp; !Core.permissions.isOwner(msg.author)) return
     let a = args
     if (command.includeCommandNameInArgs) {
-      a = Array.concat([name], args)
+      a = [ name ].concat(args)
     }
-    command.exec(msg, a);
+    command.exec(msg, a)
   }
 }
 
-module.exports = CommandManager;
-global.BotCommand = BotCommand;
+module.exports = CommandManager
+global.BotCommand = BotCommand
 </code></pre>
         </article>
     </section>
@@ -214,13 +216,13 @@ global.BotCommand = BotCommand;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="GuildAudioPlayer.html">GuildAudioPlayer</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 03 2017 22:57:59 GMT-0400 (VET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

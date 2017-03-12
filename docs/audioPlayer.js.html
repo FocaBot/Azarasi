@@ -26,26 +26,28 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>const _guilds = {}
+
+/**
  * Handles audio playback on guilds.
  *
  * An instance is automatically created for each guild by the GuildManager
  * To access it from a command callback, use the data.audioPlayerObject.
  */
-class GuildAudioPlayer {
+class AudioPlayer {
   /**
    * Instantiates a new audio player.
    * @param {object} guild - Discordie guild object.
    */
-  constructor(guild) {
+  constructor (guild) {
     /** Associated guild */
-    this.guild = guild;
+    this.guild = guild
     /** Current voice connection */
-    this.voiceConnection = undefined;
+    this.voiceConnection = undefined
     /** Current encoder object */
-    this.currentEncoder = undefined;
+    this.currentEncoder = undefined
     /** Current encoder stream */
-    this.encoderStream = undefined;
+    this.encoderStream = undefined
     // this.volume = 50;
   }
 
@@ -58,9 +60,9 @@ class GuildAudioPlayer {
    * @param {string[]} flags.output - Output flags
    * @return {Promise&lt;Object>} Discordie encoder object
    */
-  play(audioChannel, path, flags={}, offset=0) {
+  play (audioChannel, path, flags = {}, offset = 0) {
     if (this.currentEncoder) {
-      return Promise.reject('Bot is currently playing another file on the server.');
+      return Promise.reject('Bot is currently playing another file on the server.')
     }
 
     return this.join(audioChannel)
@@ -71,18 +73,18 @@ class GuildAudioPlayer {
       frameDuration: 60,
       inputArgs: [
         '-reconnect', '1', '-reconnect_at_eof', '1',
-        '-reconnect_streamed', '1', '-reconnect_delay_max', '2',
+        '-reconnect_streamed', '1', '-reconnect_delay_max', '2'
       ].concat(flags.input || []),
-      outputArgs: flags.output,
+      outputArgs: flags.output
     })).then((encoder) => {
-      this.currentEncoder = encoder;
-      this.encoderStream = encoder.play();
-      this.encoderStream.resetTimestamp();
-      this._offset = offset;
+      this.currentEncoder = encoder
+      this.encoderStream = encoder.play()
+      this.encoderStream.resetTimestamp()
+      this._offset = offset
       // this.voiceConnection.getEncoder().setVolume(this.volume);
-      encoder.on('end', () => this.clean());
-      return encoder;
-    });
+      encoder.once('end', () => this.clean())
+      return encoder
+    })
   }
 
   /**
@@ -90,11 +92,11 @@ class GuildAudioPlayer {
    * @param {object} audioChannel - Discordie voice channel object
    * @return {Promise&lt;Object>} Discordie voice connection object
    */
-  join(audioChannel) {
+  join (audioChannel) {
     return audioChannel.join().then((info) => {
-      this.voiceConnection = info.voiceConnection;
-      return info.voiceConnection;
-    });
+      this.voiceConnection = info.voiceConnection
+      return info.voiceConnection
+    })
   }
 
   /**
@@ -113,38 +115,43 @@ class GuildAudioPlayer {
    * Attempts to stop playback.
    * @param {boolean} disconnect - Set to true to also disconnect from the voice channel
    */
-  stop(disconnect) {
+  stop (disconnect) {
     try {
-      this.currentEncoder.stop();
+      this.currentEncoder.stop()
     } catch (e) {}
-    this.clean(disconnect);
+    this.clean(disconnect)
   }
 
   /**
    * Current playback timestamp.
    * @type {number}
    */
-  get timestamp() {
-    return this.encoderStream.timestamp + this._offset;
+  get timestamp () {
+    return this.encoderStream.timestamp + this._offset
   }
 
   /**
    * Cleans resources and (optionally) disconnects from the voice channel.
    * @param {boolean} disconnect - Set to true to disconnect
    */
-  clean(disconnect) {
-    delete this.currentEncoder;
-    delete this.encoderStream;
+  clean (disconnect) {
+    delete this.currentEncoder
+    delete this.encoderStream
     if (disconnect) {
       try {
-        this.voiceConnection.disconnect();
-        delete this.voiceConnection;
+        this.voiceConnection.disconnect()
+        delete this.voiceConnection
       } catch (e) { }
     }
   }
+
+  static getForGuild (guild) {
+    if (!_guilds[guild.id]) _guilds[guild.id] = new AudioPlayer(guild)
+    return _guilds[guild.id]
+  }
 }
 
-module.exports = GuildAudioPlayer;
+module.exports = AudioPlayer
 </code></pre>
         </article>
     </section>
@@ -155,13 +162,13 @@ module.exports = GuildAudioPlayer;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="GuildAudioPlayer.html">GuildAudioPlayer</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 03 2017 22:57:59 GMT-0400 (VET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

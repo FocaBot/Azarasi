@@ -26,8 +26,9 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const reload = require('require-reload')(require);
-const path = require('path');
+            <pre class="prettyprint source linenums"><code>const reload = require('require-reload')(require)
+const path = require('path')
+const fs = require('fs')
 
 /**
  * Module Base class
@@ -36,23 +37,23 @@ class BotModule {
   /**
    * Instantiates a Module
    */
-  constructor() {
+  constructor () {
     /**
      * The current FocaBotCore instance
      * @deprecated
      * @type {FocaBotCore}
      */
-    this.engine = global.Core; // backwards compatibility
+    this.engine = global.Core // backwards compatibility
     /** Discordie client */
-    this.bot = global.Core.bot;
+    this.bot = global.Core.bot
     /**
      * A reference to the PermissionsManager.
      * @deprecated
      * @type {PermissionsManager}
      */
-    this.permissions = global.Core.permissions;
+    this.permissions = global.Core.permissions
     /** Registered Commands */
-    this.commands = [];
+    this.commands = []
   }
 
   /**
@@ -63,20 +64,20 @@ class BotModule {
    * @returns {BotCommand}
    * @see {BotCommand}
    */
-  registerCommand(name, options, func) {
+  registerCommand (name, options, func) {
     try {
-      const command = Core.commands.register(name, options, func);
-      this.commands.push(command);
-      return command;
+      const command = Core.commands.register(name, options, func)
+      this.commands.push(command)
+      return command
     } catch (e) {
-      Core.log(e, 2);
-      return false;
+      Core.log(e, 2)
+      return false
     }
   }
 
-  shutdown() {
-    if (typeof this.unload === 'function') this.unload();
-    Core.commands.unregister(this.commands);
+  shutdown () {
+    if (typeof this.unload === 'function') this.unload()
+    Core.commands.unregister(this.commands)
   }
 }
 
@@ -84,59 +85,88 @@ class BotModule {
  * Manages the modules.
  */
 class ModuleManager {
-  constructor() {
+  constructor () {
     /** Currently loaded modules */
-    this.loaded = {};
-    this.modulePath = Core.settings.modulePath || path.join(__dirname, '../modules');
+    this.loaded = {}
+    this.modulePath = Core.settings.modulePath || './modules'
+    // Hot Module Reloading
+    if (Core.settings.watch) {
+      this.pendingReloads = {}
+      fs.watch(this.modulePath, (event, file) => {
+        // Get module name
+        const modName = path.parse(file).name
+        // Ignore if the module isn't loaded
+        if (!this.loaded[modName]) return
+        try {
+          // Avoid reloading twice
+          if (this.pendingReloads[modName]) clearTimeout(this.pendingReloads[modName])
+          // Reload the module
+          this.pendingReloads[modName] = setTimeout(() => {
+            this.reload(modName)
+            Core.log(`Reloaded Module "${modName}"!`)
+            delete this.pendingReloads[modName]
+          }, 100)
+        } catch (e) {
+          console.error(e)
+        }
+      })
+    }
   }
 
   /**
    * Loads the specified modules.
    * @param {string[]} modules - Modules to load
    */
-  load(modules) {
-    const m = (typeof modules === 'string') ? [modules] : modules;
-    if (!m.forEach) throw new Error('This function only accepts strings or arrays.');
-    m.forEach((module) => {
+  load (modules) {
+    const m = (typeof modules === 'string') ? [modules] : modules
+    if (!m.forEach) throw new Error('This function only accepts strings or arrays.')
+    m.forEach((mod) => {
       try {
-        const Module = reload(path.join(this.modulePath, module));
-        this.loaded[module] = new Module();
-        if (typeof this.loaded[module].init === 'function') this.loaded[module].init();
+        const Module = reload(path.join(this.modulePath, mod))
+        this.loaded[mod] = new Module()
+        if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
+        if (typeof this.loaded[mod].ready === 'function') {
+          if (Core.ready) {
+            this.loaded[mod].ready()
+          } else {
+            Core.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
+          }
+        }
       } catch (e) {
-        Core.log(e, 2);
+        Core.log(e, 2)
       }
-    });
+    })
   }
 
   /**
    * Unloads the specified modules.
    * @param {string[]} modules - Modules to unload
    */
-  unload(modules) {
-    const m = (typeof modules === 'string') ? [modules] : modules;
-    if (!m.forEach) throw new Error('This function only accepts strings or arrays.');
-    m.forEach((module) => {
+  unload (modules) {
+    const m = (typeof modules === 'string') ? [modules] : modules
+    if (!m.forEach) throw new Error('This function only accepts strings or arrays.')
+    m.forEach((mod) => {
       try {
-        this.loaded[module].shutdown();
-        delete this.loaded[module];
+        this.loaded[mod].shutdown()
+        delete this.loaded[mod]
       } catch (e) {
-        Core.log(e, 2);
+        Core.log(e, 2)
       }
-    });
+    })
   }
 
   /**
    * Reloads the specified modules.
    * @param {string[]} modules - Modules to load
    */
-  reload(modules) {
-    this.unload(modules);
-    this.reload(modules);
+  reload (modules) {
+    this.unload(modules)
+    this.load(modules)
   }
 }
 
-module.exports = ModuleManager;
-global.BotModule = BotModule;
+module.exports = ModuleManager
+global.BotModule = BotModule
 </code></pre>
         </article>
     </section>
@@ -147,13 +177,13 @@ global.BotModule = BotModule;
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="GuildAudioPlayer.html">GuildAudioPlayer</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Fri Mar 03 2017 22:57:59 GMT-0400 (VET)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

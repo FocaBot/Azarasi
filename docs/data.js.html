@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: data.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: data.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const EventEmitter = require('events')
+const Redis = require('ioredis')
+const _cache = {}
+const _subscribed = []
+
+/**
+ * Global Data Store.
+ *
+ * Uses Redis when available, and falls back to in-memory cache when not
+ */
+class DataStore extends EventEmitter {
+  constructor () {
+    super()
+    /**
+     * Is the redis connection active?
+     * @type {boolean}
+     */
+    this.connected = false
+    this.ready = false
+    /**
+     * ioredis object.
+     *
+     * Don't use this directly unless necessary
+     */
+    this.redis = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1', {
+      stringNumbers: true,
+      enableOfflineQueue: false
+    })
+    /**
+     * Another ioredis object, this one used to subscribe to channels
+     *
+     * Don't use this directly unless necessary
+     */
+    this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1')
+    this.redis.on('ready', () => {
+      this.connected = true
+      this.ready = true
+      this.emit('connected')
+    })
+    this.redis.once('error', () => {
+      if (this.connected) return
+      this.ready = true
+      this.emit('fallback')
+      // Log a little message
+      Core.log(
+        "WARNING: Couldn't connect to a Redis server, no data will be saved to disk."
+      , 2)
+    })
+    this.redis.on('error', () => {
+      // empty handler
+    })
+    this.subscriber.on('message', (channel, message) => {
+      this.emit('message', channel, JSON.parse(message))
+    })
+  }
+
+  /**
+   * Returns a Promise that resolves either when the Redis connection
+   * or the fallback cache are ready
+   * @return {Promise&lt;Boolean>}
+   */
+  ensureReady () {
+    if (this.ready) return Promise.resolve()
+    return new Promise(resolve => {
+      this.once('connected', () => resolve())
+      this.once('fallback', () => resolve())
+    })
+  }
+
+  /**
+   * Gets an object by its key
+   * @param {string} key - Key to find
+   * @returns {object}
+   */
+  get (key) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.redis.get(key)
+      } else {
+        return _cache[key] || null
+      }
+    })
+    .then(v => JSON.parse(v))
+  }
+
+  /**
+   * Sets the value of a key
+   * NOTE: Objects get converted to JSON before saving
+   * @param {string} key - Key to set
+   * @param {object} value - New value
+   * @param {number} exp - Time before expiration (seconds)
+   */
+  set (key, value, exp) {
+    const v = JSON.stringify(value)
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return exp ? this.redis.set(key, v, 'EX', exp) : this.redis.set(key, v)
+      } else {
+        _cache[key] = v
+        // Set a timeout for expiration
+        if (exp) {
+          setTimeout(() => {
+            delete _cache[key]
+          }, exp * 1000)
+        }
+        return 'OK'
+      }
+    })
+  }
+
+  /**
+   * Deletes a key
+   * @param {string} key - Key to delete
+   */
+  del (key) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.redis.del(key)
+      } else {
+        delete _cache[key]
+        return 'OK'
+      }
+    })
+  }
+
+  /**
+   * Subscribes to a channel
+   * @param {string} name - Channel name
+   */
+  subscribe (name) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.subscriber.subscribe(name)
+      } else {
+        if (_subscribed.indexOf(name) &lt; 0) _subscribed.push(name)
+      }
+    })
+  }
+
+  /**
+   * Unsubscribes from a channel
+   * @param {string} name - Channel name
+   */
+  unsubscribe (name) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.subscriber.unsubscribe(name)
+      } else {
+        if (_subscribed.indexOf(name) >= 0) _subscribed.splice(_subscribed.indexOf(name), 1)
+      }
+    })
+  }
+
+  /**
+   * Publishes a message to a channel
+   * @param {string} channel - Channel name
+   * @param {object} message - Message to send
+   */
+  publish (channel, message) {
+    return this.ensureReady()
+    .then(() => {
+      if (this.connected) {
+        return this.redis.publish(channel, JSON.stringify(message))
+      } else if (_subscribed.indexOf(channel) >= 0) {
+        this.emit('message', channel, JSON.parse(JSON.stringify(message)))
+      }
+    })
+  }
+}
+
+module.exports = DataStore
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
