@@ -28,7 +28,7 @@ class DataStore extends EventEmitter {
     })
     /**
      * Another ioredis object, this one used to subscribe to channels
-     * 
+     *
      * Don't use this directly unless necessary
      */
     this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1')

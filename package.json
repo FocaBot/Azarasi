@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "colors": "^1.1.2",
-    "discordie": "^0.11.0",
+    "discordie": "https://github.com/qeled/discordie/archive/dev.tar.gz",
     "ioredis": "^2.5.0",
     "moment": "^2.17.0",
     "require-reload": "^0.2.2"

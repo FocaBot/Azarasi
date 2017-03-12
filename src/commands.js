@@ -137,7 +137,7 @@ class CommandManager {
       if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
       // Get the command
       const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
-      const command = this.plain[c] 
+      const command = this.plain[c]
       if (!command) return
       // Arguments
       let args = msg.content.slice(pfx.length + c.length).trim()

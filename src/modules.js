@@ -101,7 +101,7 @@ class ModuleManager {
           if (Core.ready) {
             this.loaded[mod].ready()
           } else {
-            this.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
+            Core.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
           }
         }
       } catch (e) {
