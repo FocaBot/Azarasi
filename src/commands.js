@@ -144,7 +144,7 @@ class CommandManager {
       if (command.argSeparator) args = args.split(command.argSeparator)
       // Run the command!
       try {
-        this.run(command, msg, args)
+        this.run(c, msg, args)
       } catch (e) {
         Core.log(e, 2)
       }
