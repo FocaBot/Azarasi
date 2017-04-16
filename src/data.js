@@ -31,7 +31,9 @@ class DataStore extends EventEmitter {
      *
      * Don't use this directly unless necessary
      */
-    this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1')
+    this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1', {
+      enableOfflineQueue: false
+    })
     this.redis.on('ready', () => {
       this.connected = true
       this.ready = true
@@ -47,6 +49,9 @@ class DataStore extends EventEmitter {
       , 2)
     })
     this.redis.on('error', () => {
+      // empty handler
+    })
+    this.subscriber.on('error', () => {
       // empty handler
     })
     this.subscriber.on('message', (channel, message) => {
