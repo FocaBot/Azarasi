@@ -123,6 +123,11 @@ class CommandManager {
     Core.guilds.getGuild(msg.guild).then(g => {
       // Check if command execution is not restricted
       if (g.data.restrict && !Core.permissions.isDJ(msg.member)) return
+      if (
+        g.data.commandChannel &&
+        g.data.commandChannel !== msg.channel.id &&
+        !Core.permissions.isAdmin(msg.member)
+      ) return
       // Global prefix
       let pfx = Core.settings.prefix
       // Public SelfBot prefix
