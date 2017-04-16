@@ -122,10 +122,10 @@ class FocaBotCore {
 
     const t = moment()
     const i = (this.settings.shardIndex || 0).toString()
-    let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:MM').cyan} ${i.yellow}]`
+    let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:mm').cyan} ${i.yellow}]`
 
     if (type >= 2) {
-      prefix = `[${t.format('YY/MM/DD@').dim.red}${t.format('HH:MM').red} ${i.yellow}]`
+      prefix = `[${t.format('YY/MM/DD@').dim.red}${t.format('HH:mm').red} ${i.yellow}]`
       process.stderr.write(`${prefix} ${msg}\n`, 'utf8')
     } else {
       process.stdout.write(`${prefix} ${msg}\n`, 'utf8')
