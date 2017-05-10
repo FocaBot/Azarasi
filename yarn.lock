@@ -789,6 +789,10 @@ natural-compare@^1.4.0:
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/natural-compare/-/natural-compare-1.4.0.tgz#4abebfeed7541f2c27acfb29bdbbd15c8d5ba4f7"
 
+node-watch@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/node-watch/-/node-watch-0.5.4.tgz#bdad41b23d23444e895c797d73ad5d49e3833309"
+
 number-is-nan@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/number-is-nan/-/number-is-nan-1.0.1.tgz#097b602b53422a522c1afb8790318336941a011d"

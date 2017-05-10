@@ -1,6 +1,6 @@
 const reload = require('require-reload')(require)
 const path = require('path')
-const fs = require('fs')
+const watch = require('node-watch')
 
 /**
  * Module Base class
@@ -10,20 +10,8 @@ class BotModule {
    * Instantiates a Module
    */
   constructor () {
-    /**
-     * The current FocaBotCore instance
-     * @deprecated
-     * @type {FocaBotCore}
-     */
-    this.engine = global.Core // backwards compatibility
-    /** Discordie client */
+    /** Discord.js client */
     this.bot = global.Core.bot
-    /**
-     * A reference to the PermissionsManager.
-     * @deprecated
-     * @type {PermissionsManager}
-     */
-    this.permissions = global.Core.permissions
     /** Registered Commands */
     this.commands = []
   }
@@ -64,9 +52,9 @@ class ModuleManager {
     // Hot Module Reloading
     if (Core.properties.watch) {
       this.pendingReloads = {}
-      fs.watch(this.modulePath, (event, file) => {
+      watch(this.modulePath, { recursive: true }, (event, file) => {
         // Get module name
-        const modName = path.parse(file).name
+        const modName = file.split(this.modulePath)[1].match(/^\/?([^/\\.]*)(\.[^/\\])?\/?/)[1]
         // Ignore if the module isn't loaded
         if (!this.loaded[modName]) return
         try {
@@ -96,12 +84,13 @@ class ModuleManager {
       try {
         const Module = reload(path.join(this.modulePath, mod))
         this.loaded[mod] = new Module()
+        Core.log(`Loaded Module "${mod}"!`, 1)
         if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
         if (typeof this.loaded[mod].ready === 'function') {
           if (Core.ready) {
             this.loaded[mod].ready()
           } else {
-            Core.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
+            Core.bot.once('ready', () => this.loaded[mod].ready())
           }
         }
       } catch (e) {
@@ -121,6 +110,7 @@ class ModuleManager {
       try {
         this.loaded[mod].shutdown()
         delete this.loaded[mod]
+        Core.log(`Unloaded Module "${mod}".`, 1)        
       } catch (e) {
         Core.log(e, 2)
       }

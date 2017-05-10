@@ -1,10 +1,10 @@
 /**
  * The same bot from the README example, but using the module system
  */
-const FocaBotCore = require('focabot-core')
+const Azarasi = require('azarasi')
 const path = require('path')
 
-const myBot = new FocaBotCore({
+const myBot = new Azarasi({
   prefix: '-',
   token: '[Insert token here]',
   modulePath: path.join(__dirname, 'modules')

@@ -4,12 +4,12 @@
 class EchoModule extends BotModule {
   init () {
     // Repeat!
-    this.registerCommand('echo', (msg, text) => {
-      msg.channel.sendMessage(text)
+    this.registerCommand('echo', ({ msg, args }) => {
+      msg.channel.sendMessage(args)
     })
     // Reverse!
-    this.registerCommand('reverse', (msg, text) => {
-      msg.reply(text.split('').reverse().join(''))
+    this.registerCommand('reverse', ({ msg, args }) => {
+      msg.reply(args.split('').reverse().join(''))
     })
   }
 }

@@ -188,13 +188,11 @@ class CommandManager {
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
     if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
-    /*
     if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return
     if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return
     if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return
-    // TODO: permission based system
-    // TODO: custom roles
-    */
+    if (command.requiredPermissions && !msg.member.hasPermission(command.requiredPermissions)) return
+    if (command.requiredRoles && !Core.permissions.hasRoles(command.requiredRoles)) return
     const a = command.includeCommandNameInArgs ? [ name ].concat(args) : args
     command.exec(msg, a)
   }

@@ -4,8 +4,8 @@ const util = require('util')
 const moment = require('moment')
 const CommandManager = require('./commands')
 // const GuildManager = require('./guilds')
-// const ModuleManager = require('./modules')
-// const PermissionsManager = require('./permissions')
+const ModuleManager = require('./modules')
+const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
 // const AudioPlayer = require('./audioPlayer')
 const pkg = require('../package.json')
@@ -41,7 +41,7 @@ class Azarasi {
     if (!this.properties) throw new Error('No properties object.')
     if (!this.properties.prefix) throw new Error('No prefix set.')
     if (!this.properties.token) throw new Error('Missing bot token.')
-    /** The discordie Client */
+    /** The Discord.js Client */
     this.bot = new Discord.Client(properties.shardCount ? {
       shardId: properties.shardIndex,
       shardCount: properties.shardCount
@@ -59,7 +59,7 @@ class Azarasi {
      * The permissions manager
      * @type {PermissionsManager}
      */
-    // this.permissions = new PermissionsManager()
+    this.permissions = new PermissionsManager()
     /**
      * The command manager
      * @type {CommandManager}
@@ -69,7 +69,7 @@ class Azarasi {
      * The module manager
      * @type {ModuleManager}
      */
-    // this.modules = new ModuleManager()
+    this.modules = new ModuleManager()
     /**
      * Is the bot ready?
      */
@@ -99,7 +99,7 @@ class Azarasi {
 
   /**
    * Processes messages.
-   * @param {object} msg - Discordie message object
+   * @param {object} msg - Discord.js message object
    */
   processMessage (msg) {
     // Check if the user isn't in the blacklist
@@ -126,7 +126,7 @@ class Azarasi {
       prefix = `[${t.format('YY/MM/DD@').dim.red}${t.format('HH:mm').red} ${i.yellow}]`
       process.stderr.write(`${prefix} ${msg}\n`, 'utf8')
     } else {
-      process.stdout.write(`${prefix} ${msg}\n`, 'utf8')
+      process.stdout.write(`${prefix} ${type === 1 ? msg.gray : msg}\n`, 'utf8')
     }
   }
 }
