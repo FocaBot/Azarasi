@@ -1,4 +1,4 @@
-const AudioPlayer = require('./audioPlayer')
+// const AudioPlayer = require('./audioPlayer')
 
 /**
  * Represents a Guild
@@ -9,7 +9,7 @@ class Guild {
    */
   constructor (discordGuild) {
     this.discordGuild = discordGuild
-    this.audioPlayer = AudioPlayer.getForGuild(discordGuild)
+    // this.audioPlayer = AudioPlayer.getForGuild(discordGuild)
     this.data = null
     // Handle external changes
     Core.data.subscribe('GuildData')
@@ -27,7 +27,7 @@ class Guild {
   init () {
     return Core.data.get(`Guild:${this.discordGuild.id}`)
     .then(data => {
-      this.data = Object.assign(Guild.defaultData(), data)
+      this.data = Object.assign(Guild.defaultData(), data, { save: () => this.saveData() })
       return this
     })
   }

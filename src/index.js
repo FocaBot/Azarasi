@@ -3,11 +3,10 @@ const Discord = require('discord.js')
 const util = require('util')
 const moment = require('moment')
 const CommandManager = require('./commands')
-// const GuildManager = require('./guilds')
+const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
-// const AudioPlayer = require('./audioPlayer')
 const pkg = require('../package.json')
 
 /**
@@ -54,7 +53,7 @@ class Azarasi {
      * The guild manager
      * @type {GuildManager}
      */
-    // this.guilds = new GuildManager()
+    this.guilds = new GuildManager()
     /**
      * The permissions manager
      * @type {PermissionsManager}
@@ -74,8 +73,6 @@ class Azarasi {
      * Is the bot ready?
      */
     this.ready = false
-
-    // this.AudioPlayer = AudioPlayer
 
     this.bot.on('ready', () => {
       this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)
