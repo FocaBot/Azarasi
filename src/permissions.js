@@ -7,22 +7,22 @@ class PermissionsManager {
      * Array of owner user IDs
      * @type {string[]}
      */
-    this.owner = Core.settings.owner || []
+    this.owner = Core.properties.owner || []
     /**
      * Array of admin user IDs
      * @type {string[]}
      */
-    this.admins = Core.settings.admins || []
+    this.admins = Core.properties.admins || []
     /**
      * Array of admin role names
      * @type {string[]}
      */
-    this.adminRoles = Core.settings.adminRoles || []
+    this.adminRoles = Core.properties.adminRoles || []
     /**
      * Array of DJ role names
      * @type {string[]}
      */
-    this.djRoles = Core.settings.djRoles || []
+    this.djRoles = Core.properties.djRoles || []
   }
 
   /**

@@ -15,7 +15,10 @@ class BotCommand {
    * @param {boolean} options.includeCommandNameInArgs - Useful for aliases
    * @param {boolean} options.allowDM - Allow this command to be executed in DMs
    * @param {boolean} options.everyone - For SelfBots, allow this command to be executed by others.
+   * @param {string[]|number[]} options.requiredPermissions - Required permissions to run the command
+   * @param {string[]} options.requiredRoles - Required roles to run the command (role names).
    * @param {function} func - Command handler
+   * [Permission Flags]{@link https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS}
    */
   constructor (name, options, func) {
     /** Command name */
@@ -32,12 +35,24 @@ class BotCommand {
 
   /**
    * Calls the command handler.
-   * @param {object} msg - Message object
+   * @param {Discord.Message} msg - Message object
    * @param {string|string[]} args - Arguments
    */
-  exec (msg, args) {
-    Core.guilds.getGuild(msg.guild).then(data => this.func(msg, args, data, Core.bot, Core))
-    .catch(err => Core.log(err, 2))
+  async exec (msg, args) {
+    try {
+      // const guildData = await Core.guilds.getGuild(msg.guild)
+      this.func({
+        msg,
+        message: msg,
+        m: msg,
+        args,
+        arguments: args,
+        a: args
+        // guildData, data: guildData, d: guildData,
+      })
+    } catch (e) {
+      Core.log(e, 2)
+    }
   }
 }
 
@@ -58,12 +73,12 @@ class CommandManager {
   /**
    * Registers command(s).
    * First parameter can be either a name, or a {BotCommand} instance or array.
-   * Second parameter can be an object containg settings, or the handler function.
-   * Third parameter is the handler function when settings are the second.
+   * Second parameter can be an object containg options, or the handler function.
+   * Third parameter is the handler function when options are the second.
    *
    * If a command with the same name exists, it will be overwritten.
    *
-   * @param {string} name - Name of the command
+   * @param {string|string[]|BotCommand|BotCommand[]} name - Name or instance of the command
    * @param {object} options - Command options
    * @param {function} func - Function to execute
    * @returns {BotCommand|BotCommand[]} The registered command instance(s).
@@ -71,7 +86,7 @@ class CommandManager {
    */
   register (name, options, func) {
     // Arrays can be used as first parameters
-    if (name.forEach && !options && !func) {
+    if (name.forEach) {
       const r = []
       name.forEach(command => r.push(this.register(command)))
       return r
@@ -117,43 +132,46 @@ class CommandManager {
 
   /**
    * Processes a message.
+   * @param {Discord.Message} msg
    */
-  processMessage (msg) {
-    // Check if command execution is allowed
-    Core.guilds.getGuild(msg.guild).then(g => {
-      // Check if command execution is not restricted
-      if (g.data.restrict && !Core.permissions.isDJ(msg.member)) return
-      if (
-        g.data.commandChannel &&
-        g.data.commandChannel !== msg.channel.id &&
-        !Core.permissions.isAdmin(msg.member)
-      ) return
-      // Global prefix
-      let pfx = Core.settings.prefix
-      // Public SelfBot prefix
-      if (Core.settings.selfBot && Core.settings.publicPrefix && msg.author.id !== Core.bot.User.id) {
-        pfx = Core.settings.publicPrefix
-      }
-      // Guild Prefix
-      if (g.data.prefix && msg.content.toLowerCase().indexOf(g.data.prefix.toLowerCase()) === 0) {
-        pfx = g.data.prefix
-      }
-      // Return if the message contains no prefix
-      if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
-      // Get the command
-      const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
-      const command = this.plain[c]
-      if (!command) return
-      // Arguments
-      let args = msg.content.slice(pfx.length + c.length).trim()
-      if (command.argSeparator) args = args.split(command.argSeparator)
-      // Run the command!
-      try {
-        this.run(c, msg, args)
-      } catch (e) {
-        Core.log(e, 2)
-      }
-    })
+  async processMessage (msg) {
+    // const g = await Core.guilds.getGuild(msg.guild)
+    /*
+    // Check if command execution is not restricted
+    if (g.data.restrict && !Core.permissions.isDJ(msg.member)) return
+    if (
+      g.data.commandChannel &&
+      g.data.commandChannel !== msg.channel.id &&
+      !Core.permissions.isAdmin(msg.member)
+    ) return
+    // Global prefix
+    */
+    let pfx = Core.properties.prefix
+    // Public SelfBot prefix
+    if (Core.properties.selfBot && Core.properties.publicPrefix && msg.author.id !== Core.bot.User.id) {
+      pfx = Core.properties.publicPrefix
+    }
+    /*
+    // Guild Prefix
+    if (g.data.prefix && msg.content.toLowerCase().indexOf(g.data.prefix.toLowerCase()) === 0) {
+      pfx = g.data.prefix
+    }
+    */
+    // Return if the message contains no prefix
+    if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
+    // Get the command
+    const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
+    const command = this.plain[c]
+    if (!command) return
+    // Arguments
+    let args = msg.content.slice(pfx.length + c.length).trim()
+    if (command.argSeparator) args = args.split(command.argSeparator)
+    // Run the command!
+    try {
+      this.run(c, msg, args)
+    } catch (e) {
+      Core.log(e, 2)
+    }
   }
 
   /**
@@ -169,14 +187,15 @@ class CommandManager {
     if (!command) return false
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
-    if (Core.settings.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
+    if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
+    /*
     if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return
     if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return
     if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return
-    let a = args
-    if (command.includeCommandNameInArgs) {
-      a = [ name ].concat(args)
-    }
+    // TODO: permission based system
+    // TODO: custom roles
+    */
+    const a = command.includeCommandNameInArgs ? [ name ].concat(args) : args
     command.exec(msg, a)
   }
 }

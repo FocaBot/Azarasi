@@ -1,52 +1,51 @@
 require('colors')
+const Discord = require('discord.js')
 const util = require('util')
-const Discordie = require('discordie')
 const moment = require('moment')
 const CommandManager = require('./commands')
-const GuildManager = require('./guilds')
-const ModuleManager = require('./modules')
-const PermissionsManager = require('./permissions')
+// const GuildManager = require('./guilds')
+// const ModuleManager = require('./modules')
+// const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
-const AudioPlayer = require('./audioPlayer')
+// const AudioPlayer = require('./audioPlayer')
 const pkg = require('../package.json')
 
 /**
  * The mother of all seals.
  */
-class FocaBotCore {
+class Azarasi {
   /**
    * Instantiates a new Bot.
-   * @param {object} settings - The settings object.
-   * @param {string} settings.prefix - Default bot prefix (REQUIRED)
-   * @param {string} settings.token - Bot token (REQUIRED)
-   * @param {boolean} settings.selfBot - Defines this bot as a selfbot
-   * @param {string} settings.publicPrefix - Public Prefix (SelfBots only)
-   * @param {string[]} settings.owner - Bot owner user IDs
-   * @param {string[]} settings.admins - Global admin user IDs
-   * @param {string[]} settings.adminRoles - Admin role names
-   * @param {string[]} settings.djRoles - "DJ" role names
-   * @param {string[]} settings.blacklist - Blacklisted User IDs
-   * @param {number} settings.shardIndex - Current shard id
-   * @param {number} settings.shardCount - Total shard count
-   * @param {string} settings.modulePath - Path to load modules from
-   * @param {string} settings.redisURL - Redis server URL (redis://)
-   * @param {boolean} settings.debug - True to enable debug mode
-   * @param {boolean} settings.watch - True to enable automatic hot-reloading of modules (doesn't support subdirectories)
+   * @param {object} properties - The properties object.
+   * @param {string} properties.prefix - Default bot prefix (REQUIRED)
+   * @param {string} properties.token - Bot token (REQUIRED)
+   * @param {boolean} properties.selfBot - Defines this bot as a selfbot
+   * @param {string} properties.publicPrefix - Public Prefix (SelfBots only)
+   * @param {string[]} properties.owner - Bot owner user IDs
+   * @param {string[]} properties.admins - Global admin user IDs
+   * @param {string[]} properties.adminRoles - Admin role names
+   * @param {string[]} properties.djRoles - "DJ" role names
+   * @param {string[]} properties.blacklist - Blacklisted User IDs
+   * @param {number} properties.shardIndex - Current shard id
+   * @param {number} properties.shardCount - Total shard count
+   * @param {string} properties.modulePath - Path to load modules from
+   * @param {string} properties.redisURL - Redis server URL (redis://)
+   * @param {boolean} properties.debug - True to enable debug mode
+   * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules (doesn't support subdirectories)
    */
-  constructor (settings) {
+  constructor (properties) {
     global.Core = this
-    /** The settings object */
-    this.settings = settings
+    /** The properties object */
+    this.properties = properties
     // Some checks
-    if (!this.settings) throw new Error('No settings object.')
-    if (!this.settings.prefix) throw new Error('No prefix set.')
-    if (!this.settings.token) throw new Error('Missing bot token.')
+    if (!this.properties) throw new Error('No properties object.')
+    if (!this.properties.prefix) throw new Error('No prefix set.')
+    if (!this.properties.token) throw new Error('Missing bot token.')
     /** The discordie Client */
-    this.bot = new Discordie({
-      autoReconnect: true,
-      shardId: settings.shardIndex,
-      shardCount: settings.shardCount
-    })
+    this.bot = new Discord.Client(properties.shardCount ? {
+      shardId: properties.shardIndex,
+      shardCount: properties.shardCount
+    } : { })
     /**
      * The data store
      */
@@ -55,12 +54,12 @@ class FocaBotCore {
      * The guild manager
      * @type {GuildManager}
      */
-    this.guilds = new GuildManager()
+    // this.guilds = new GuildManager()
     /**
      * The permissions manager
      * @type {PermissionsManager}
      */
-    this.permissions = new PermissionsManager()
+    // this.permissions = new PermissionsManager()
     /**
      * The command manager
      * @type {CommandManager}
@@ -70,25 +69,24 @@ class FocaBotCore {
      * The module manager
      * @type {ModuleManager}
      */
-    this.modules = new ModuleManager()
+    // this.modules = new ModuleManager()
     /**
      * Is the bot ready?
      */
     this.ready = false
 
-    this.AudioPlayer = AudioPlayer
+    // this.AudioPlayer = AudioPlayer
 
-    this.bot.Dispatcher.on('GATEWAY_READY', () => {
-      this.log('Connected!.')
+    this.bot.on('ready', () => {
+      this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)
       this.ready = true
-      if (this.settings.selfBot) {
+      if (this.properties.selfBot) {
         this.permissions.owner.push(this.bot.User.id)
       }
     })
-    this.bot.Dispatcher.on('MESSAGE_CREATE', e => this.processMessage(e.message))
+    this.bot.on('message', msg => this.processMessage(msg))
 
     this.bootDate = moment()
-
     this.version = pkg.version
   }
 
@@ -96,7 +94,7 @@ class FocaBotCore {
    * Establishes connection with discord.
    */
   establishConnection () {
-    this.bot.connect({ token: this.settings.token })
+    this.bot.login(this.properties.token)
   }
 
   /**
@@ -105,7 +103,7 @@ class FocaBotCore {
    */
   processMessage (msg) {
     // Check if the user isn't in the blacklist
-    if (this.settings.blacklist && this.settings.blacklist.indexOf(msg.author.id) >= 0) {
+    if (this.properties.blacklist && this.properties.blacklist.indexOf(msg.author.id) >= 0) {
       return
     }
     this.commands.processMessage(msg)
@@ -117,11 +115,11 @@ class FocaBotCore {
    */
   log (message, type = 0) {
     // Avoid useless logs when debug mode is disabled.
-    if (type === 1 && !this.settings.debug) return
+    if (type === 1 && !this.properties.debug) return
     const msg = (typeof message === 'string') ? message : util.inspect(message)
 
     const t = moment()
-    const i = (this.settings.shardIndex || 0).toString()
+    const i = (this.properties.shardIndex || 0).toString()
     let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:mm').cyan} ${i.yellow}]`
 
     if (type >= 2) {
@@ -133,4 +131,4 @@ class FocaBotCore {
   }
 }
 
-module.exports = FocaBotCore
+module.exports = Azarasi

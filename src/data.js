@@ -22,7 +22,7 @@ class DataStore extends EventEmitter {
      *
      * Don't use this directly unless necessary
      */
-    this.redis = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1', {
+    this.redis = new Redis(Core.properties.redisURL || 'redis://127.0.0.1/1', {
       stringNumbers: true,
       enableOfflineQueue: false
     })
@@ -31,7 +31,7 @@ class DataStore extends EventEmitter {
      *
      * Don't use this directly unless necessary
      */
-    this.subscriber = new Redis(Core.settings.redisURL || 'redis://127.0.0.1/1', {
+    this.subscriber = new Redis(Core.properties.redisURL || 'redis://127.0.0.1/1', {
       enableOfflineQueue: false
     })
     this.redis.on('ready', () => {

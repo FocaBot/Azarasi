@@ -60,9 +60,9 @@ class ModuleManager {
   constructor () {
     /** Currently loaded modules */
     this.loaded = {}
-    this.modulePath = Core.settings.modulePath || './modules'
+    this.modulePath = Core.properties.modulePath || './modules'
     // Hot Module Reloading
-    if (Core.settings.watch) {
+    if (Core.properties.watch) {
       this.pendingReloads = {}
       fs.watch(this.modulePath, (event, file) => {
         // Get module name
