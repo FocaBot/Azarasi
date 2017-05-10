@@ -24,12 +24,10 @@ class Guild {
   /**
    * Initializes guild data
    */
-  init () {
-    return Core.data.get(`Guild:${this.discordGuild.id}`)
-    .then(data => {
-      this.data = Object.assign(Guild.defaultData(), data, { save: () => this.saveData() })
-      return this
-    })
+  async init () {
+    const data = await Core.data.get(`Guild:${this.discordGuild.id}`)
+    this.data = Object.assign(Guild.defaultData(), data, { save: () => this.saveData() })
+    return this
   }
 
   /**
@@ -43,13 +41,12 @@ class Guild {
   /**
    * Saves guild data
    */
-  saveData () {
-    return Core.data.set(`Guild:${this.discordGuild.id}`, this.data).then(() => {
-      // Notify other instances about the change
-      Core.data.publish('GuildData', {
-        type: 'updated',
-        guild: this.discordGuild.id
-      })
+  async saveData () {
+    await Core.data.set(`Guild:${this.discordGuild.id}`, this.data)
+    // Notify other instances about the change
+    Core.data.publish('GuildData', {
+      type: 'updated',
+      guild: this.discordGuild.id
     })
   }
 }

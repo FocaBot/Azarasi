@@ -77,16 +77,13 @@ class DataStore extends EventEmitter {
    * @param {string} key - Key to find
    * @returns {object}
    */
-  get (key) {
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return this.redis.get(key)
-      } else {
-        return _cache[key] || null
-      }
-    })
-    .then(v => JSON.parse(v))
+  async get (key) {
+    await this.ensureReady()
+    if (this.connected) {
+      return JSON.parse(await this.redis.get(key))
+    } else {
+      return JSON.parse(_cache[key] || null)
+    }
   }
 
   /**
@@ -96,69 +93,61 @@ class DataStore extends EventEmitter {
    * @param {object} value - New value
    * @param {number} exp - Time before expiration (seconds)
    */
-  set (key, value, exp) {
+  async set (key, value, exp) {
     const v = JSON.stringify(value)
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return exp ? this.redis.set(key, v, 'EX', exp) : this.redis.set(key, v)
-      } else {
-        _cache[key] = v
-        // Set a timeout for expiration
-        if (exp) {
-          setTimeout(() => {
-            delete _cache[key]
-          }, exp * 1000)
-        }
-        return 'OK'
+    await this.ensureReady()
+    if (this.connected) {
+      return exp ? await this.redis.set(key, v, 'EX', exp) : await this.redis.set(key, v)
+    } else {
+      _cache[key] = v
+      // Set a timeout for expiration
+      if (exp) {
+        setTimeout(() => {
+          delete _cache[key]
+        }, exp * 1000)
       }
-    })
+      return 'OK'
+    }
   }
 
   /**
    * Deletes a key
    * @param {string} key - Key to delete
    */
-  del (key) {
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return this.redis.del(key)
-      } else {
-        delete _cache[key]
-        return 'OK'
-      }
-    })
+  async del (key) {
+    await this.ensureReady()
+    if (this.connected) {
+      return await this.redis.del(key)
+    } else {
+      delete _cache[key]
+      return 'OK'
+    }
   }
 
   /**
    * Subscribes to a channel
    * @param {string} name - Channel name
    */
-  subscribe (name) {
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return this.subscriber.subscribe(name)
-      } else {
-        if (_subscribed.indexOf(name) < 0) _subscribed.push(name)
-      }
-    })
+  async subscribe (name) {
+    await this.ensureReady()
+    if (this.connected) {
+      return await this.subscriber.subscribe(name)
+    } else {
+      if (_subscribed.indexOf(name) < 0) _subscribed.push(name)
+    }
   }
 
   /**
    * Unsubscribes from a channel
    * @param {string} name - Channel name
    */
-  unsubscribe (name) {
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return this.subscriber.unsubscribe(name)
-      } else {
-        if (_subscribed.indexOf(name) >= 0) _subscribed.splice(_subscribed.indexOf(name), 1)
-      }
-    })
+  async unsubscribe (name) {
+    await this.ensureReady()
+    if (this.connected) {
+      return await this.subscriber.unsubscribe(name)
+    } else {
+      if (_subscribed.indexOf(name) >= 0) _subscribed.splice(_subscribed.indexOf(name), 1)
+    }
   }
 
   /**
@@ -166,15 +155,13 @@ class DataStore extends EventEmitter {
    * @param {string} channel - Channel name
    * @param {object} message - Message to send
    */
-  publish (channel, message) {
-    return this.ensureReady()
-    .then(() => {
-      if (this.connected) {
-        return this.redis.publish(channel, JSON.stringify(message))
-      } else if (_subscribed.indexOf(channel) >= 0) {
-        this.emit('message', channel, JSON.parse(JSON.stringify(message)))
-      }
-    })
+  async publish (channel, message) {
+    await this.ensureReady()
+    if (this.connected) {
+      return await this.redis.publish(channel, JSON.stringify(message))
+    } else if (_subscribed.indexOf(channel) >= 0) {
+      this.emit('message', channel, JSON.parse(JSON.stringify(message)))
+    }
   }
 }
 

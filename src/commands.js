@@ -40,15 +40,17 @@ class BotCommand {
    */
   async exec (msg, args) {
     try {
-      // const guildData = await Core.guilds.getGuild(msg.guild)
+      const guildData = await Core.guilds.getGuild(msg.guild)
       this.func({
         msg,
         message: msg,
         m: msg,
         args,
         arguments: args,
-        a: args
-        // guildData, data: guildData, d: guildData,
+        a: args,
+        guildData,
+        data: guildData,
+        d: guildData
       })
     } catch (e) {
       Core.log(e, 2)

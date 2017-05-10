@@ -30,7 +30,7 @@ class PermissionsManager {
    *
    * Note: Only one of the roles passed is required for this to return a positive value.
    * @param {string|string[]} roles - Role name(s) to check.
-   * @param {Discord.Member|Discord.User} user - The user to check. Can also be a Discordie IGuildMember.
+   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discordie IGuildMember.
    * @param {Discord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
    * @return {boolean}
    */
@@ -44,8 +44,8 @@ class PermissionsManager {
 
   /**
    * Checks if a user has admin rights.
-   * @param {object} user - The user to check. Can also be a Discordie IGuildMember.
-   * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discordie IGuildMember.
+   * @param {Discord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
    * @param {boolean} globalOnly - Check only for global admins.
    * @return {boolean}
    */
@@ -59,8 +59,8 @@ class PermissionsManager {
 
   /**
    * Checks if a user has DJ roles.
-   * @param {object} user - The user to check. Can also be a Discordie IGuildMember.
-   * @param {object} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @param {Discord.GuildMember|object} user - The user to check. Can also be a Discordie IGuildMember.
+   * @param {Duscord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
    * @return {boolean}
    */
   isDJ (user, guild = user.guild) {
@@ -73,8 +73,8 @@ class PermissionsManager {
 
   /**
    * Checks if a user is the guild owner.
-   * @param {object} user - The user or member to check
-   * @param {object} guild - The guild to check
+   * @param {Discord.GuildMember|Discord.User} user - The user or member to check
+   * @param {Discord.Guild} guild - The guild to check
    * @return {boolean}
    */
   isGuildOwner (user, guild = user.guild) {
@@ -83,7 +83,7 @@ class PermissionsManager {
 
   /**
    * Check if a user is the bot owner
-   * @param {object} user - User to check
+   * @param {Discord.User} user - User to check
    * @return {boolean}
    */
   isOwner (user) {

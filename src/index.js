@@ -7,6 +7,7 @@ const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
+const SettingsManager = require('./settings')
 const pkg = require('../package.json')
 
 /**
@@ -69,6 +70,11 @@ class Azarasi {
      * @type {ModuleManager}
      */
     this.modules = new ModuleManager()
+    /**
+     * The settings manager
+     * @type {SettingsManager}
+     */
+    this.settings = new SettingsManager()
     /**
      * Is the bot ready?
      */
