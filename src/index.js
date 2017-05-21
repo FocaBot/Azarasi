@@ -8,6 +8,7 @@ const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
 const SettingsManager = require('./settings')
+const AudioPlayer = require('./audioPlayer')
 const pkg = require('../package.json')
 
 /**
@@ -29,9 +30,10 @@ class Azarasi {
    * @param {number} properties.shardIndex - Current shard id
    * @param {number} properties.shardCount - Total shard count
    * @param {string} properties.modulePath - Path to load modules from
+   * @param {string} properties.ffmpegBin - Path to the FFMPEG binary (will use the global PATH if not set)
    * @param {string} properties.redisURL - Redis server URL (redis://)
    * @param {boolean} properties.debug - True to enable debug mode
-   * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules (doesn't support subdirectories)
+   * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules
    */
   constructor (properties) {
     global.Core = this
@@ -79,6 +81,8 @@ class Azarasi {
      * Is the bot ready?
      */
     this.ready = false
+
+    this.AudioPlayer = AudioPlayer
 
     this.bot.on('ready', () => {
       this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)

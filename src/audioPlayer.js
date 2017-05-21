@@ -1,4 +1,5 @@
 const _guilds = {}
+const { spawn } = require('child_process')
 
 /**
  * Handles audio playback on guilds.
@@ -9,79 +10,87 @@ const _guilds = {}
 class AudioPlayer {
   /**
    * Instantiates a new audio player.
-   * @param {object} guild - Discordie guild object.
+   * @param {Discord.Guild} guild - Discord guild object.
    */
   constructor (guild) {
     /** Associated guild */
     this.guild = guild
     /** Current voice connection */
     this.voiceConnection = undefined
-    /** Current encoder object */
-    this.currentEncoder = undefined
-    /** Current encoder stream */
-    this.encoderStream = undefined
-    // this.volume = 50;
+    /** Current stream object */
+    this.currentStream = undefined
+    /** FFMPEG process */
+    this.ffmpegProcess = undefined
   }
 
   /**
    * Plays an audio stream.
-   * @param {object} audioChannel - Discordie VoiceChannel object
+   * @param {Discord.VoiceChannel} voiceChannel - Discordie VoiceChannel object
    * @param {String} path - Stream path or URL
    * @param {object} flags - Flags to append to the FFMpeg command
    * @param {string[]} flags.input - Input flags
    * @param {string[]} flags.output - Output flags
-   * @return {Promise<Object>} Discordie encoder object
+   * @param {number} bitrate - Bitrate to use (default 64000), -1 to use the channel bitrate
+   * @return {Promise<Object>} Discord encoder object
    */
-  play (audioChannel, path, flags = {}, offset = 0) {
-    if (this.currentEncoder) {
-      return Promise.reject('Bot is currently playing another file on the server.')
+  async play (voiceChannel, path, flags = {}, offset = 0, bitrate = '64000') {
+    if (this.currentStream) {
+      throw new Error('Bot is currently playing another file on the server.')
     }
+    await this.join(voiceChannel)
+    // Launch the FFMPEG process
+    this.ffmpegProcess = spawn(Core.properties.ffmpegBin || 'ffmpeg',
+      [].concat(flags.input)
+      .concat(
+        // workaround for shitty connections
+        path.indexOf('http') === 0 ? [
+          '-reconnect', '1',
+          '-reconnect_at_eof', '1',
+          '-reconnect_streamed', '1',
+          '-reconnect_delay_max', '2'
+        ] : []
+      )
+      .concat([
+        '-hide_banner',
+        '-analyzeduration', '0',
+        '-loglevel', Core.properties.debug ? 'warning' : '0',
+        '-i', path,
+        // disable video encoding
+        '-vn'
+      ])
+      .concat(flags.output)
+      .concat(
+        '-f', 'data',
+        '-map', '0:a',
+        '-ar', '48k',
+        '-ac', '2',
+        '-acodec', 'libopus',
+        '-sample_fmt', 's16',
+        '-vbr', 'off',
+        '-b:a', bitrate === -1 ? voiceChannel.bitrate : bitrate,
+        'pipe:1'
+      )
+      .filter(f => f)
+    )
+    // Play the output stream
+    this.currentStream = this.voiceConnection.playOpusStream(this.ffmpegProcess.stdout)
+    // Debug FFMPEG output
+    if (Core.properties.debug) this.ffmpegProcess.stderr.on('data', d => Core.log(String(d), 1))
 
-    return this.join(audioChannel)
-    .then(v => v.createExternalEncoder({
-      type: 'ffmpeg',
-      source: path,
-      format: 'opus', // opus doesn't allow volume change on the fly :C
-      frameDuration: 60,
-      inputArgs: [
-        '-reconnect', '1', '-reconnect_at_eof', '1',
-        '-reconnect_streamed', '1', '-reconnect_delay_max', '2'
-      ].concat(flags.input || []),
-      outputArgs: flags.output
-    })).then((encoder) => {
-      this.currentEncoder = encoder
-      this.encoderStream = encoder.play()
-      this.encoderStream.resetTimestamp()
-      this._offset = offset
-      // this.voiceConnection.getEncoder().setVolume(this.volume);
-      encoder.once('end', () => this.clean())
-      return encoder
-    })
+    this._offset = offset
+    this.currentStream.once('end', () => this.clean())
+    return this.currentStream
   }
 
   /**
    * Joins a voice channel.
-   * @param {object} audioChannel - Discordie voice channel object
-   * @return {Promise<Object>} Discordie voice connection object
+   * @param {object} voiceChannel - Discord voice channel object
+   * @return {Promise<Object>} Discord voice connection object
    */
-  join (audioChannel) {
-    return audioChannel.join().then((info) => {
-      this.voiceConnection = info.voiceConnection
-      return info.voiceConnection
-    })
+  async join (voiceChannel) {
+    this.voiceConnection = await voiceChannel.join()
+    return this.voiceConnection
   }
-
-  /**
-  get volume() {
-    return this._vol;
-  }
-  set volume(vol) {
-    this._vol = vol;
-    try {
-      this.voiceConnection.getEncoder().setVolume(vol);
-    } catch (e) { }
-  }
-  */
 
   /**
    * Attempts to stop playback.
@@ -89,7 +98,7 @@ class AudioPlayer {
    */
   stop (disconnect) {
     try {
-      this.currentEncoder.stop()
+      this.currentStream.end()
     } catch (e) {}
     this.clean(disconnect)
   }
@@ -99,7 +108,8 @@ class AudioPlayer {
    * @type {number}
    */
   get timestamp () {
-    return this.encoderStream.timestamp + this._offset
+    if (this.currentStream) return this.currentStream.time + this._offset
+    return NaN
   }
 
   /**
@@ -107,8 +117,7 @@ class AudioPlayer {
    * @param {boolean} disconnect - Set to true to disconnect
    */
   clean (disconnect) {
-    delete this.currentEncoder
-    delete this.encoderStream
+    delete this.currentStream
     if (disconnect) {
       try {
         this.voiceConnection.disconnect()

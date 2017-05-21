@@ -11,7 +11,7 @@ const myBot = new Azarasi({
 })
 
 // Load modules
-myBot.modules.load(['ping', 'echo'])
+myBot.modules.load(['ping', 'echo', 'audio'])
 
 // Connect to discord
 myBot.establishConnection()
