@@ -9,6 +9,7 @@ const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
 const SettingsManager = require('./settings')
 const AudioPlayer = require('./audioPlayer')
+const LocaleManager = require('./locales')
 const pkg = require('../package.json')
 
 /**
@@ -34,6 +35,8 @@ class Azarasi {
    * @param {string} properties.redisURL - Redis server URL (redis://)
    * @param {boolean} properties.debug - True to enable debug mode
    * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules
+   * @param {string} properties.localePath - Path to load locales from
+   * @param {string} properties.locale - Default locale
    */
   constructor (properties) {
     global.Core = this
@@ -72,6 +75,11 @@ class Azarasi {
      * @type {ModuleManager}
      */
     this.modules = new ModuleManager()
+    /**
+     * The locale manager
+     * @type {LocaleManager}
+     */
+    this.locales = new LocaleManager()
     /**
      * The settings manager
      * @type {SettingsManager}

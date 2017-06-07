@@ -41,6 +41,8 @@ class BotCommand {
   async exec (msg, args) {
     try {
       const guildData = await Core.guilds.getGuild(msg.guild)
+      const guildSettings = await Core.settings.getForGuild(msg.guild)
+      const guildLocale = Core.locales.getLocale(guildSettings.locale)
       this.func({
         msg,
         message: msg,
@@ -50,7 +52,13 @@ class BotCommand {
         a: args,
         guildData,
         data: guildData,
-        d: guildData
+        d: guildData,
+        guildSettings,
+        settings: guildSettings,
+        s: guildSettings,
+        guildLocale,
+        locale: guildLocale,
+        l: guildLocale
       })
     } catch (e) {
       Core.log(e, 2)

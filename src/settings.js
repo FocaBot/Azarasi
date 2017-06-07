@@ -32,7 +32,7 @@ class SettingsManager {
     this.register('prefix', { type: String, def: Core.properties.prefix, min: 1 })
     this.register('commandChannel', { type: Discord.TextChannel })
     this.register('voiceChannel', { type: Discord.VoiceChannel })
-    // this.register('locale', { type: Core.Locale, def: Core.properties.defaultLocale })
+    this.register('locale', { type: Core.Locale, def: Core.properties.locale })
   }
 
   /**
@@ -47,7 +47,8 @@ class SettingsManager {
       Number,
       Discord.VoiceChannel,
       Discord.TextChannel,
-      Discord.User
+      Discord.User,
+      Core.Locale
     ].indexOf(type) < 0) throw new Error('Invalid type specified.')
   }
 
