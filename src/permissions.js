@@ -30,8 +30,8 @@ class PermissionsManager {
    *
    * Note: Only one of the roles passed is required for this to return a positive value.
    * @param {string|string[]} roles - Role name(s) to check.
-   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discordie IGuildMember.
-   * @param {Discord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discord.GuildMember.
+   * @param {Discord.Guild} guild - The guild to check. Not needed if user is a GuildMember.
    * @return {boolean}
    */
   hasRoles (roles, user, guild = user.guild) {
@@ -44,8 +44,8 @@ class PermissionsManager {
 
   /**
    * Checks if a user has admin rights.
-   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discordie IGuildMember.
-   * @param {Discord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @param {Discord.GuildMember|Discord.User} user - The user to check. Can also be a Discord.GuildMember.
+   * @param {Discord.Guild} guild - The guild to check. Not needed if user is a GuildMember.
    * @param {boolean} globalOnly - Check only for global admins.
    * @return {boolean}
    */
@@ -59,8 +59,8 @@ class PermissionsManager {
 
   /**
    * Checks if a user has DJ roles.
-   * @param {Discord.GuildMember|object} user - The user to check. Can also be a Discordie IGuildMember.
-   * @param {Duscord.Guild} guild - The guild to check. Not needed if user is an IGuildMember.
+   * @param {Discord.GuildMember|object} user - The user to check. Can also be a Discord.GuildMember.
+   * @param {Duscord.Guild} guild - The guild to check. Not needed if user is a GuildMember.
    * @return {boolean}
    */
   isDJ (user, guild = user.guild) {

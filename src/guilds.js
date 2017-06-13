@@ -61,7 +61,7 @@ class GuildManager {
   }
 
   getGuild (guild) {
-    if (!guild) return Promise.resolve({})
+    if (!guild) return Promise.resolve({ data: { }, saveData () { } })
     if (!this._guilds[guild.id]) this._guilds[guild.id] = new Guild(guild)
     if (!this._guilds[guild.id].data) return this._guilds[guild.id].init()
     return Promise.resolve(this._guilds[guild.id])

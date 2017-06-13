@@ -18,6 +18,7 @@ class BotCommand {
    * @param {string[]|number[]} options.requiredPermissions - Required permissions to run the command
    * @param {string[]} options.requiredRoles - Required roles to run the command (role names).
    * @param {function} func - Command handler
+   * @global
    * [Permission Flags]{@link https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS}
    */
   constructor (name, options, func) {
@@ -40,9 +41,29 @@ class BotCommand {
    */
   async exec (msg, args) {
     try {
-      const guildData = await Core.guilds.getGuild(msg.guild)
+      const guild = await Core.guilds.getGuild(msg.guild)
+      const guildData = guild.data
+      const saveGuildData = guild.saveData
       const guildSettings = await Core.settings.getForGuild(msg.guild)
       const guildLocale = Core.locales.getLocale(guildSettings.locale)
+      // Check for guild-specific restrictions
+      if (guildData.permissionOverrides && guildData.permissionOverrides[this.name]) {
+        switch (guildData.permissionOverrides[this.name]) {
+          case 'dj':
+            if (!Core.permissions.isDJ(msg.author, msg.guild)) return
+            break
+          case 'admin':
+            if (!Core.permissions.isAdmin(msg.author, msg.guild)) return
+            break
+        }
+      } else {
+        if (this.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return
+        if (this.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return
+      }
+      // Check if the module is disabled in the current guild
+      if (this.module && await Core.modules.isDisabledForGuild(msg.guild, this.module)) {
+        return
+      }
       this.func({
         msg,
         message: msg,
@@ -53,12 +74,17 @@ class BotCommand {
         guildData,
         data: guildData,
         d: guildData,
+        saveGuildData,
+        saveData: saveGuildData,
+        save: saveGuildData,
         guildSettings,
         settings: guildSettings,
         s: guildSettings,
         guildLocale,
         locale: guildLocale,
-        l: guildLocale
+        l: guildLocale,
+        bot: Core.bot,
+        discord: Core.bot
       })
     } catch (e) {
       Core.log(e, 2)
@@ -128,6 +154,11 @@ class CommandManager {
     }
     const command = (c instanceof BotCommand) ? c : this.commands[c]
     if (command && command.name && this.registered[command.name]) {
+      if (command.module) {
+        try {
+          command.module.commands.splice(command.module.commands.indexOf(command), 1)
+        } catch (e) {}
+      }
       if (command.aliases && command.aliases.forEach) {
         command.aliases.forEach((alias) => {
           delete this.plain[alias]
@@ -198,9 +229,7 @@ class CommandManager {
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
     if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
-    if (command.adminOnly && !Core.permissions.isAdmin(msg.author, msg.guild)) return
-    if (command.djOnly && !Core.permissions.isDJ(msg.author, msg.guild)) return
-    if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return
+    if (this.ownerOnly && !Core.permissions.isOwner(msg.author)) return
     if (command.requiredPermissions && !msg.member.hasPermission(command.requiredPermissions)) return
     if (command.requiredRoles && !Core.permissions.hasRoles(command.requiredRoles)) return
     const a = command.includeCommandNameInArgs ? [ name ].concat(args) : args

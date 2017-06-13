@@ -85,6 +85,7 @@ class SettingsManager {
     if (guild) {
       const g = await Core.guilds.getGuild(guild)
       const gSett = g.data.settings || {}
+      // TODO: Exclude parameters from disabled modules
       return Object.freeze(Object.assign({}, this.defaults, this.globals, gSett, this.overrides))
     } else {
       return Object.freeze(Object.assign({}, this.defaults, this.globals, this.overrides))

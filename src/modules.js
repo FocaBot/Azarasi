@@ -4,12 +4,15 @@ const watch = require('node-watch')
 
 /**
  * Module Base class
+ * @global
  */
 class BotModule {
   /**
    * Instantiates a Module
    */
-  constructor () {
+  constructor (name) {
+    /** Module name */
+    this.name = name
     /** Discord.js client */
     this.bot = global.Core.bot
     /** Registered Commands */
@@ -26,7 +29,9 @@ class BotModule {
    */
   registerCommand (name, options, func) {
     try {
-      const command = Core.commands.register(name, options, func)
+      const command = Core.commands.register(name, Object.assign(options, {
+        module: this
+      }), func)
       this.commands.push(command)
       return command
     } catch (e) {
@@ -35,8 +40,46 @@ class BotModule {
     }
   }
 
+  /**
+   * Unregisters a command (only if it belongs to this module).
+   * @param {string|BotCommand} command - Command to unregister
+   */
+  unregisterCommand (command) {
+    try {
+      const cmd = command instanceof BotCommand ? command : Core.commands.registered[command]
+      if (!cmd.module || cmd.module !== this) return
+      Core.commands.unregister(cmd)
+    } catch (e) {
+      Core.log(e, 2)
+    }
+  }
+
+  /**
+   * Registers a setting parameter.
+   * @param {string} key - Parameter key
+   * @param {object} props - Parameter properties
+   */
+  registerParameter (key, props) {
+    return Core.settings.register(key, Object.assign(props, {
+      module: this
+    }))
+  }
+
+  /**
+   * Unregisters a setting parameter.
+   * @param {string} key - Parameter key
+   */
+  unregisterParameter (key) {
+    if (Core.settings.schema[key] && Core.settings.schema[key].module === this) {
+      return Core.settings.unregister(key)
+    }
+  }
+
   shutdown () {
     if (typeof this.unload === 'function') this.unload()
+    for (const param in Core.settings.schema) {
+      if (Core.settings.schema[param].module === this) this.unregisterParameter(param)
+    }
     Core.commands.unregister(this.commands)
   }
 }
@@ -83,7 +126,7 @@ class ModuleManager {
     m.forEach((mod) => {
       try {
         const Module = reload(path.join(this.modulePath, mod))
-        this.loaded[mod] = new Module()
+        this.loaded[mod] = new Module(mod)
         Core.log(`Loaded Module "${mod}"!`, 1)
         if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
         if (typeof this.loaded[mod].ready === 'function') {
@@ -124,6 +167,49 @@ class ModuleManager {
   reload (modules) {
     this.unload(modules)
     this.load(modules)
+  }
+
+  /**
+   * Enables a module only in a specific guild
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async enableForGuild (guild, mod) {
+    const g = await Core.guilds.getGuild(guild)
+    const m = mod instanceof BotModule ? mod : this.loaded[mod]
+    if (!m) throw new Error('No such module.')
+    if (!g.data.disabledModules) g.data.disabledModules = { }
+    g.data.disabledModules[m.name] = false
+    await g.saveData()
+  }
+
+  /**
+   * Disables a module only in a specific guild
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async disableForGuild (guild, mod) {
+    const g = await Core.guilds.getGuild(guild)
+    const m = mod instanceof BotModule ? mod : this.loaded[mod]
+    if (!m) throw new Error('No such module.')
+    if (!g.data.disabledModules) g.data.disabledModules = { }
+    g.data.disabledModules[m.name] = true
+    await g.saveData()
+  }
+
+  /**
+   * Checks if a module is disabled in a guild.
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async isDisabledforGuild (guild, mod) {
+    const d = (await Core.guilds.getGuild(guild)).data
+    const m = mod instanceof BotModule ? mod : this.registered[mod]
+    if (!m) return true
+    if (d.disabledModules && d.disabledModules[m.name] != null) {
+      return d.disabledModules[mod.name] === true || m.defaultDisabled
+    }
+    return m.defaultDisabled
   }
 }
 
