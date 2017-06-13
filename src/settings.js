@@ -130,6 +130,20 @@ class SettingsManager {
         if (params.min != null && newVal < params.min) throw new Error('Value is too low.')
         if (params.max != null && newVal > params.max) throw new Error('Value is too high.')
         break
+      case Core.Locale:
+        const loc = value.split('.')[0]
+        const lang = loc.split('_')[0]
+        const country = loc.split('_')[1]
+        const match = Object.keys(Core.locales.loaded).find(l => {
+          if (l.split('_')[0] === lang && l.split('_')[1] === country) return true
+          if (l.split('_')[0] === lang) return true
+        })
+        if (match) {
+          newVal = match
+        } else {
+          throw new Error('Invalid language.')
+        }
+        break
       // TODO: Beter handling of these types.
       case Discord.VoiceChannel:
       case Discord.TextChannel:
@@ -139,6 +153,7 @@ class SettingsManager {
         break
     }
     const g = await Core.guilds.getGuild(guild)
+    if (!g.data.settings) g.data.settings = {}
     g.data.settings[key] = newVal
     await g.saveData()
   }
