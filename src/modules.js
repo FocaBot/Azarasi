@@ -207,7 +207,9 @@ class ModuleManager {
     const m = mod instanceof BotModule ? mod : this.registered[mod]
     if (!m) return true
     if (d.disabledModules && d.disabledModules[m.name] != null) {
-      return d.disabledModules[mod.name] === true || m.defaultDisabled
+      if (d.disabledModules[mod.name] === true) return true
+      if (d.disabledModules[mod.name] === false) return false
+      return m.defaultDisabled
     }
     return m.defaultDisabled
   }
