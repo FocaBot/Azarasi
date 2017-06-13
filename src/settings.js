@@ -32,6 +32,7 @@ class SettingsManager {
     this.register('prefix', { type: String, def: Core.properties.prefix, min: 1 })
     this.register('commandChannel', { type: Discord.TextChannel })
     this.register('voiceChannel', { type: Discord.VoiceChannel })
+    this.register('allowNSFW', { type: Boolean, def: false })
     this.register('locale', { type: Core.Locale, def: Core.properties.locale })
   }
 

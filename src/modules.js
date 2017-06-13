@@ -202,7 +202,7 @@ class ModuleManager {
    * @param {Discord.Guild} guild
    * @param {string|BotModule} mod - Module name or instance
    */
-  async isDisabledforGuild (guild, mod) {
+  async isDisabledForGuild (guild, mod) {
     const d = (await Core.guilds.getGuild(guild)).data
     const m = mod instanceof BotModule ? mod : this.registered[mod]
     if (!m) return true
