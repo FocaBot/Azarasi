@@ -66,7 +66,8 @@ class SettingsManager {
   register (key, params) {
     this.validateType(params.type)
     this.schema[key] = params
-    if (params.def) this.defaults[key] = params.def
+    if (params.def != null) this.defaults[key] = params.def
+    else this.defaults[key] = null
   }
 
   /**
