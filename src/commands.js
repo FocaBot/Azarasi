@@ -43,7 +43,7 @@ class BotCommand {
     try {
       const guild = await Core.guilds.getGuild(msg.guild)
       const guildData = guild.data
-      const saveGuildData = guild.saveData
+      const saveGuildData = () => guild.saveData
       const guildSettings = await Core.settings.getForGuild(msg.guild)
       const guildLocale = Core.locales.getLocale(guildSettings.locale)
       // Check for guild-specific restrictions
@@ -64,7 +64,7 @@ class BotCommand {
       if (this.module && await Core.modules.isDisabledForGuild(msg.guild, this.module)) {
         return
       }
-      this.func({
+      await this.func({
         msg,
         message: msg,
         m: msg,
