@@ -11,6 +11,7 @@ const SettingsManager = require('./settings')
 const AudioPlayer = require('./audioPlayer')
 const LocaleManager = require('./locales')
 const pkg = require('../package.json')
+const EventEmitter = require('events').EventEmitter
 
 /**
  * The mother of all seals.
@@ -86,6 +87,12 @@ class Azarasi {
      */
     this.settings = new SettingsManager()
     /**
+     * Main Event Emitter
+     */
+    this.events = new EventEmitter()
+    this.events.setMaxListeners(1000)
+
+    /**
      * Is the bot ready?
      */
     this.ready = false
@@ -100,6 +107,7 @@ class Azarasi {
       }
     })
     this.bot.on('message', msg => this.processMessage(msg))
+    this.bot.on('debug', m => this.log(m, 1))
 
     this.bootDate = moment()
     this.version = pkg.version

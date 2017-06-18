@@ -1,6 +1,7 @@
 const reload = require('require-reload')(require)
 const path = require('path')
 const watch = require('node-watch')
+const Discord = require('discord.js')
 
 /**
  * Module Base class
@@ -17,6 +18,8 @@ class BotModule {
     this.bot = global.Core.bot
     /** Registered Commands */
     this.commands = []
+    /** Registered event handlers */
+    this.events = []
   }
 
   /**
@@ -75,11 +78,61 @@ class BotModule {
     }
   }
 
+  /**
+   * Registers an event listener bound to this module
+   * @param {string} name - Event Name - Prefix with discord. for discord events
+   * @param {function} evHandler - Event Handler
+   * @example
+   * this.registerEvent('discord.message', messageHandler)
+   * this.registerEvent('customEvent', handler)
+   */
+  registerEvent (name, evHandler) {
+    // Try to avoid event handler if the module is disabled
+    const self = this
+    const handler = async function (param) {
+      const guild = param instanceof Discord.Guild ? param : param.guild
+      if (guild && guild.id && await Core.modules.isDisabledForGuild(guild, self)) {
+        return false
+      }
+      evHandler.apply(self, arguments)
+    }
+    if (name.match(/^discord\.(.*)/)) {
+      Core.bot.on(name.match(/^discord\.(.*)/)[1], handler)
+    } else {
+      Core.events.on(name, handler)
+    }
+    this.events.push({ name, handler, evHandler })
+  }
+
+  /**
+   * Unregisters an event listener
+   * @param {string} name - Event Name
+   * @param {string} evHandler - Optional event handler
+   */
+  unregisterEvent (name, evHandler) {
+    this.events.filter(v => {
+      return v.name === name && (v.evHandler === evHandler || evHandler == null)
+    }).forEach(ev => {
+      if (ev.name.match(/^discord\.(.*)/)) {
+        Core.bot.removeListener(ev.name.match(/^discord\.(.*)/)[1], ev.handler)
+      } else {
+        Core.events.removeListener(ev.name, ev.handler)
+      }
+    })
+  }
+
   shutdown () {
     if (typeof this.unload === 'function') this.unload()
     for (const param in Core.settings.schema) {
       if (Core.settings.schema[param].module === this) this.unregisterParameter(param)
     }
+    this.events.forEach(ev => {
+      if (ev.name.match(/^discord\.(.*)/)) {
+        Core.bot.removeListener(ev.name.match(/^discord\.(.*)/)[1], ev.handler)
+      } else {
+        Core.events.removeListener(ev.name, ev.handler)
+      }
+    })
     Core.commands.unregister(this.commands)
   }
 }

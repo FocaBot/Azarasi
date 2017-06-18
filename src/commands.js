@@ -174,38 +174,36 @@ class CommandManager {
   /**
    * Processes a message.
    * @param {Discord.Message} msg
+   * @param {string} content - Overrides msg.content
    */
-  async processMessage (msg) {
-    // const g = await Core.guilds.getGuild(msg.guild)
-    /*
+  async processMessage (msg, content = msg.content) {
+    const s = await Core.settings.getForGuild(msg.guild)
     // Check if command execution is not restricted
-    if (g.data.restrict && !Core.permissions.isDJ(msg.member)) return
+    if (s.restrict && !Core.permissions.isDJ(msg.member)) return
+    // Check if in correct channel
     if (
-      g.data.commandChannel &&
-      g.data.commandChannel !== msg.channel.id &&
+      s.commandChannel &&
+      s.commandChannel !== msg.channel.id &&
       !Core.permissions.isAdmin(msg.member)
     ) return
     // Global prefix
-    */
     let pfx = Core.properties.prefix
     // Public SelfBot prefix
     if (Core.properties.selfBot && Core.properties.publicPrefix && msg.author.id !== Core.bot.User.id) {
       pfx = Core.properties.publicPrefix
     }
-    /*
     // Guild Prefix
-    if (g.data.prefix && msg.content.toLowerCase().indexOf(g.data.prefix.toLowerCase()) === 0) {
-      pfx = g.data.prefix
+    if (s.prefix && content.toLowerCase().indexOf(s.prefix.toLowerCase()) === 0) {
+      pfx = s.prefix
     }
-    */
     // Return if the message contains no prefix
-    if (msg.content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
+    if (content.slice(0, pfx.length).toLowerCase() !== pfx.toLowerCase()) return
     // Get the command
-    const c = msg.content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
+    const c = content.slice(pfx.length).split(' ')[0].toLowerCase().trim()
     const command = this.plain[c]
     if (!command) return
     // Arguments
-    let args = msg.content.slice(pfx.length + c.length).trim()
+    let args = content.slice(pfx.length + c.length).trim()
     if (command.argSeparator) args = args.split(command.argSeparator)
     // Run the command!
     try {
