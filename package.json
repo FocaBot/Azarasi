@@ -1,6 +1,6 @@
 {
   "name": "azarasi",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha1",
   "description": "Useful framework to make discord bots",
   "main": "src/index.js",
   "scripts": {
@@ -41,7 +41,7 @@
   "dependencies": {
     "colors": "^1.1.2",
     "discord.js": "^11.1.0",
-    "ioredis": "^2.5.0",
+    "gun": "^0.7.9",
     "js-yaml": "^3.8.4",
     "moment": "^2.18.1",
     "node-watch": "^0.5.4",

@@ -1,62 +1,38 @@
-const EventEmitter = require('events')
-const Redis = require('ioredis')
-const _cache = {}
-const _subscribed = []
+const EventEmitter = require('events').EventEmitter
+const _subscribed = { }
 
 /**
  * Global Data Store.
  *
- * Uses Redis when available, and falls back to in-memory cache when not
+ * Powered By GUN (http://gun.js.org/)
  */
 class DataStore extends EventEmitter {
   constructor () {
     super()
     /**
-     * Is the redis connection active?
+     * Is the connection active?
      * @type {boolean}
      */
     this.connected = false
     this.ready = false
-    /**
-     * ioredis object.
-     *
-     * Don't use this directly unless necessary
-     */
-    this.redis = new Redis(Core.properties.redisURL || 'redis://127.0.0.1/1', {
-      stringNumbers: true,
-      enableOfflineQueue: false
-    })
-    /**
-     * Another ioredis object, this one used to subscribe to channels
-     *
-     * Don't use this directly unless necessary
-     */
-    this.subscriber = new Redis(Core.properties.redisURL || 'redis://127.0.0.1/1', {
-      enableOfflineQueue: false
-    })
-    this.redis.on('ready', () => {
+    this.connect()
+  }
+
+  async connect () {
+    try {
+      /**
+       * Database object.
+       *
+       * Don't use this directly unless necessary
+       */
+      this.db = await require('./db').createServer()
       this.connected = true
       this.ready = true
       this.emit('connected')
-    })
-    this.redis.once('error', () => {
-      if (this.connected) return
-      this.ready = true
-      this.emit('fallback')
-      // Log a little message
-      Core.log(
-        "WARNING: Couldn't connect to a Redis server, no data will be saved to disk."
-      , 2)
-    })
-    this.redis.on('error', () => {
-      // empty handler
-    })
-    this.subscriber.on('error', () => {
-      // empty handler
-    })
-    this.subscriber.on('message', (channel, message) => {
-      this.emit('message', channel, JSON.parse(message))
-    })
+    } catch (e) {
+      Core.log(e, 2)
+      process.exit(1)
+    }
   }
 
   /**
@@ -68,7 +44,6 @@ class DataStore extends EventEmitter {
     if (this.ready) return Promise.resolve()
     return new Promise(resolve => {
       this.once('connected', () => resolve())
-      this.once('fallback', () => resolve())
     })
   }
 
@@ -79,11 +54,9 @@ class DataStore extends EventEmitter {
    */
   async get (key) {
     await this.ensureReady()
-    if (this.connected) {
-      return JSON.parse(await this.redis.get(key))
-    } else {
-      return JSON.parse(_cache[key] || null)
-    }
+    return new Promise(resolve => {
+      this.db.get(key).path('val').val(v => resolve(JSON.parse(v || 'null')))
+    })
   }
 
   /**
@@ -91,23 +64,12 @@ class DataStore extends EventEmitter {
    * NOTE: Objects get converted to JSON before saving
    * @param {string} key - Key to set
    * @param {object} value - New value
-   * @param {number} exp - Time before expiration (seconds)
    */
-  async set (key, value, exp) {
-    const v = JSON.stringify(value)
+  async set (key, value) {
+    const val = JSON.stringify(value)
     await this.ensureReady()
-    if (this.connected) {
-      return exp ? await this.redis.set(key, v, 'EX', exp) : await this.redis.set(key, v)
-    } else {
-      _cache[key] = v
-      // Set a timeout for expiration
-      if (exp) {
-        setTimeout(() => {
-          delete _cache[key]
-        }, exp * 1000)
-      }
-      return 'OK'
-    }
+    this.db.get(key).put({ val })
+    return 'OK'
   }
 
   /**
@@ -115,13 +77,7 @@ class DataStore extends EventEmitter {
    * @param {string} key - Key to delete
    */
   async del (key) {
-    await this.ensureReady()
-    if (this.connected) {
-      return await this.redis.del(key)
-    } else {
-      delete _cache[key]
-      return 'OK'
-    }
+    return await this.set(key, null)
   }
 
   /**
@@ -130,11 +86,13 @@ class DataStore extends EventEmitter {
    */
   async subscribe (name) {
     await this.ensureReady()
-    if (this.connected) {
-      return await this.subscriber.subscribe(name)
-    } else {
-      if (_subscribed.indexOf(name) < 0) _subscribed.push(name)
+    if (_subscribed[name] == null) {
+      this.db.get(`_Channel:${name}`).on(data => {
+        if (_subscribed[name]) this.emit('message', name, JSON.parse(data.val))
+      })
     }
+    _subscribed[name] = true
+    return 'OK'
   }
 
   /**
@@ -143,11 +101,8 @@ class DataStore extends EventEmitter {
    */
   async unsubscribe (name) {
     await this.ensureReady()
-    if (this.connected) {
-      return await this.subscriber.unsubscribe(name)
-    } else {
-      if (_subscribed.indexOf(name) >= 0) _subscribed.splice(_subscribed.indexOf(name), 1)
-    }
+    _subscribed[name] = false
+    return 'OK'
   }
 
   /**
@@ -157,11 +112,8 @@ class DataStore extends EventEmitter {
    */
   async publish (channel, message) {
     await this.ensureReady()
-    if (this.connected) {
-      return await this.redis.publish(channel, JSON.stringify(message))
-    } else if (_subscribed.indexOf(channel) >= 0) {
-      this.emit('message', channel, JSON.parse(JSON.stringify(message)))
-    }
+    this.db.get(`_Channel:${channel}`).put({ val: JSON.stringify('message') })
+    return 'OK'
   }
 }
 
