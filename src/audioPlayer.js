@@ -30,10 +30,9 @@ class AudioPlayer {
    * @param {object} flags - Flags to append to the FFMpeg command
    * @param {string[]} flags.input - Input flags
    * @param {string[]} flags.output - Output flags
-   * @param {number} bitrate - Bitrate to use (default 64000), -1 to use the channel bitrate
    * @return {Promise<Object>} Discord encoder object
    */
-  async play (voiceChannel, path, flags = {}, offset = 0, bitrate = '64000') {
+  async play (voiceChannel, path, flags = {}, offset = 0) {
     if (this.currentStream) {
       throw new Error('Bot is currently playing another file on the server.')
     }
@@ -67,7 +66,7 @@ class AudioPlayer {
         '-acodec', 'libopus',
         '-sample_fmt', 's16',
         '-vbr', 'off',
-        '-b:a', bitrate === -1 ? voiceChannel.bitrate : bitrate,
+        '-b:a', '64000',
         'pipe:1'
       )
       .filter(f => f)
@@ -99,6 +98,7 @@ class AudioPlayer {
   stop (disconnect) {
     try {
       this.currentStream.end()
+      this.ffmpegProcess.kill()
     } catch (e) {}
     this.clean(disconnect)
   }
@@ -108,7 +108,7 @@ class AudioPlayer {
    * @type {number}
    */
   get timestamp () {
-    if (this.currentStream) return this.currentStream.time + this._offset
+    if (this.currentStream) return (this.currentStream.time / 1000) + this._offset
     return NaN
   }
 
