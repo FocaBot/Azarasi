@@ -109,6 +109,11 @@ class Azarasi {
     this.bot.on('message', msg => this.processMessage(msg))
     this.bot.on('debug', m => this.log(m, 1))
 
+    // hacks
+    if (Core.properties.ffmpegBin) {
+      require('prism-media/src/transcoders/ffmpeg/Ffmpeg').selectFfmpegCommand = () => Core.properties.ffmpegBin
+    }
+
     this.bootDate = moment()
     this.version = pkg.version
   }
