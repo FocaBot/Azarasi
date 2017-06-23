@@ -227,7 +227,7 @@ class CommandManager {
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
     if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
-    if (this.ownerOnly && !Core.permissions.isOwner(msg.author)) return
+    if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return
     if (command.requiredPermissions && !msg.member.hasPermission(command.requiredPermissions)) return
     if (command.requiredRoles && !Core.permissions.hasRoles(command.requiredRoles)) return
     const a = command.includeCommandNameInArgs ? [ name ].concat(args) : args

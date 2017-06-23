@@ -111,7 +111,9 @@ class Azarasi {
 
     // hacks
     if (Core.properties.ffmpegBin) {
-      require('prism-media/src/transcoders/ffmpeg/Ffmpeg').selectFfmpegCommand = () => Core.properties.ffmpegBin
+      require('prism-media/src/transcoders/ffmpeg/Ffmpeg').selectFfmpegCommand = () => {
+        return Core.properties.ffmpegBin
+      }
     }
 
     this.bootDate = moment()
