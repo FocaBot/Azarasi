@@ -36,6 +36,10 @@ class AudioPlayer {
     if (this.currentStream) {
       throw new Error('Bot is currently playing another file on the server.')
     }
+    if (this.ffmpegProcess) {
+      this.ffmpegProcess.kill()
+      delete this.ffmpegProcess
+    }
     await this.join(voiceChannel)
     // Launch the FFMPEG process
     this.ffmpegProcess = spawn(Core.properties.ffmpegBin || 'ffmpeg',
@@ -98,7 +102,6 @@ class AudioPlayer {
   stop (disconnect) {
     try {
       this.currentStream.end()
-      this.ffmpegProcess.kill()
     } catch (e) {}
     this.clean(disconnect)
   }
@@ -117,6 +120,8 @@ class AudioPlayer {
    * @param {boolean} disconnect - Set to true to disconnect
    */
   clean (disconnect) {
+    this.ffmpegProcess.kill()
+    delete this.ffmpegProcess
     delete this.currentStream
     if (disconnect) {
       try {
