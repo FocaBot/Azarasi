@@ -118,7 +118,6 @@ class AudioPlayer {
   clean (disconnect) {
     if (this.ffmpegProcess) {
       this.ffmpegProcess.kill()
-      delete this.ffmpegProcess
     }
     delete this.currentStream
     if (disconnect) {
