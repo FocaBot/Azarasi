@@ -117,7 +117,11 @@ class AudioPlayer {
    */
   clean (disconnect) {
     if (this.ffmpegProcess) {
-      this.ffmpegProcess.kill()
+      try {
+        this.ffmpegProcess.kill()
+      } catch (e) {
+        Core.log(e,2)
+      }
     }
     delete this.currentStream
     if (disconnect) {

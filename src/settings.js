@@ -137,7 +137,7 @@ class SettingsManager {
         const country = loc.split('_')[1]
         const match = Object.keys(Core.locales.loaded).find(l => {
           if (l.split('_')[0] === lang && l.split('_')[1] === country) return true
-          if (l.split('_')[0] === lang) return true
+          if (l.split('_')[0] === lang && !country) return true
         })
         if (match) {
           newVal = match
