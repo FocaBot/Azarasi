@@ -108,6 +108,11 @@ class Azarasi {
     })
     this.bot.on('message', msg => this.processMessage(msg))
     this.bot.on('debug', m => this.log(m, 1))
+    this.bot.on('error', e => {
+      this.log('Something went wrong:', 2)
+      this.log(e, 2)
+      process.exit()
+    })
 
     // hacks
     if (Core.properties.ffmpegBin) {
