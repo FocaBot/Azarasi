@@ -94,9 +94,11 @@ class AudioPlayer {
   /**
    * Attempts to stop playback.
    * @param {boolean} disconnect - Set to true to also disconnect from the voice channel
+   * @param {boolean} removeEvents - Remove event listeners before sending the stream.
    */
-  stop (disconnect) {
+  stop (disconnect, removeEvents) {
     try {
+      if (removeEvents) this.currentStream.removeAllListeners('end')
       this.currentStream.end()
     } catch (e) {}
     this.clean(disconnect)
