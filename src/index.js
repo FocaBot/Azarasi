@@ -103,7 +103,7 @@ class Azarasi {
       this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)
       this.ready = true
       if (this.properties.selfBot) {
-        this.permissions.owner.push(this.bot.User.id)
+        this.permissions.owner.push(this.bot.user.id)
       }
     })
     this.bot.on('message', msg => this.processMessage(msg))

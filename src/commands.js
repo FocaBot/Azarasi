@@ -189,7 +189,7 @@ class CommandManager {
     // Global prefix
     let pfx = Core.properties.prefix
     // Public SelfBot prefix
-    if (Core.properties.selfBot && Core.properties.publicPrefix && msg.author.id !== Core.bot.User.id) {
+    if (Core.properties.selfBot && Core.properties.publicPrefix && msg.author.id !== Core.bot.user.id) {
       pfx = Core.properties.publicPrefix
     }
     // Guild Prefix
@@ -226,7 +226,7 @@ class CommandManager {
     if (!command) return false
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
-    if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.User.id) return
+    if (Core.properties.selfBot && !command.everyone && msg.author.id !== Core.bot.user.id) return
     if (command.ownerOnly && !Core.permissions.isOwner(msg.author)) return
     if (command.requiredPermissions && !msg.member.hasPermission(command.requiredPermissions)) return
     if (command.requiredRoles && !Core.permissions.hasRoles(command.requiredRoles)) return

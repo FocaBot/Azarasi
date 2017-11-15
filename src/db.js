@@ -35,7 +35,7 @@ module.exports = {
     })
     .then(srv => new Gun({ web: srv, file }))
     .catch(e => {
-      if (e.code === 'EADDRINUSE') return new Gun({ peers: ['http://127.0.0.1:12920/gun'], file })
+      if (e.code === 'EADDRINUSE') return new Gun({ peers: [`http://127.0.0.1:${port}/gun`], file })
     })
     .catch(e => {
       Core.log(`The port ${port} is in use by another process.`, 2)
