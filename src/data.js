@@ -112,7 +112,7 @@ class DataStore extends EventEmitter {
    */
   async publish (channel, message) {
     await this.ensureReady()
-    this.db.get(`_Channel:${channel}`).put({ val: JSON.stringify('message') })
+    this.db.get(`_Channel:${channel}`).put({ val: JSON.stringify(message) })
     return 'OK'
   }
 }
