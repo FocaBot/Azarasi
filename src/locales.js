@@ -32,7 +32,7 @@ class Locale {
   }
 
   /**
-   * Generates a string from a template.
+   * Generates a string from a template and escapes @here and @everyone mentions.
    * Each argument replaces {n} in the input template.
    * @param {string} template
    * @example
@@ -41,6 +41,21 @@ class Locale {
    * @return {string}
    */
   gen (template) {
+    return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])
+    .replace(/@everyone/gi, '@\u200beveryone').replace(/@here/gi, '@\u200bhere')
+  }
+
+  /**
+   * Generates a string from a template without escaping @here and @everyone.
+   * Each argument replaces {n} in the input template.
+   * @param {string} template
+   * @example
+   * locale.ugen("User {1} joined the server!", "TheBITLINK") // User TheBITLINK joined the server!
+   * locale.ugen("Not enough votes ({1}/{2})", count, required) // Not enough votes (4/9)
+   * locale.ugen("This is a {1} mention", '@here') // This is a @here mention
+   * @return {string}
+   */
+  ugen (template) {
     return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])
   }
 }
