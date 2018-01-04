@@ -29,11 +29,10 @@ class Azarasi {
    * @param {string[]} properties.adminRoles - Admin role names
    * @param {string[]} properties.djRoles - "DJ" role names
    * @param {string[]} properties.blacklist - Blacklisted User IDs
-   * @param {number} properties.shardIndex - Current shard id
-   * @param {number} properties.shardCount - Total shard count
    * @param {string} properties.modulePath - Path to load modules from
    * @param {string} properties.ffmpegBin - Path to the FFMPEG binary (will use the global PATH if not set)
-   * @param {string} properties.redisURL - Redis server URL (redis://)
+   * @param {string} properties.dbFile - Database file.
+   * @param {string} properties.dbPort - Database port.
    * @param {boolean} properties.debug - True to enable debug mode
    * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules
    * @param {string} properties.localePath - Path to load locales from
@@ -48,10 +47,7 @@ class Azarasi {
     if (!this.properties.prefix) throw new Error('No prefix set.')
     if (!this.properties.token) throw new Error('Missing bot token.')
     /** The Discord.js Client */
-    this.bot = new Discord.Client(properties.shardCount ? {
-      shardId: properties.shardIndex,
-      shardCount: properties.shardCount
-    } : { })
+    this.bot = new Discord.Client()
     /**
      * The data store
      */
@@ -86,6 +82,11 @@ class Azarasi {
      * @type {SettingsManager}
      */
     this.settings = new SettingsManager()
+    /**
+     * Sharding client
+     * @type {Discord.ShardClientUtil}
+     */
+    this.shard = new Discord.ShardClientUtil(this.bot)
     /**
      * Main Event Emitter
      */
