@@ -12,9 +12,7 @@ class Guild {
     // this.audioPlayer = AudioPlayer.getForGuild(discordGuild)
     this.data = null
     // Handle external changes
-    Core.data.subscribe('GuildData')
-    Core.data.on('message', (channel, message) => {
-      if (channel !== 'GuildData') return
+    Core.data.subscribe('event.GuildData', message => {
       if (message.type === 'updated' && message.guild === this.discordGuild.id) {
         this.init()
       }
@@ -44,7 +42,7 @@ class Guild {
   async saveData () {
     await Core.data.set(`Guild:${this.discordGuild.id}`, this.data)
     // Notify other instances about the change
-    Core.data.publish('GuildData', {
+    Core.data.set('event.GuildData', {
       type: 'updated',
       guild: this.discordGuild.id
     })

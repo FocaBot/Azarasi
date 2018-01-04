@@ -86,7 +86,7 @@ class Azarasi {
      * Sharding client
      * @type {Discord.ShardClientUtil}
      */
-    this.shard = new Discord.ShardClientUtil(this.bot)
+    this.shard = this.bot.shard || { }
     /**
      * Main Event Emitter
      */
@@ -155,7 +155,7 @@ class Azarasi {
     const msg = (typeof message === 'string') ? message : util.inspect(message)
 
     const t = moment()
-    const i = (this.properties.shardIndex || 0).toString()
+    const i = (this.shard.id || 0).toString()
     let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:mm').cyan} ${i.yellow}]`
 
     if (type >= 2) {

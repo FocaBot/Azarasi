@@ -90,7 +90,8 @@ class BotModule {
     // Try to avoid event handler if the module is disabled
     const self = this
     const handler = async function (param) {
-      const guild = param instanceof Discord.Guild ? param : param.guild
+      let guild = param instanceof Discord.Guild ? param : param.guild
+      if (param && param.guildId) guild = { id: param.guildId }
       if (guild && guild.id && await Core.modules.isDisabledForGuild(guild, self)) {
         return false
       }
@@ -98,6 +99,9 @@ class BotModule {
     }
     if (name.match(/^discord\.(.*)/)) {
       Core.bot.on(name.match(/^discord\.(.*)/)[1], handler)
+    } else if (name.match(/^db\.(.*)/)) {
+      const channelName = name.match(/^db\.(.*)/)[1]
+      this.events.push({ name, handler: Core.data.subscribe(channelName, handler), evHandler })
     } else {
       Core.events.on(name, handler)
     }
@@ -115,6 +119,8 @@ class BotModule {
     }).forEach(ev => {
       if (ev.name.match(/^discord\.(.*)/)) {
         Core.bot.removeListener(ev.name.match(/^discord\.(.*)/)[1], ev.handler)
+      } else if (ev.name.match(/^db\.(.*)/)) {
+        ev.handler.off()
       } else {
         Core.events.removeListener(ev.name, ev.handler)
       }
@@ -206,7 +212,7 @@ class ModuleManager {
       try {
         this.loaded[mod].shutdown()
         delete this.loaded[mod]
-        Core.log(`Unloaded Module "${mod}".`, 1)        
+        Core.log(`Unloaded Module "${mod}".`, 1)
       } catch (e) {
         Core.log(e, 2)
       }

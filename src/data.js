@@ -1,5 +1,4 @@
 const EventEmitter = require('events').EventEmitter
-const _subscribed = { }
 
 /**
  * Global Data Store.
@@ -55,7 +54,7 @@ class DataStore extends EventEmitter {
   async get (key) {
     await this.ensureReady()
     return new Promise(resolve => {
-      this.db.get(key).path('val').val(v => resolve(JSON.parse(v || 'null')))
+      this.db.get(key).path('val').val(v => resolve(JSON.parse(v || null)))
     })
   }
 
@@ -63,13 +62,13 @@ class DataStore extends EventEmitter {
    * Sets the value of a key
    * NOTE: Objects get converted to JSON before saving
    * @param {string} key - Key to set
-   * @param {object} value - New value
+   * @param {object} val - New value
    */
-  async set (key, value) {
-    const val = JSON.stringify(value)
+  async set (key, val) {
     await this.ensureReady()
-    this.db.get(key).put({ val })
-    return 'OK'
+    return new Promise((resolve, reject) => {
+      this.db.get(key).put({ val: JSON.stringify(val) }, ({ err }) => err == null ? resolve('OK') : reject(err))
+    })
   }
 
   /**
@@ -81,39 +80,13 @@ class DataStore extends EventEmitter {
   }
 
   /**
-   * Subscribes to a channel
-   * @param {string} name - Channel name
+   * Subscribes to a key and listens for changes
+   * @param {string} key - Key
+   * @param {function} handler - Event handler
+   * @return {Gun} - Gun chain
    */
-  async subscribe (name) {
-    await this.ensureReady()
-    if (_subscribed[name] == null) {
-      this.db.get(`_Channel:${name}`).on(data => {
-        if (_subscribed[name]) this.emit('message', name, JSON.parse(data.val))
-      })
-    }
-    _subscribed[name] = true
-    return 'OK'
-  }
-
-  /**
-   * Unsubscribes from a channel
-   * @param {string} name - Channel name
-   */
-  async unsubscribe (name) {
-    await this.ensureReady()
-    _subscribed[name] = false
-    return 'OK'
-  }
-
-  /**
-   * Publishes a message to a channel
-   * @param {string} channel - Channel name
-   * @param {object} message - Message to send
-   */
-  async publish (channel, message) {
-    await this.ensureReady()
-    this.db.get(`_Channel:${channel}`).put({ val: JSON.stringify(message) })
-    return 'OK'
+  subscribe (key, handler) {
+    this.db.get(key).path('val').on(data => handler(JSON.parse(data || null)))
   }
 }
 
