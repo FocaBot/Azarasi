@@ -39,16 +39,16 @@ class AudioPlayer {
     await this.join(voiceChannel)
     // Launch the FFMPEG process
     this.ffmpegProcess = spawn(Core.properties.ffmpegBin || 'ffmpeg',
-      [].concat(flags.input)
-      .concat(
+      [].concat(
         // workaround for shitty connections
         path.indexOf('http') === 0 ? [
           '-reconnect', '1',
           '-reconnect_at_eof', '1',
-          '-reconnect_streamed', '1',
-          '-reconnect_delay_max', '2'
+          // '-reconnect_streamed', '1',
+          // '-reconnect_delay_max', '2'
         ] : []
       )
+      .concat(flags.input)
       .concat([
         '-hide_banner',
         '-analyzeduration', '0',
