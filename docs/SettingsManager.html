@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Class: BotModule</title>
+    <title>JSDoc: Class: SettingsManager</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Class: BotModule</h1>
+    <h1 class="page-title">Class: SettingsManager</h1>
 
     
 
@@ -28,9 +28,9 @@
 
 <header>
     
-        <h2><span class="attribs"><span class="type-signature"></span></span>BotModule<span class="signature">()</span><span class="type-signature"></span></h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>SettingsManager<span class="signature">()</span><span class="type-signature"></span></h2>
         
-            <div class="class-description">Module Base class</div>
+            <div class="class-description">Handles Guild Specific Settings</div>
         
     
 </header>
@@ -45,16 +45,12 @@
     
 
     
-    <h4 class="name" id="BotModule"><span class="type-signature"></span>new BotModule<span class="signature">()</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="SettingsManager"><span class="type-signature"></span>new SettingsManager<span class="signature">()</span><span class="type-signature"></span></h4>
     
 
     
 
 
-
-<div class="description">
-    Instantiates a Module
-</div>
 
 
 
@@ -97,7 +93,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line10">line 10</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line6">line 6</a>
     </li></ul></dd>
     
 
@@ -145,16 +141,26 @@
 
         
             
-<h4 class="name" id="bot"><span class="type-signature"></span>bot<span class="type-signature"></span></h4>
+<h4 class="name" id="defaults"><span class="type-signature"></span>defaults<span class="type-signature"> :object</span></h4>
 
 
 
 
 <div class="description">
-    Discord.js client
+    Default values for settings. Do not touch either.
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -189,7 +195,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line18">line 18</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -207,16 +213,27 @@
 
         
             
-<h4 class="name" id="commands"><span class="type-signature"></span>commands<span class="type-signature"></span></h4>
+<h4 class="name" id="globals"><span class="type-signature"></span>globals<span class="type-signature"> :object</span></h4>
 
 
 
 
 <div class="description">
-    Registered Commands
+    Global defaults.
+Useful to override defaults without having to change the schema.
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -251,7 +268,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line20">line 20</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line24">line 24</a>
     </li></ul></dd>
     
 
@@ -269,16 +286,26 @@
 
         
             
-<h4 class="name" id="events"><span class="type-signature"></span>events<span class="type-signature"></span></h4>
+<h4 class="name" id="overrides"><span class="type-signature"></span>overrides<span class="type-signature"> :object</span></h4>
 
 
 
 
 <div class="description">
-    Registered event handlers
+    Like globals, but forced.
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -313,7 +340,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line22">line 22</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line29">line 29</a>
     </li></ul></dd>
     
 
@@ -331,16 +358,27 @@
 
         
             
-<h4 class="name" id="name"><span class="type-signature"></span>name<span class="type-signature"></span></h4>
+<h4 class="name" id="schema"><span class="type-signature"></span>schema<span class="type-signature"> :object</span></h4>
 
 
 
 
 <div class="description">
-    Module name
+    Settings Schema.
+DO NOT MODIFY THIS DIRECTLY. Use the .register() and .unregister() methods instead.
 </div>
 
 
+
+    <h5>Type:</h5>
+    <ul>
+        <li>
+            
+<span class="param-type">object</span>
+
+
+        </li>
+    </ul>
 
 
 
@@ -375,7 +413,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line16">line 16</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line13">line 13</a>
     </li></ul></dd>
     
 
@@ -403,7 +441,7 @@
     
 
     
-    <h4 class="name" id="registerCommand"><span class="type-signature"></span>registerCommand<span class="signature">(name, options, func)</span><span class="type-signature"> &rarr; {<a href="BotCommand.html">BotCommand</a>}</span></h4>
+    <h4 class="name" id="getForGuild"><span class="type-signature">(async) </span>getForGuild<span class="signature">(guild)</span><span class="type-signature"></span></h4>
     
 
     
@@ -411,7 +449,7 @@
 
 
 <div class="description">
-    Registers a command.
+    Gets all the parameters from a guild
 </div>
 
 
@@ -447,13 +485,13 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>guild</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
+<span class="param-type">Discord.Guild</span>
 
 
             
@@ -463,53 +501,7 @@
 
             
 
-            <td class="description last">Command name.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>options</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">object</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Command options.</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>func</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Command handler.</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -550,20 +542,13 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line33">line 33</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line86">line 86</a>
     </li></ul></dd>
     
 
     
 
     
-    <dt class="tag-see">See:</dt>
-    <dd class="tag-see">
-        <ul>
-            <li>{<a href="BotCommand.html">BotCommand</a>}</li>
-        </ul>
-    </dd>
-    
 
     
 </dl>
@@ -580,24 +565,6 @@
 
 
 
-<h5>Returns:</h5>
-
-        
-
-
-<dl>
-    <dt>
-        Type
-    </dt>
-    <dd>
-        
-<span class="param-type"><a href="BotCommand.html">BotCommand</a></span>
-
-
-    </dd>
-</dl>
-
-    
 
 
 
@@ -609,7 +576,7 @@
     
 
     
-    <h4 class="name" id="registerEvent"><span class="type-signature"></span>registerEvent<span class="signature">(name, evHandler)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="getGuildParam"><span class="type-signature">(async) </span>getGuildParam<span class="signature">(guild, key)</span><span class="type-signature"></span></h4>
     
 
     
@@ -617,7 +584,7 @@
 
 
 <div class="description">
-    Registers an event listener bound to this module
+    Gets a specific parameter from a guild
 </div>
 
 
@@ -653,7 +620,30 @@
 
         <tr>
             
-                <td class="name"><code>name</code></td>
+                <td class="name"><code>guild</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Discord.Guild</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>key</code></td>
             
 
             <td class="type">
@@ -669,30 +659,7 @@
 
             
 
-            <td class="description last">Event Name - Prefix with discord. for discord events</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>evHandler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Event Handler</td>
+            <td class="description last"></td>
         </tr>
 
     
@@ -733,7 +700,7 @@
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line89">line 89</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -760,12 +727,6 @@
 
 
 
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>this.registerEvent('discord.message', messageHandler)
-this.registerEvent('customEvent', handler)</code></pre>
-
-
 
         
             
@@ -773,7 +734,7 @@ this.registerEvent('customEvent', handler)</code></pre>
     
 
     
-    <h4 class="name" id="registerParameter"><span class="type-signature"></span>registerParameter<span class="signature">(key, props)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="register"><span class="type-signature"></span>register<span class="signature">(key, params)</span><span class="type-signature"></span></h4>
     
 
     
@@ -781,7 +742,7 @@ this.registerEvent('customEvent', handler)</code></pre>
 
 
 <div class="description">
-    Registers a setting parameter.
+    Registers a setting parameter to the schema.
 </div>
 
 
@@ -833,14 +794,14 @@ this.registerEvent('customEvent', handler)</code></pre>
 
             
 
-            <td class="description last">Parameter key</td>
+            <td class="description last">Key of the parameter</td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>props</code></td>
+                <td class="name"><code>params</code></td>
             
 
             <td class="type">
@@ -856,102 +817,9 @@ this.registerEvent('customEvent', handler)</code></pre>
 
             
 
-            <td class="description last">Parameter properties</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line65">line 65</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="unregisterCommand"><span class="type-signature"></span>unregisterCommand<span class="signature">(command)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Unregisters a command (only if it belongs to this module).
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
+            <td class="description last">Parameters
+                <h6>Properties</h6>
+                
 
 <table class="params">
     <thead>
@@ -975,16 +843,13 @@ this.registerEvent('customEvent', handler)</code></pre>
 
         <tr>
             
-                <td class="name"><code>command</code></td>
+                <td class="name"><code>type</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">string</span>
-|
-
-<span class="param-type"><a href="BotCommand.html">BotCommand</a></span>
+<span class="param-type">*</span>
 
 
             
@@ -994,7 +859,106 @@ this.registerEvent('customEvent', handler)</code></pre>
 
             
 
-            <td class="description last">Command to unregister</td>
+            <td class="description last">Type of the parameter (Boolean, String, Number, etc)</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>def</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Default value of the parameter.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">For numbers, it specifies the minimum value, for strings, the minimum length.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">Same as above, but it specifies the maximum value or length.</td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>integer</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">boolean</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last">For the "number" type, only accept integers.</td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1035,7 +999,7 @@ this.registerEvent('customEvent', handler)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line50">line 50</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -1069,7 +1033,7 @@ this.registerEvent('customEvent', handler)</code></pre>
     
 
     
-    <h4 class="name" id="unregisterEvent"><span class="type-signature"></span>unregisterEvent<span class="signature">(name, evHandler)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="unregister"><span class="type-signature"></span>unregister<span class="signature">(key)</span><span class="type-signature"></span></h4>
     
 
     
@@ -1077,165 +1041,7 @@ this.registerEvent('customEvent', handler)</code></pre>
 
 
 <div class="description">
-    Unregisters an event listener
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>name</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Event Name</td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>evHandler</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">string</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last">Optional event handler</td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line116">line 116</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
-    <h4 class="name" id="unregisterParameter"><span class="type-signature"></span>unregisterParameter<span class="signature">(key)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    Unregisters a setting parameter.
+    Unregisters a setting parameter from the schema.
 </div>
 
 
@@ -1287,7 +1093,7 @@ this.registerEvent('customEvent', handler)</code></pre>
 
             
 
-            <td class="description last">Parameter key</td>
+            <td class="description last">Key to remove</td>
         </tr>
 
     
@@ -1328,7 +1134,142 @@ this.registerEvent('customEvent', handler)</code></pre>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="modules.js.html">modules.js</a>, <a href="modules.js.html#line75">line 75</a>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line77">line 77</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="validateType"><span class="type-signature"></span>validateType<span class="signature">(type)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    Checks if a type is valid.
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">*</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="settings.js.html">settings.js</a>, <a href="settings.js.html#line43">line 43</a>
     </li></ul></dd>
     
 

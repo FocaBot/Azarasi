@@ -28,7 +28,7 @@
 
 <header>
     
-        <h2>PermissionsManager</h2>
+        <h2><span class="attribs"><span class="type-signature"></span></span>PermissionsManager<span class="signature">()</span><span class="type-signature"></span></h2>
         
             <div class="class-description">Handles permissions depending on roles.</div>
         
@@ -44,7 +44,9 @@
     <h2>Constructor</h2>
     
 
+    
     <h4 class="name" id="PermissionsManager"><span class="type-signature"></span>new PermissionsManager<span class="signature">()</span><span class="type-signature"></span></h4>
+    
 
     
 
@@ -117,6 +119,8 @@
 
 
 
+
+
     
     </div>
 
@@ -126,7 +130,9 @@
 
     
 
-     
+    
+
+    
 
     
 
@@ -432,14 +438,16 @@
 
     
 
+    
     <h4 class="name" id="hasRoles"><span class="type-signature"></span>hasRoles<span class="signature">(roles, user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
 
 
 
 <div class="description">
-    Checks if an user has certain roles (by name).
+    Checks if a user has certain roles (by name).
 
 Note: Only one of the roles passed is required for this to return a positive value.
 </div>
@@ -509,7 +517,10 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.GuildMember</span>
+|
+
+<span class="param-type">Discord.User</span>
 
 
             
@@ -519,7 +530,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
+            <td class="description last">The user to check. Can also be a Discord.GuildMember.</td>
         </tr>
 
     
@@ -532,7 +543,7 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.Guild</span>
 
 
             
@@ -542,7 +553,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
+            <td class="description last">The guild to check. Not needed if user is a GuildMember.</td>
         </tr>
 
     
@@ -627,19 +638,23 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="isAdmin"><span class="type-signature"></span>isAdmin<span class="signature">(user, guild, globalOnly)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
 
 
 
 <div class="description">
-    Checks if an user has admin rights.
+    Checks if a user has admin rights.
 </div>
 
 
@@ -681,7 +696,10 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.GuildMember</span>
+|
+
+<span class="param-type">Discord.User</span>
 
 
             
@@ -691,7 +709,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
+            <td class="description last">The user to check. Can also be a Discord.GuildMember.</td>
         </tr>
 
     
@@ -704,7 +722,7 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.Guild</span>
 
 
             
@@ -714,7 +732,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
+            <td class="description last">The guild to check. Not needed if user is a GuildMember.</td>
         </tr>
 
     
@@ -822,19 +840,23 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="isDJ"><span class="type-signature"></span>isDJ<span class="signature">(user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
 
 
 
 <div class="description">
-    Checks if an user has DJ roles.
+    Checks if a user has DJ roles.
 </div>
 
 
@@ -876,6 +898,9 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
+<span class="param-type">Discord.GuildMember</span>
+|
+
 <span class="param-type">object</span>
 
 
@@ -886,7 +911,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The user to check. Can also be a Discordie IGuildMember.</td>
+            <td class="description last">The user to check. Can also be a Discord.GuildMember.</td>
         </tr>
 
     
@@ -899,7 +924,7 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Duscord.Guild</span>
 
 
             
@@ -909,7 +934,7 @@ Note: Only one of the roles passed is required for this to return a positive val
 
             
 
-            <td class="description last">The guild to check. Not needed if user is an IGuildMember.</td>
+            <td class="description last">The guild to check. Not needed if user is a GuildMember.</td>
         </tr>
 
     
@@ -950,7 +975,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line67">line 67</a>
+        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line66">line 66</a>
     </li></ul></dd>
     
 
@@ -994,19 +1019,23 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="isGuildOwner"><span class="type-signature"></span>isGuildOwner<span class="signature">(user, guild)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
 
 
 
 <div class="description">
-    Checks if an user is the guild owner.
+    Checks if a user is the guild owner.
 </div>
 
 
@@ -1048,7 +1077,10 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.GuildMember</span>
+|
+
+<span class="param-type">Discord.User</span>
 
 
             
@@ -1071,7 +1103,7 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.Guild</span>
 
 
             
@@ -1122,7 +1154,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line81">line 81</a>
+        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line80">line 80</a>
     </li></ul></dd>
     
 
@@ -1166,19 +1198,23 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
+
+
         
             
 
     
 
+    
     <h4 class="name" id="isOwner"><span class="type-signature"></span>isOwner<span class="signature">(user)</span><span class="type-signature"> &rarr; {boolean}</span></h4>
+    
 
     
 
 
 
 <div class="description">
-    Check if an user is the bot owner
+    Check if a user is the bot owner
 </div>
 
 
@@ -1220,7 +1256,7 @@ Note: Only one of the roles passed is required for this to return a positive val
             <td class="type">
             
                 
-<span class="param-type">object</span>
+<span class="param-type">Discord.User</span>
 
 
             
@@ -1271,7 +1307,7 @@ Note: Only one of the roles passed is required for this to return a positive val
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line90">line 90</a>
+        <a href="permissions.js.html">permissions.js</a>, <a href="permissions.js.html#line89">line 89</a>
     </li></ul></dd>
     
 
@@ -1315,6 +1351,8 @@ Note: Only one of the roles passed is required for this to return a positive val
 
 
 
+
+
         
     
 
@@ -1331,13 +1369,13 @@ Note: Only one of the roles passed is required for this to return a positive val
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="Azarasi.html">Azarasi</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="Locale.html">Locale</a></li><li><a href="LocaleManager.html">LocaleManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li><li><a href="SettingsManager.html">SettingsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 18:47:49 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -28,32 +28,26 @@
         <article>
             <pre class="prettyprint source linenums"><code>const reload = require('require-reload')(require)
 const path = require('path')
-const fs = require('fs')
+const watch = require('node-watch')
+const Discord = require('discord.js')
 
 /**
  * Module Base class
+ * @global
  */
 class BotModule {
   /**
    * Instantiates a Module
    */
-  constructor () {
-    /**
-     * The current FocaBotCore instance
-     * @deprecated
-     * @type {FocaBotCore}
-     */
-    this.engine = global.Core // backwards compatibility
-    /** Discordie client */
+  constructor (name) {
+    /** Module name */
+    this.name = name
+    /** Discord.js client */
     this.bot = global.Core.bot
-    /**
-     * A reference to the PermissionsManager.
-     * @deprecated
-     * @type {PermissionsManager}
-     */
-    this.permissions = global.Core.permissions
     /** Registered Commands */
     this.commands = []
+    /** Registered event handlers */
+    this.events = []
   }
 
   /**
@@ -66,7 +60,9 @@ class BotModule {
    */
   registerCommand (name, options, func) {
     try {
-      const command = Core.commands.register(name, options, func)
+      const command = Core.commands.register(name, Object.assign(options, {
+        module: this
+      }), func)
       this.commands.push(command)
       return command
     } catch (e) {
@@ -75,8 +71,102 @@ class BotModule {
     }
   }
 
+  /**
+   * Unregisters a command (only if it belongs to this module).
+   * @param {string|BotCommand} command - Command to unregister
+   */
+  unregisterCommand (command) {
+    try {
+      const cmd = command instanceof BotCommand ? command : Core.commands.registered[command]
+      if (!cmd.module || cmd.module !== this) return
+      Core.commands.unregister(cmd)
+    } catch (e) {
+      Core.log(e, 2)
+    }
+  }
+
+  /**
+   * Registers a setting parameter.
+   * @param {string} key - Parameter key
+   * @param {object} props - Parameter properties
+   */
+  registerParameter (key, props) {
+    return Core.settings.register(key, Object.assign(props, {
+      module: this
+    }))
+  }
+
+  /**
+   * Unregisters a setting parameter.
+   * @param {string} key - Parameter key
+   */
+  unregisterParameter (key) {
+    if (Core.settings.schema[key] &amp;&amp; Core.settings.schema[key].module === this) {
+      return Core.settings.unregister(key)
+    }
+  }
+
+  /**
+   * Registers an event listener bound to this module
+   * @param {string} name - Event Name - Prefix with discord. for discord events
+   * @param {function} evHandler - Event Handler
+   * @example
+   * this.registerEvent('discord.message', messageHandler)
+   * this.registerEvent('customEvent', handler)
+   */
+  registerEvent (name, evHandler) {
+    // Try to avoid event handler if the module is disabled
+    const self = this
+    const handler = async function (param) {
+      let guild = param instanceof Discord.Guild ? param : param.guild
+      if (param &amp;&amp; param.guildId) guild = { id: param.guildId }
+      if (guild &amp;&amp; guild.id &amp;&amp; await Core.modules.isDisabledForGuild(guild, self)) {
+        return false
+      }
+      evHandler.apply(self, arguments)
+    }
+    if (name.match(/^discord\.(.*)/)) {
+      Core.bot.on(name.match(/^discord\.(.*)/)[1], handler)
+    } else if (name.match(/^db\.(.*)/)) {
+      const channelName = name.match(/^db\.(.*)/)[1]
+      this.events.push({ name, handler: Core.data.subscribe(channelName, handler), evHandler })
+    } else {
+      Core.events.on(name, handler)
+    }
+    this.events.push({ name, handler, evHandler })
+  }
+
+  /**
+   * Unregisters an event listener
+   * @param {string} name - Event Name
+   * @param {string} evHandler - Optional event handler
+   */
+  unregisterEvent (name, evHandler) {
+    this.events.filter(v => {
+      return v.name === name &amp;&amp; (v.evHandler === evHandler || evHandler == null)
+    }).forEach(ev => {
+      if (ev.name.match(/^discord\.(.*)/)) {
+        Core.bot.removeListener(ev.name.match(/^discord\.(.*)/)[1], ev.handler)
+      } else if (ev.name.match(/^db\.(.*)/)) {
+        ev.handler.off()
+      } else {
+        Core.events.removeListener(ev.name, ev.handler)
+      }
+    })
+  }
+
   shutdown () {
     if (typeof this.unload === 'function') this.unload()
+    for (const param in Core.settings.schema) {
+      if (Core.settings.schema[param].module === this) this.unregisterParameter(param)
+    }
+    this.events.forEach(ev => {
+      if (ev.name.match(/^discord\.(.*)/)) {
+        Core.bot.removeListener(ev.name.match(/^discord\.(.*)/)[1], ev.handler)
+      } else {
+        Core.events.removeListener(ev.name, ev.handler)
+      }
+    })
     Core.commands.unregister(this.commands)
   }
 }
@@ -88,13 +178,13 @@ class ModuleManager {
   constructor () {
     /** Currently loaded modules */
     this.loaded = {}
-    this.modulePath = Core.settings.modulePath || './modules'
+    this.modulePath = Core.properties.modulePath || './modules'
     // Hot Module Reloading
-    if (Core.settings.watch) {
+    if (Core.properties.watch) {
       this.pendingReloads = {}
-      fs.watch(this.modulePath, (event, file) => {
+      watch(this.modulePath, { recursive: true }, (event, file) => {
         // Get module name
-        const modName = path.parse(file).name
+        const modName = file.split(this.modulePath)[1].match(/^\/?([^/\\.]*)(\.[^/\\])?\/?/)[1]
         // Ignore if the module isn't loaded
         if (!this.loaded[modName]) return
         try {
@@ -123,13 +213,14 @@ class ModuleManager {
     m.forEach((mod) => {
       try {
         const Module = reload(path.join(this.modulePath, mod))
-        this.loaded[mod] = new Module()
+        this.loaded[mod] = new Module(mod)
+        Core.log(`Loaded Module "${mod}"!`, 1)
         if (typeof this.loaded[mod].init === 'function') this.loaded[mod].init()
         if (typeof this.loaded[mod].ready === 'function') {
           if (Core.ready) {
             this.loaded[mod].ready()
           } else {
-            Core.bot.Dispatcher.once('GATEWAY_READY', () => this.loaded[mod].ready())
+            Core.bot.once('ready', () => this.loaded[mod].ready())
           }
         }
       } catch (e) {
@@ -149,6 +240,7 @@ class ModuleManager {
       try {
         this.loaded[mod].shutdown()
         delete this.loaded[mod]
+        Core.log(`Unloaded Module "${mod}".`, 1)
       } catch (e) {
         Core.log(e, 2)
       }
@@ -162,6 +254,51 @@ class ModuleManager {
   reload (modules) {
     this.unload(modules)
     this.load(modules)
+  }
+
+  /**
+   * Enables a module only in a specific guild
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async enableForGuild (guild, mod) {
+    const g = await Core.guilds.getGuild(guild)
+    const m = mod instanceof BotModule ? mod : this.loaded[mod]
+    if (!m) throw new Error('No such module.')
+    if (!g.data.disabledModules) g.data.disabledModules = { }
+    g.data.disabledModules[m.name] = false
+    await g.saveData()
+  }
+
+  /**
+   * Disables a module only in a specific guild
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async disableForGuild (guild, mod) {
+    const g = await Core.guilds.getGuild(guild)
+    const m = mod instanceof BotModule ? mod : this.loaded[mod]
+    if (!m) throw new Error('No such module.')
+    if (!g.data.disabledModules) g.data.disabledModules = { }
+    g.data.disabledModules[m.name] = true
+    await g.saveData()
+  }
+
+  /**
+   * Checks if a module is disabled in a guild.
+   * @param {Discord.Guild} guild
+   * @param {string|BotModule} mod - Module name or instance
+   */
+  async isDisabledForGuild (guild, mod) {
+    const d = (await Core.guilds.getGuild(guild)).data
+    const m = mod instanceof BotModule ? mod : this.registered[mod]
+    if (!m) return true
+    if (d.disabledModules &amp;&amp; d.disabledModules[m.name] != null) {
+      if (d.disabledModules[mod.name] === true) return true
+      if (d.disabledModules[mod.name] === false) return false
+      return m.defaultDisabled
+    }
+    return m.defaultDisabled
   }
 }
 
@@ -177,13 +314,13 @@ global.BotModule = BotModule
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="Azarasi.html">Azarasi</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="Locale.html">Locale</a></li><li><a href="LocaleManager.html">LocaleManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li><li><a href="SettingsManager.html">SettingsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 18:47:49 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

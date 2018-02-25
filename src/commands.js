@@ -16,10 +16,9 @@ class BotCommand {
    * @param {boolean} options.allowDM - Allow this command to be executed in DMs
    * @param {boolean} options.everyone - For SelfBots, allow this command to be executed by others.
    * @param {string[]|number[]} options.requiredPermissions - Required permissions to run the command
+   * [Permission Flags]{@link https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS}
    * @param {string[]} options.requiredRoles - Required roles to run the command (role names).
    * @param {function} func - Command handler
-   * @global
-   * [Permission Flags]{@link https://discord.js.org/#/docs/main/stable/class/Permissions?scrollTo=s-FLAGS}
    */
   constructor (name, options, func) {
     /** Command name */

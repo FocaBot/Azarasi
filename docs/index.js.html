@@ -27,54 +27,55 @@
     <section>
         <article>
             <pre class="prettyprint source linenums"><code>require('colors')
+const Discord = require('discord.js')
 const util = require('util')
-const Discordie = require('discordie')
 const moment = require('moment')
 const CommandManager = require('./commands')
 const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
 const DataStore = require('./data')
+const SettingsManager = require('./settings')
 const AudioPlayer = require('./audioPlayer')
+const LocaleManager = require('./locales')
 const pkg = require('../package.json')
+const EventEmitter = require('events').EventEmitter
 
 /**
  * The mother of all seals.
  */
-class FocaBotCore {
+class Azarasi {
   /**
    * Instantiates a new Bot.
-   * @param {object} settings - The settings object.
-   * @param {string} settings.prefix - Default bot prefix (REQUIRED)
-   * @param {string} settings.token - Bot token (REQUIRED)
-   * @param {boolean} settings.selfBot - Defines this bot as a selfbot
-   * @param {string} settings.publicPrefix - Public Prefix (SelfBots only)
-   * @param {string[]} settings.owner - Bot owner user IDs
-   * @param {string[]} settings.admins - Global admin user IDs
-   * @param {string[]} settings.adminRoles - Admin role names
-   * @param {string[]} settings.djRoles - "DJ" role names
-   * @param {string[]} settings.blacklist - Blacklisted User IDs
-   * @param {number} settings.shardIndex - Current shard id
-   * @param {number} settings.shardCount - Total shard count
-   * @param {string} settings.modulePath - Path to load modules from
-   * @param {string} settings.redisURL - Redis server URL (redis://)
-   * @param {boolean} settings.debug - True to enable debug mode
-   * @param {boolean} settings.watch - True to enable automatic hot-reloading of modules (doesn't support subdirectories)
+   * @param {object} properties - The properties object.
+   * @param {string} properties.prefix - Default bot prefix (REQUIRED)
+   * @param {string} properties.token - Bot token (REQUIRED)
+   * @param {boolean} properties.selfBot - Defines this bot as a selfbot
+   * @param {string} properties.publicPrefix - Public Prefix (SelfBots only)
+   * @param {string[]} properties.owner - Bot owner user IDs
+   * @param {string[]} properties.admins - Global admin user IDs
+   * @param {string[]} properties.adminRoles - Admin role names
+   * @param {string[]} properties.djRoles - "DJ" role names
+   * @param {string[]} properties.blacklist - Blacklisted User IDs
+   * @param {string} properties.modulePath - Path to load modules from
+   * @param {string} properties.ffmpegBin - Path to the FFMPEG binary (will use the global PATH if not set)
+   * @param {string} properties.dbFile - Database file.
+   * @param {string} properties.dbPort - Database port.
+   * @param {boolean} properties.debug - True to enable debug mode
+   * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules
+   * @param {string} properties.localePath - Path to load locales from
+   * @param {string} properties.locale - Default locale
    */
-  constructor (settings) {
+  constructor (properties) {
     global.Core = this
-    /** The settings object */
-    this.settings = settings
+    /** The properties object */
+    this.properties = properties
     // Some checks
-    if (!this.settings) throw new Error('No settings object.')
-    if (!this.settings.prefix) throw new Error('No prefix set.')
-    if (!this.settings.token) throw new Error('Missing bot token.')
-    /** The discordie Client */
-    this.bot = new Discordie({
-      autoReconnect: true,
-      shardId: settings.shardIndex,
-      shardCount: settings.shardCount
-    })
+    if (!this.properties) throw new Error('No properties object.')
+    if (!this.properties.prefix) throw new Error('No prefix set.')
+    if (!this.properties.token) throw new Error('Missing bot token.')
+    /** The Discord.js Client */
+    this.bot = new Discord.Client()
     /**
      * The data store
      */
@@ -100,23 +101,56 @@ class FocaBotCore {
      */
     this.modules = new ModuleManager()
     /**
+     * The locale manager
+     * @type {LocaleManager}
+     */
+    this.locales = new LocaleManager()
+    /**
+     * The settings manager
+     * @type {SettingsManager}
+     */
+    this.settings = new SettingsManager()
+    /**
+     * Sharding client
+     * @type {Discord.ShardClientUtil}
+     */
+    this.shard = this.bot.shard || { }
+    /**
+     * Main Event Emitter
+     */
+    this.events = new EventEmitter()
+    this.events.setMaxListeners(1000)
+
+    /**
      * Is the bot ready?
      */
     this.ready = false
 
     this.AudioPlayer = AudioPlayer
 
-    this.bot.Dispatcher.on('GATEWAY_READY', () => {
-      this.log('Connected!.')
+    this.bot.on('ready', () => {
+      this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)
       this.ready = true
-      if (this.settings.selfBot) {
-        this.permissions.owner.push(this.bot.User.id)
+      if (this.properties.selfBot) {
+        this.permissions.owner.push(this.bot.user.id)
       }
     })
-    this.bot.Dispatcher.on('MESSAGE_CREATE', e => this.processMessage(e.message))
+    this.bot.on('message', msg => this.processMessage(msg))
+    this.bot.on('debug', m => this.log(m, 1))
+    this.bot.on('error', e => {
+      this.log('Something went wrong:', 2)
+      this.log(e, 2)
+      process.exit()
+    })
+
+    // hacks
+    if (Core.properties.ffmpegBin) {
+      require('prism-media/src/transcoders/ffmpeg/Ffmpeg').selectFfmpegCommand = () => {
+        return Core.properties.ffmpegBin
+      }
+    }
 
     this.bootDate = moment()
-
     this.version = pkg.version
   }
 
@@ -124,16 +158,16 @@ class FocaBotCore {
    * Establishes connection with discord.
    */
   establishConnection () {
-    this.bot.connect({ token: this.settings.token })
+    this.bot.login(this.properties.token)
   }
 
   /**
    * Processes messages.
-   * @param {object} msg - Discordie message object
+   * @param {object} msg - Discord.js message object
    */
   processMessage (msg) {
     // Check if the user isn't in the blacklist
-    if (this.settings.blacklist &amp;&amp; this.settings.blacklist.indexOf(msg.author.id) >= 0) {
+    if (this.properties.blacklist &amp;&amp; this.properties.blacklist.indexOf(msg.author.id) >= 0) {
       return
     }
     this.commands.processMessage(msg)
@@ -145,23 +179,23 @@ class FocaBotCore {
    */
   log (message, type = 0) {
     // Avoid useless logs when debug mode is disabled.
-    if (type === 1 &amp;&amp; !this.settings.debug) return
+    if (type === 1 &amp;&amp; !this.properties.debug) return
     const msg = (typeof message === 'string') ? message : util.inspect(message)
 
     const t = moment()
-    const i = (this.settings.shardIndex || 0).toString()
-    let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:MM').cyan} ${i.yellow}]`
+    const i = (this.shard.id || 0).toString()
+    let prefix = `[${t.format('YY/MM/DD@').dim.cyan}${t.format('HH:mm').cyan} ${i.yellow}]`
 
     if (type >= 2) {
-      prefix = `[${t.format('YY/MM/DD@').dim.red}${t.format('HH:MM').red} ${i.yellow}]`
+      prefix = `[${t.format('YY/MM/DD@').dim.red}${t.format('HH:mm').red} ${i.yellow}]`
       process.stderr.write(`${prefix} ${msg}\n`, 'utf8')
     } else {
-      process.stdout.write(`${prefix} ${msg}\n`, 'utf8')
+      process.stdout.write(`${prefix} ${type === 1 ? msg.gray : msg}\n`, 'utf8')
     }
   }
 }
 
-module.exports = FocaBotCore
+module.exports = Azarasi
 </code></pre>
         </article>
     </section>
@@ -172,13 +206,13 @@ module.exports = FocaBotCore
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="FocaBotCore.html">FocaBotCore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="AudioPlayer.html">AudioPlayer</a></li><li><a href="Azarasi.html">Azarasi</a></li><li><a href="BotCommand.html">BotCommand</a></li><li><a href="BotModule.html">BotModule</a></li><li><a href="CommandManager.html">CommandManager</a></li><li><a href="DataStore.html">DataStore</a></li><li><a href="Guild.html">Guild</a></li><li><a href="GuildManager.html">GuildManager</a></li><li><a href="Locale.html">Locale</a></li><li><a href="LocaleManager.html">LocaleManager</a></li><li><a href="ModuleManager.html">ModuleManager</a></li><li><a href="PermissionsManager.html">PermissionsManager</a></li><li><a href="SettingsManager.html">SettingsManager</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Mar 12 2017 14:16:51 GMT-0400 (-04)
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Feb 25 2018 18:47:49 GMT-0400 (-04)
 </footer>
 
 <script> prettyPrint(); </script>

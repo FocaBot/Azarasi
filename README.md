@@ -1,6 +1,7 @@
 # Azarasi Framework
 
-A Discord bot framework built on top of [Discord.js](https://discord.js.org/) to make bot development easier.
+A Discord bot framework built on top of [Discord.js](https://discord.js.org/) to make
+bot development easier (formerly called FocaBotCore).
 
 ```npm install --save azarasi```
 
@@ -9,14 +10,14 @@ Currently, it provides:
  - A command system with built-in prefix and role checking.
  - A module system with hot-reloading.
  - Basic permission system.
- - Persistent data store
+ - Persistent data store (powered by [Gun](http://gun.js.org/))
  - Localization system
  - Configuration system (per-guild).
  - Built-in audio player (requires FFMPEG).
 
 ## Example
 
-This is a simple, single-file bot made using FocaBotCore:
+This is a simple, single-file bot made using Azarasi:
 
 ```javascript
 const Azarasi = require('azarasi');
