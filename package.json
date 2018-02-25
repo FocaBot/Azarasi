@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/FocaBot/FocaBotCore.git"
+    "url": "git+https://github.com/FocaBot/Azarasi.git"
   },
   "keywords": [
     "discord",
@@ -21,9 +21,9 @@
   "author": "TheBITLINK aka BIT <me@thebitlink.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/FocaBot/FocaBotCore/issues"
+    "url": "https://github.com/FocaBot/Azarasi/issues"
   },
-  "homepage": "https://github.com/FocaBot/FocaBotCore#readme",
+  "homepage": "https://github.com/FocaBot/Azarasi#readme",
   "devDependencies": {
     "eslint": "^3.11.0",
     "eslint-config-airbnb": "^13.0.0",
