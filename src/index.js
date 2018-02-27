@@ -6,7 +6,7 @@ const CommandManager = require('./commands')
 const GuildManager = require('./guilds')
 const ModuleManager = require('./modules')
 const PermissionsManager = require('./permissions')
-const DataStore = require('./data')
+const { GunDataStore, RedisDataStore } = require('./data')
 const SettingsManager = require('./settings')
 const AudioPlayer = require('./audioPlayer')
 const LocaleManager = require('./locales')
@@ -33,6 +33,8 @@ class Azarasi {
    * @param {string} properties.ffmpegBin - Path to the FFMPEG binary (will use the global PATH if not set)
    * @param {string} properties.dbFile - Database file.
    * @param {string} properties.dbPort - Database port.
+   * @param {boolean} properties.redis - Enable to use Redis as data store instead of Gun
+   * @param {string} properties.redisURL - URL of the redis database (only required in Redis mode)
    * @param {boolean} properties.debug - True to enable debug mode
    * @param {boolean} properties.watch - True to enable automatic hot-reloading of modules
    * @param {string} properties.localePath - Path to load locales from
@@ -51,7 +53,7 @@ class Azarasi {
     /**
      * The data store
      */
-    this.data = new DataStore()
+    this.data = this.properties.redis ? new RedisDataStore() : new GunDataStore()
     /**
      * The guild manager
      * @type {GuildManager}
