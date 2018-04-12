@@ -42,7 +42,7 @@ class BotCommand {
     try {
       const guild = await Core.guilds.getGuild(msg.guild)
       const guildData = guild.data
-      const saveGuildData = () => guild.saveData
+      const saveGuildData = () => guild.saveData()
       const guildSettings = await Core.settings.getForGuild(msg.guild)
       const guildLocale = Core.locales.getLocale(guildSettings.locale)
       // Check for guild-specific restrictions
