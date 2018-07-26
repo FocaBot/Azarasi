@@ -1,17 +1,17 @@
-/**
- * Ping Module
- */
-class PingModule extends BotModule {
+const Azarasi = require('../../lib/').default
+
+class Test extends Azarasi.Module {
+
   init () {
-    // A ping command.
-    this.registerCommand('ping', ({ msg }) => {
-      msg.reply('Pong!')
+    this.registerCommand('test', ({ msg }) => {
+      msg.reply('ayy elmio')
     })
-    // Another command.
-    this.registerCommand('pong', ({ msg }) => {
-      msg.reply('Ping?')
+
+    this.registerCommand('ping', ({ msg }) => {
+      msg.reply('pong')
     })
   }
+
 }
 
-module.exports = PingModule
+module.exports = Test

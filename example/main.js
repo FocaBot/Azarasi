@@ -1,17 +1,13 @@
-/**
- * The same bot from the README example, but using the module system
- */
-const Azarasi = require('azarasi')
+const Azarasi = require('../lib').default
 const path = require('path')
 
-const myBot = new Azarasi({
-  prefix: '-',
-  token: '[Insert token here]',
-  modulePath: path.join(__dirname, 'modules')
+const exampleBot = new Azarasi({
+  prefix: '--',
+  token: '...',
+  modulePath: path.join(__dirname, 'modules'),
+  dataStore: 'memory'
 })
 
-// Load modules
-myBot.modules.load(['ping', 'echo', 'audio'])
+exampleBot.modules.load(['ping'])
 
-// Connect to discord
-myBot.establishConnection()
+exampleBot.establishConnection()
