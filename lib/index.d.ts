@@ -92,8 +92,6 @@ export interface BotProperties {
     blacklist?: string[];
     /** Path to load modules from */
     modulePath?: string;
-    /** Path to the FFMpeg binary */
-    ffmpegBin?: string;
     /**
      * Database backend
      *

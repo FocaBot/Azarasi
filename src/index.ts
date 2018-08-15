@@ -16,9 +16,6 @@ import { CommandManager } from './commandManager'
 import { LocaleManager, Locale } from './locales'
 import { SettingsManager } from './settings'
 
-// @ts-ignore
-import ffmpegTranscoder from 'prism-media/src/transcoders/ffmpeg/Ffmpeg'
-
 /**
  * The mother of all seals
  */
@@ -90,12 +87,6 @@ export class Azarasi {
       this.logError(e)
       process.exit(1)
     })
-
-    // hacks
-    if (this.properties.ffmpegBin) {
-      ffmpegTranscoder.selectFfmpegCommand = () => this.properties.ffmpegBin
-    }
-
     this.bootDate = moment()
     this.version = pkg.version
   }
@@ -179,8 +170,6 @@ export interface BotProperties {
   blacklist? : string[]
   /** Path to load modules from */
   modulePath? : string
-  /** Path to the FFMpeg binary */
-  ffmpegBin? : string
   /**
    * Database backend
    * 
