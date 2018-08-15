@@ -44,8 +44,7 @@
     "gun": "^0.9.9993",
     "ioredis": "^3.2.2",
     "js-yaml": "^3.8.4",
-    "moment": "^2.22.2",
-    "require-reload": "^0.2.2"
+    "moment": "^2.22.2"
   },
   "optionalDependencies": {
     "erlpack": "hammerandchisel/erlpack",
