@@ -1,6 +1,5 @@
-
 import Discord from 'discord.js'
-import Azarasi from '.'
+import { Azarasi } from '.'
 import { Guild, GuildData } from './guilds'
 import { Settings } from './settings'
 import { Locale } from './locales'

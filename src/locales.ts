@@ -1,16 +1,19 @@
-import Azarasi from '.'
+import { Azarasi } from '.'
 import path from 'path'
 import fs from 'fs'
 import yaml from 'js-yaml'
+import moment, { MomentFormatSpecification, MomentInput } from 'moment'
 
 /**
  * Provides translations
  */
 export class Locale {
   /** ISO_639-1 code of the locale */
-  isoCode : string
+  readonly isoCode : string
   /** ISO 3166-1 alpha-2 code of the country variant */
-  countryCode : string
+  readonly countryCode : string
+  /** ISO code + Locale code */
+  readonly localeCode : string
   /** Locale strings */
   strings : LocaleStrings = {}
   /** Locale command mappings */
@@ -24,6 +27,7 @@ export class Locale {
   constructor (isoCode : string, countryCode : string) {
     this.isoCode = isoCode
     this.countryCode = countryCode
+    this.localeCode = `${isoCode}-${countryCode}`
   }
 
   /**
@@ -58,7 +62,7 @@ export class Locale {
    * locale.gen("Not enough votes ({1}/{2})", count, required) // Not enough votes (4/9)
    */
   gen (template : string, ...args : string[]) {
-    return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index - 1])
+    return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])
     .replace(/@everyone/gi, '@\u200beveryone').replace(/@here/gi, '@\u200bhere')
   }
 
@@ -72,7 +76,21 @@ export class Locale {
    * locale.ugen("This is a {1} mention", '@here') // This is a @here mention
    */
   ugen (template : string, ...args : string[]) {
-    return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index - 1])
+    return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])
+  }
+
+  /**
+   * Returns a moment instance set to current locale
+   */
+  moment (input : MomentInput, format? : MomentFormatSpecification, strict? : boolean) {
+    return moment(input, format, this.localeCode, strict)
+  }
+
+  /**
+   * Attempts to transform numbers, dates, etc. to the current locale.
+   */
+  transform (input : any) : string {
+    return input.toLocaleString ? input.toLocaleString(this.localeCode) : input.toString()
   }
 }
 

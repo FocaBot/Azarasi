@@ -1,7 +1,7 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.'
 import { EventEmitter } from 'events'
 import Redis from 'ioredis'
-import Azarasi from '..'
+import { Azarasi } from '..'
 
 /**
  * [Redis](https://redis.io/) Data Store

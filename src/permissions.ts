@@ -1,4 +1,4 @@
-import Azarasi from '.'
+import { Azarasi } from '.'
 import Discord from 'discord.js'
 
 /**
@@ -48,7 +48,7 @@ export class PermissionHelper {
   hasRoles (roles : string | string[], user : Discord.User | Discord.GuildMember, g? : Discord.Guild) : boolean {
     const guild = user instanceof Discord.GuildMember ? user.guild : g
     if (!guild) return false // DMs have no guild object or roles
-    const member = user instanceof Discord.GuildMember ? user : guild.members.find('id', user.id)
+    const member = user instanceof Discord.GuildMember ? user : guild.members.find((m) => m.id === user.id)
     if (!member) return false // This should never happen
     const r = typeof roles === 'string' ? [ roles ] : roles
     return member.roles.reduce((a, b) => a || r.indexOf(b.name) >= 0, false)
@@ -66,7 +66,7 @@ export class PermissionHelper {
     if (globalOnly) return false
     const g = user instanceof Discord.GuildMember ? user.guild : guild
     if (!g) return false
-    const member = user instanceof Discord.GuildMember ? user : g.members.find('id', user.id)
+    const member = user instanceof Discord.GuildMember ? user : g.members.find((m) => m.id === user.id)
     // Return true for guild owners, administrators or people with "Mage Guild"
     if (member.hasPermission('MANAGE_GUILD', false, true, true)) return true
     // Fall back to Bot Commander role
@@ -77,7 +77,7 @@ export class PermissionHelper {
   async isDJ (user : Discord.User | Discord.GuildMember, guild? : Discord.Guild) {
     const g = user instanceof Discord.GuildMember ? user.guild : guild
     if (!g) return false
-    const member = user instanceof Discord.GuildMember ? user : g.members.find('id', user.id)
+    const member = user instanceof Discord.GuildMember ? user : g.members.find((m) => m.id === user.id)
     // Check if the user is admin
     if (await this.isAdmin(member)) return true
     // Fall back to DJ role

@@ -22,7 +22,7 @@ import ffmpegTranscoder from 'prism-media/src/transcoders/ffmpeg/Ffmpeg'
 /**
  * The mother of all seals
  */
-export default class Azarasi {
+export class Azarasi {
   /** Is the bot ready? */
   ready : boolean = false
   /** Properties for this instance */
@@ -124,7 +124,7 @@ export default class Azarasi {
   log (...args : any[]) {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
-    const prefix = `[${time.format('YYYY-MM-DD@').dim.cyan}${time.format('HH:mm').cyan} ${shard.toString().yellow}] `
+    const prefix = `[${time.format('YYYY-MM-DD@').dim.cyan}${time.format('HH:mm').cyan} ${shard.toString().yellow}]`
     
     console.log(prefix, ...args)
   }
@@ -202,6 +202,4 @@ export interface BotProperties {
   localePath? : string
   /** Default locale */
   locale? : string
-  /** Custom properties */
-  [key : string] : any
 }

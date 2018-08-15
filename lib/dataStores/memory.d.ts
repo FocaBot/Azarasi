@@ -1,5 +1,5 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.';
-import Azarasi from '..';
+import { Azarasi } from '..';
 /**
  * In-memory data store
  *
@@ -36,7 +36,7 @@ export declare class MemoryDataStore implements IDataStore {
      * @param val - Value
      * @hidden
      */
-    private handleUpdate(key, val);
+    private handleUpdate;
     ensureReady(): Promise<void>;
     get(key: string): Promise<any>;
     set(key: string, val: any): Promise<string>;

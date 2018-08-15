@@ -1,4 +1,4 @@
-import Azarasi from '.';
+import { Azarasi } from '.';
 import Discord from 'discord.js';
 /**
  * Permissions System (based on roles)

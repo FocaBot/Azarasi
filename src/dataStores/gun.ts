@@ -2,7 +2,7 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.'
 import { EventEmitter } from 'events'
 import http from 'http'
-import Azarasi from '..'
+import { Azarasi } from '..'
 
 /**
  * Hacky stuff

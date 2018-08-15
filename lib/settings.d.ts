@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import Azarasi from '.';
+import { Azarasi } from '.';
 import { Locale } from './locales';
 import { Module } from './module';
 /**

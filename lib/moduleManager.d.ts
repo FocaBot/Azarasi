@@ -1,4 +1,4 @@
-import Azarasi from '.';
+import { Azarasi } from '.';
 import Discord from 'discord.js';
 import { Module } from './module';
 export declare class ModuleManager {
@@ -22,7 +22,7 @@ export declare class ModuleManager {
      * Run this before unloading or reloading a module.
      * @param module - Module to clean
      */
-    private shutdown(module);
+    private shutdown;
     /**
      * Unloads the specified module and all its dependants
      * @param modules - Modules to unload
@@ -33,6 +33,10 @@ export declare class ModuleManager {
      * @param modules - Modules to unload
      */
     reload(modules: string[] | string): void;
+    /**
+     * Purge require cache for module.
+     */
+    purgeCache(modName: string, relative?: boolean): void;
     /**
      * Get module by name
      * @param name - Name of the desired module

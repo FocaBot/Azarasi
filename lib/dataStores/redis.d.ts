@@ -1,5 +1,5 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.';
-import Azarasi from '..';
+import { Azarasi } from '..';
 /**
  * [Redis](https://redis.io/) Data Store
  *
@@ -46,7 +46,7 @@ export declare class RedisDataStore implements IDataStore {
      * @param val - Value
      * @hidden
      */
-    private handleUpdate(msg);
+    private handleUpdate;
     ensureReady(): Promise<void> | Promise<{}>;
     get(key: string): Promise<any>;
     set(key: string, val: any): Promise<any>;

@@ -15,7 +15,7 @@ import { SettingsManager } from './settings';
 /**
  * The mother of all seals
  */
-export default class Azarasi {
+export declare class Azarasi {
     /** Is the bot ready? */
     ready: boolean;
     /** Properties for this instance */
@@ -115,6 +115,4 @@ export interface BotProperties {
     localePath?: string;
     /** Default locale */
     locale?: string;
-    /** Custom properties */
-    [key: string]: any;
 }

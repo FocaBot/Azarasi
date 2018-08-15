@@ -1,10 +1,8 @@
 import path from 'path'
 import chokidar from 'chokidar'
-import Azarasi from '.'
+import { Azarasi } from '.'
 import Discord from 'discord.js'
 import { Module, ModuleState } from './module'
-
-const reload = require('require-reload')(require)
 
 export class ModuleManager {
   /** Currently loaded modules */
@@ -27,9 +25,16 @@ export class ModuleManager {
   }
 
   initializeHotReloading () {
-    chokidar.watch(this.modulePath).on('all', (e : string, path : string) => {
-      this.az.log(`Event ${e} on ${path}`)
-    })
+    chokidar.watch(this.modulePath).on('change', (p : string) => setTimeout(() => {
+      const moduleName = p
+        .replace(this.modulePath, '')
+        .split(path.sep)[1]
+        .split('.')[0]
+      if (this.loaded.get(moduleName)) {
+        this.az.logDebug(`Reloading "${moduleName}" (file change)`)
+        this.reload(moduleName)
+      }
+    }, 100))
   }
 
   /**
@@ -49,7 +54,8 @@ export class ModuleManager {
         reloading = mod.state === ModuleState.Reloading
       }
       // Load module
-      const ModConstructor = reload(path.join(this.modulePath, moduleName))
+      const Mod = require(path.join(this.modulePath, moduleName))
+      const ModConstructor = Mod.default || Mod
       const mod = new ModConstructor(this.az, moduleName)
       if (!(mod instanceof Module)) throw new Error(`${moduleName} is not a module!`)
 
@@ -57,6 +63,7 @@ export class ModuleManager {
       if (mod.ready) this.az.ready ? mod.ready() : this.az.events.once('ready', () => mod.ready!())
 
       mod.state = ModuleState.Loaded
+      this.loaded.set(moduleName, mod)
       if (!reloading) this.az.logDebug(`Loaded module "${moduleName}".`)
     }
   }
@@ -123,14 +130,16 @@ export class ModuleManager {
   reload (modules : string[] | string) {
     const m = typeof modules === 'string' ? [ modules ] : modules
     if (!(m instanceof Array)) throw new Error('This function only accepts strings or arrays.')
+
     for (const moduleName of m) {
       const mod = this.loaded.get(moduleName)
       if (!mod || (mod.state !== ModuleState.Loaded && mod.state !== ModuleState.Errored)) continue
 
-      mod.state = ModuleState.Unloading
+      mod.state = ModuleState.Reloading
 
       this.shutdown(mod)
       try {
+        this.purgeCache(moduleName)
         this.load(moduleName)
         this.az.logDebug(`Reloaded module "${moduleName}".`)
 
@@ -145,6 +154,22 @@ export class ModuleManager {
         this.az.logError(`Error while reloading "${moduleName}":\n`, e)
         mod.state = ModuleState.Errored
       }
+    }
+  }
+
+  /**
+   * Purge require cache for module.
+   */
+  purgeCache (modName : string, relative = true) {
+    const modId = require.resolve(relative ? path.join(this.modulePath, modName) : modName)
+    const mod = require.cache[modId]
+
+    // Only purge module files
+    if (!mod || mod.filename.indexOf(this.modulePath) != 0) return
+
+    delete require.cache[modId]
+    for (let child of mod.children) {
+      if (require.cache[child.id]) this.purgeCache(child.id, false)
     }
   }
 

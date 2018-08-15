@@ -2,7 +2,7 @@ import { IDataStore } from './dataStores'
 import { RedisDataStore } from './dataStores/redis'
 import { GunDataStore } from './dataStores/gun'
 import { MemoryDataStore } from './dataStores/memory'
-import Azarasi from '.'
+import { Azarasi } from '.'
 
 export default function GetDataStore(az : Azarasi) : IDataStore {
   switch (az.properties.dataStore) {

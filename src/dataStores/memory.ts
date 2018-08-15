@@ -1,6 +1,6 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.'
 import { EventEmitter } from 'events'
-import Azarasi from '..'
+import { Azarasi } from '..'
 
 /**
  * In-memory data store

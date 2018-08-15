@@ -1,12 +1,15 @@
-import Azarasi from '.';
+import { Azarasi } from '.';
+import moment, { MomentFormatSpecification, MomentInput } from 'moment';
 /**
  * Provides translations
  */
 export declare class Locale {
     /** ISO_639-1 code of the locale */
-    isoCode: string;
+    readonly isoCode: string;
     /** ISO 3166-1 alpha-2 code of the country variant */
-    countryCode: string;
+    readonly countryCode: string;
+    /** ISO code + Locale code */
+    readonly localeCode: string;
     /** Locale strings */
     strings: LocaleStrings;
     /** Locale command mappings */
@@ -46,6 +49,14 @@ export declare class Locale {
      * locale.ugen("This is a {1} mention", '@here') // This is a @here mention
      */
     ugen(template: string, ...args: string[]): string;
+    /**
+     * Returns a moment instance set to current locale
+     */
+    moment(input: MomentInput, format?: MomentFormatSpecification, strict?: boolean): moment.Moment;
+    /**
+     * Attempts to transform numbers, dates, etc. to the current locale.
+     */
+    transform(input: any): string;
 }
 /**
  * Manages translations

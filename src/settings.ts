@@ -1,5 +1,5 @@
 import Discord from 'discord.js'
-import Azarasi from '.'
+import { Azarasi } from '.'
 import { Locale } from './locales'
 import { Module } from './module'
 
@@ -80,7 +80,7 @@ export class SettingsManager {
       const g = await this.az.guilds.getGuild(guild)
       const gSett = g.data.settings || {}
       // TODO: Exclude parameters from disabled modules
-      return Object.freeze({...this.defaults, ...this.globals, gSett, ...this.overrides})
+      return Object.freeze({...this.defaults, ...this.globals, ...gSett, ...this.overrides})
     } else {
       return Object.freeze({...this.defaults, ...this.globals, ...this.overrides})
     }

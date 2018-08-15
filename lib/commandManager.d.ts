@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import Azarasi from '.';
+import { Azarasi } from '.';
 import { Command, CommandHandler, CommandOptions } from './command';
 export declare class CommandManager {
     /** Azarasi instance */

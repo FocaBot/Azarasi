@@ -1,5 +1,5 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.';
-import Azarasi from '..';
+import { Azarasi } from '..';
 /**
  * [Gun](http://gun.js.org/) Data Store
  *

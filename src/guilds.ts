@@ -1,4 +1,4 @@
-import Azarasi from '.'
+import { Azarasi } from '.'
 import Discord from 'discord.js'
 import { Settings } from './settings'
 

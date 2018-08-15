@@ -1,4 +1,4 @@
-const Azarasi = require('../lib').default
+const { Azarasi } = require('../lib').default
 const path = require('path')
 
 const exampleBot = new Azarasi({

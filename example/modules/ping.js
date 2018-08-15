@@ -1,14 +1,10 @@
-const Azarasi = require('../../lib/').default
+const { Azarasi } = require('../../lib/').default
 
-class Test extends Azarasi.Module {
+class Ping extends Azarasi.Module {
 
   init () {
-    this.registerCommand('test', ({ msg }) => {
-      msg.reply('ayy elmio')
-    })
-
     this.registerCommand('ping', ({ msg }) => {
-      msg.reply('pong')
+      msg.reply('Pong!')
     })
   }
 

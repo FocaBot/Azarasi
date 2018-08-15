@@ -1,5 +1,5 @@
 import Discord from 'discord.js';
-import Azarasi from '.';
+import { Azarasi } from '.';
 import { Command, CommandOptions, CommandHandler } from './command';
 import { Parameter } from './settings';
 import { DataSubscription } from './dataStores';
@@ -120,18 +120,18 @@ export declare class Module {
      *
      * This method is called each time the module is loaded or reloaded
      */
-    init?: () => any;
+    init(): any;
     /**
      * This method is called before unloading or reloading the module.
      * Use it if you need to perform cleanup tasks (remove event handlers, timeouts, etc)
      */
-    shutdown?: () => any;
+    shutdown(): any;
     /**
      * This method gets called once the bot is fully initialized.
      *
      * If the bot is already initialized, it gets called immediatly after init()
      */
-    ready?: () => any;
+    ready(): any;
 }
 export interface ModuleEvent {
     name: string;
@@ -144,12 +144,12 @@ export interface ModuleEvent {
 export declare enum ModuleEventType {
     Azarasi = 0,
     Discord = 1,
-    DataStore = 2,
+    DataStore = 2
 }
 export declare enum ModuleState {
     Loading = 0,
     Loaded = 1,
     Unloading = 2,
     Reloading = 3,
-    Errored = 4,
+    Errored = 4
 }
