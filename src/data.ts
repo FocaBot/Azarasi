@@ -6,16 +6,19 @@ import { Azarasi } from '.'
 
 export default function GetDataStore(az : Azarasi) : IDataStore {
   let dataStore : IDataStore
-  
+
   switch (az.properties.dataStore) {
     case 'redis':
       dataStore = new RedisDataStore(az)
+      break
     case 'gun':
     case undefined:
     case null:
       dataStore = new GunDataStore(az)
+      break
     case 'memory':
       dataStore = new MemoryDataStore(az)
+      break
     default:
       throw new Error('Invalid data store requested.')
   }
