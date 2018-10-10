@@ -115,7 +115,7 @@ export class GunDataStore implements IDataStore {
   async get (key : string) {
     await this.ensureReady()
     return new Promise(resolve => {
-      this.db.get(key).path('val').val((v? : string) => resolve(JSON.parse(v || 'null')))
+      this.db.get(key).get('val').once((v? : string) => resolve(JSON.parse(v || 'null')))
     })
   }
 
