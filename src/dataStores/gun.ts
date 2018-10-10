@@ -134,7 +134,7 @@ export class GunDataStore implements IDataStore {
 
   subscribe (key : string, handler : SubscriptionHandler) : DataSubscription {
     const sub = new DataSubscription(key, handler)
-    const gsub = this.db.get(key).path('val').on((data : string) => sub.handler(JSON.parse(data || 'null')))
+    const gsub = this.db.get(key).get('val').on((data : string) => sub.handler(JSON.parse(data || 'null')))
     sub.off = () => gsub.off()
     return sub
   }
