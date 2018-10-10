@@ -49,7 +49,7 @@ export declare class RedisDataStore implements IDataStore {
     private handleUpdate;
     ensureReady(): Promise<void> | Promise<{}>;
     get(key: string): Promise<any>;
-    set(key: string, val: any): Promise<any>;
-    del(key: string): Promise<any>;
+    set(key: string, val: any): Promise<string>;
+    del(key: string): Promise<number>;
     subscribe(key: string, handler: SubscriptionHandler): DataSubscription;
 }
