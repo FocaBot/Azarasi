@@ -1,5 +1,9 @@
 example
 docs
-jsconfig.json
+tsconfig.json
 .vscode
 testbot.js
+src
+.idea
+.gitignore
+typedoc.config.js
