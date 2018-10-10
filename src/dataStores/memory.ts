@@ -1,5 +1,4 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.'
-import { EventEmitter } from 'events'
 import { Azarasi } from '..'
 
 /**

@@ -5,16 +5,21 @@ import { MemoryDataStore } from './dataStores/memory'
 import { Azarasi } from '.'
 
 export default function GetDataStore(az : Azarasi) : IDataStore {
+  let dataStore : IDataStore
+  
   switch (az.properties.dataStore) {
     case 'redis':
-      return new RedisDataStore(az)
+      dataStore = new RedisDataStore(az)
     case 'gun':
     case undefined:
     case null:
-      return new GunDataStore(az)
+      dataStore = new GunDataStore(az)
     case 'memory':
-      return new MemoryDataStore(az)
+      dataStore = new MemoryDataStore(az)
     default:
       throw new Error('Invalid data store requested.')
   }
+
+  dataStore.connect()
+  return dataStore
 }

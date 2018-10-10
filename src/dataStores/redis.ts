@@ -46,7 +46,7 @@ export class RedisDataStore implements IDataStore {
   constructor (az : Azarasi) {
     this.az = az
     this.db = new Redis(this.az.properties.redisUrl || 'redis://127.0.0.1/1', {
-      reconnectOnError: (e) => true,
+      reconnectOnError: () => true,
       lazyConnect: true
     })
     this.events = this.db.duplicate()
@@ -96,7 +96,7 @@ export class RedisDataStore implements IDataStore {
     await this.ensureReady()
     const result = await this.db.set(key, JSON.stringify(val))
     this.db.publish('AzUpdate', JSON.stringify({ key, val }))
-      .catch((e) => { this.az.logError(e) })
+      .catch((e : any) => { this.az.logError(e) })
     return result
   }
 
