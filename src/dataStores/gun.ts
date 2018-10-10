@@ -14,7 +14,6 @@ console.log = () => {}
 process.env.GUN_ENV = 'production'
 // @ts-ignore
 import Gun from 'gun'
-import { reject } from 'bluebird';
 Gun.log.off = true
 console.log = log
 
@@ -58,7 +57,7 @@ export class GunDataStore implements IDataStore {
    */
   createServer () {
     const port = this.az.properties.dbPort || 12920
-    const file = this.az.properties.dbFile || 'data.db'
+    const path = this.az.properties.dbPath || 'data'
 
     return new Promise((resolve, reject) => {
       // Create HTTP server
@@ -85,9 +84,9 @@ export class GunDataStore implements IDataStore {
       }).on('error', reject)
     })
     // Attach Gun endpoint
-    .then(srv => new Gun({ web: srv, file }))
+    .then(srv => new Gun({ web: srv, file: path }))
     .catch(e => {
-      if (e.code === 'EADDRINUSE') return new Gun({ peers: [`http://127.0.0.1:${port}/gun`], file })
+      if (e.code === 'EADDRINUSE') return new Gun({ peers: [`http://127.0.0.1:${port}/gun`], file: path })
     })
     .catch(e => {
       this.az.logError(`The port ${port} is in use by another process.`)
@@ -139,4 +138,3 @@ export class GunDataStore implements IDataStore {
     return sub
   }
 }
-

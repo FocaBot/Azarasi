@@ -177,8 +177,8 @@ export interface BotProperties {
    * temporary in-memory storage
    */
   dataStore? : 'redis' | 'gun' | 'memory'
-  /** Database file (Gun backend only) */
-  dbFile? : string
+  /** Database path (Gun backend only) */
+  dbPath? : string
   /** Database port (Gun backend only) */
   dbPort? : number
   /** Database URL (Redis backend only) */
