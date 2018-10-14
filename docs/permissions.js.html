@@ -64,7 +64,7 @@ class PermissionsManager {
    */
   hasRoles (roles, user, guild = user.guild) {
     if (!guild) return false // DMs have no guild object
-    const member = guild.members.find('id', user.id)
+    const member = guild.members.find(m => m.id === user.id)
     if (!member) return false // wut?
     const r = (typeof roles === 'string') ? [roles] : roles
     return member.roles.filterArray(i => r.indexOf(i.name) >= 0).length > 0
