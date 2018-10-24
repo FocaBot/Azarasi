@@ -49,7 +49,7 @@ export class Command {
   constructor (name : string, handler : CommandHandler)
   constructor (name : string, options : CommandOptions, handler: CommandHandler)
   constructor (name : string, arg1 : CommandOptions | CommandHandler, arg2? : CommandHandler) {
-    this.name = name
+    this.name = name.toLowerCase()
     if (typeof arg1 === 'function') {
       // The handler is the second argument
       this.handler = arg1

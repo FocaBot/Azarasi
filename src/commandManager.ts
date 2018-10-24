@@ -72,6 +72,10 @@ export class CommandManager {
       const aliases : string[] = [command.name].concat(command.aliases || [])
       aliases.forEach(alias => this.plain.set(alias, command))
     }
+    // Check if the command already exists and log a warning if it does.
+    if (this.registered.has(command.name)) {
+      this.az.log(`WARNING: A command called "${command.name}" already exists! The previous command will be overwritten.`)
+    }
     // Map command
     this.registered.set(command.name, command)
     
