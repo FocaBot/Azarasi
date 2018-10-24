@@ -47,9 +47,8 @@ export class Module {
    * Use this instead of [[CommandManager.register]] to let the module system
    * handle unloading/reloading for you.
    * 
-   * Aditionally, 
-   * 
    * @param name - Command name
+   * @param trigger - Regex trigger
    * @param options - Command options
    * @param handler - Command handler
    */
