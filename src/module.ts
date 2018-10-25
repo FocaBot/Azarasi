@@ -41,12 +41,15 @@ export class Module {
     this.id = id
     this.az = az
     this.bot = az.bot
+
     // Read module metadata and register commands and events defined by decorators
-    for (const cmd of Reflect.getMetadata(CommandMetaKey, this) as CommandMetadata[]) {
+    const commandMeta : CommandMetadata[] = Reflect.getMetadata(CommandMetaKey, this) || []
+    for (const cmd of commandMeta) {
       //@ts-ignore
       this.registerCommand(cmd.trigger || cmd.name, cmd.options, cmd.handler)
     }
-    for (const evt of Reflect.getMetadata(EventMetaKey, this) as EventMetadata[]) {
+    const eventMeta : EventMetadata[] = Reflect.getMetadata(EventMetaKey, this) || []
+    for (const evt of eventMeta) {
       this.registerEvent(evt.eventName, evt.handler)
     }
   }
