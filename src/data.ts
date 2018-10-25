@@ -4,6 +4,12 @@ import { GunDataStore } from './dataStores/gun'
 import { MemoryDataStore } from './dataStores/memory'
 import { Azarasi } from '.'
 
+/**
+ * Returns the appropriate data store depending on the configuration.
+ * @param az - Azarasi instance
+ * @constructor
+ * @hidden
+ */
 export default function GetDataStore(az : Azarasi) : IDataStore {
   let dataStore : IDataStore
 

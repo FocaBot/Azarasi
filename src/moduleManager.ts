@@ -253,6 +253,10 @@ export class ModuleManager {
   }
 }
 
+/**
+ * Contains information about a module's dependency.
+ * @hidden
+ */
 export interface ModuleDependency {
   module : string
   dependsOn : string

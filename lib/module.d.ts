@@ -37,21 +37,64 @@ export declare class Module {
      * Use this instead of [[CommandManager.register]] to let the module system
      * handle unloading/reloading for you.
      *
+     * An alternative decorator syntax is available: [@registerCommand](/globals.html#registercommand)
+     * (only available in TypeScript and ESNEXT for now)
      * @param name - Command name
-     * @param trigger - Regex trigger
      * @param options - Command options
      * @param handler - Command handler
      */
     registerCommand(name: string, options: CommandOptions, handler: CommandHandler): Command | boolean;
+    /**
+     * Registers a command bound to this module.
+     *
+     * Use this instead of [[CommandManager.register]] to let the module system
+     * handle unloading/reloading for you.
+     *
+     * An alternative decorator syntax is available: [@registerCommand](/globals.html#registercommand)
+     * (only available in TypeScript and ESNEXT for now)
+     * @param name - Command name
+     * @param handler - Command handler
+     */
     registerCommand(name: string, handler: CommandHandler): Command | boolean;
+    /**
+     * Registers a command bound to this module.
+     *
+     * Use this instead of [[CommandManager.register]] to let the module system
+     * handle unloading/reloading for you.
+     *
+     * An alternative decorator syntax is available: [@registerCommand](/globals.html#registercommand)
+     * (only available in TypeScript and ESNEXT for now)
+     * @param trigger - Regex trigger
+     * @param options - Command options
+     * @param handler - Command handler
+     */
     registerCommand(trigger: RegExp, options: CommandOptions, handler: CommandHandler): Command | boolean;
+    /**
+     * Registers a command bound to this module.
+     *
+     * Use this instead of [[CommandManager.register]] to let the module system
+     * handle unloading/reloading for you.
+     *
+     * An alternative decorator syntax is available: [@registerCommand](/globals.html#registercommand)
+     * (only available in TypeScript and ESNEXT for now)
+     * @param trigger - Regex trigger
+     * @param handler - Command handler
+     */
     registerCommand(trigger: RegExp, handler: CommandHandler): Command | boolean;
     /**
-     * Unregisters a command (only if it belongs to this module)
-     * @param command
+     * Unregisters a command (only if it belongs to this module).
+     * @param name - Command name
      */
     unregisterCommand(name: string): void;
+    /**
+     * Unregisters a command (only if it belongs to this module).
+     * @param trigger - RegExp trigger
+     */
     unregisterCommand(trigger: RegExp): void;
+    /**
+     * Unregisters a command (only if it belongs to this module).
+     * @param command - Command instance
+     */
     unregisterCommand(command: Command): void;
     /**
      * Registers a parameter into the settings schema
@@ -73,6 +116,8 @@ export declare class Module {
      * Additionally, for some discord-related events, the handler will not be called if the
      * module is disabled in the guild that triggered the event.
      *
+     * An alternative decorator syntax is available: [@registerEvent)(/globals.html#registerevent)
+     * (only available in TypeScript and ESNEXT for now)
      * @param name
      * Event name
      *  - If prefixed with `discord.`, (`discord.message`, for instance)
@@ -133,6 +178,10 @@ export declare class Module {
      */
     ready(): any;
 }
+/**
+ * Contains data about a module's event listener.
+ * @hidden
+ */
 export interface ModuleEvent {
     name: string;
     evName?: string;
@@ -141,15 +190,24 @@ export interface ModuleEvent {
     originalHandler: (...args: any[]) => any;
     type: ModuleEventType;
 }
+/** @hidden */
 export declare enum ModuleEventType {
     Azarasi = 0,
     Discord = 1,
     DataStore = 2
 }
+/**
+ * Current module state.
+ */
 export declare enum ModuleState {
+    /** The module is being loaded for the first time (or after a full unload) */
     Loading = 0,
+    /** The module is loaded and active. */
     Loaded = 1,
+    /** The module is currently unloading */
     Unloading = 2,
+    /** The module is currently reloading */
     Reloading = 3,
+    /** An error occurred during a reload. */
     Errored = 4
 }

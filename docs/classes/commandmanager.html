@@ -86,6 +86,7 @@
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="commandmanager.html#az" class="tsd-kind-icon">az</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="commandmanager.html#mentionregex" class="tsd-kind-icon">mention<wbr>Regex</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="commandmanager.html#plain" class="tsd-kind-icon">plain</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="commandmanager.html#regexes" class="tsd-kind-icon">regexes</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="commandmanager.html#registered" class="tsd-kind-icon">registered</a></li>
@@ -97,6 +98,7 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="commandmanager.html#get" class="tsd-kind-icon">get</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="commandmanager.html#processmessage" class="tsd-kind-icon">process<wbr>Message</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="commandmanager.html#register" class="tsd-kind-icon">register</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="commandmanager.html#run" class="tsd-kind-icon">run</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="commandmanager.html#unregister" class="tsd-kind-icon">unregister</a></li>
 							</ul>
 						</section>
@@ -115,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:140</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L14">commandManager.ts:14</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -137,7 +139,7 @@
 					<div class="tsd-signature tsd-kind-icon">az<span class="tsd-signature-symbol">:</span> <a href="azarasi.html" class="tsd-signature-type">Azarasi</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in commands.ts:134</li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L7">commandManager.ts:7</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -146,13 +148,23 @@
 						</div>
 					</div>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
+					<a name="mentionregex" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> mention<wbr>Regex</h3>
+					<div class="tsd-signature tsd-kind-icon">mention<wbr>Regex<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">RegExp</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L8">commandManager.ts:8</a></li>
+						</ul>
+					</aside>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="plain" class="tsd-anchor"></a>
 					<h3>plain</h3>
-					<div class="tsd-signature tsd-kind-icon">plain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, BotCommand&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">plain<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in commands.ts:138</li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L12">commandManager.ts:12</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -164,10 +176,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="regexes" class="tsd-anchor"></a>
 					<h3>regexes</h3>
-					<div class="tsd-signature tsd-kind-icon">regexes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;RegExp, BotCommand&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">regexes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">, </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in commands.ts:140</li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L14">commandManager.ts:14</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -179,10 +191,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="registered" class="tsd-anchor"></a>
 					<h3>registered</h3>
-					<div class="tsd-signature tsd-kind-icon">registered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, BotCommand&gt;()</span></div>
+					<div class="tsd-signature tsd-kind-icon">registered<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in commands.ts:136</li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L10">commandManager.ts:10</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -198,13 +210,13 @@
 					<a name="get" class="tsd-anchor"></a>
 					<h3>get</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:203</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L105">commandManager.ts:105</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -221,7 +233,7 @@
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a>
 								<span class="tsd-signature-symbol"> | </span>
 								<span class="tsd-signature-type">undefined</span>
 							</h4>
@@ -232,13 +244,13 @@
 					<a name="processmessage" class="tsd-anchor"></a>
 					<h3>process<wbr>Message</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">process<wbr>Message<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Discord.Message</span>, content<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">process<wbr>Message<span class="tsd-signature-symbol">(</span>msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Discord.Message</span>, content<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:238</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L149">commandManager.ts:149</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -255,13 +267,13 @@
 									</div>
 								</li>
 								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> content: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> content: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> =&nbsp;msg.content</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<p>Overrides msg.content</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -269,123 +281,213 @@
 					<a name="register" class="tsd-anchor"></a>
 					<h3>register</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a>, handler<span class="tsd-signature-symbol">: </span><a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a>, handler<span class="tsd-signature-symbol">: </span><a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a></li>
-						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span>, handler<span class="tsd-signature-symbol">: </span><a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommandHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span>, options<span class="tsd-signature-symbol">: </span><a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommandHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommandHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span>, handler<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">CommandHandler</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:155</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L27">commandManager.ts:27</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Register command(s)</p>
+									<p>Register a command and link it to this Azarasi instance.</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>command: <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h5>
+									<h5>command: <a href="command.html" class="tsd-signature-type">Command</a></h5>
 									<div class="tsd-comment tsd-typography">
-										<p><a href="azarasi.html#botcommand">BotCommand</a> instance to register</p>
+										<p><a href="azarasi.html#command">Command</a> instance to register</p>
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:156</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L32">commandManager.ts:32</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register an array of commands and link them to this Azarasi instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>commands: <a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>commands: <a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Array of <a href="azarasi.html#command">Command</a> instances to register</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:157</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L39">commandManager.ts:39</a></li>
 								</ul>
 							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>name: <span class="tsd-signature-type">string</span></h5>
-								</li>
-								<li>
-									<h5>options: <a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
-								</li>
-								<li>
-									<h5>handler: <a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in commands.ts:158</li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
-								</li>
-								<li>
-									<h5>options: <a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
-								</li>
-								<li>
-									<h5>handler: <a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h4>
-						</li>
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in commands.ts:159</li>
-								</ul>
-							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a command.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command name</p>
+									</div>
 								</li>
 								<li>
-									<h5>handler: <a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a></h5>
+									<h5>options: <a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command options</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">CommandHandler</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command handler</p>
+									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h4>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a></h4>
 						</li>
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:160</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L46">commandManager.ts:46</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a regex triggered command.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command trigger</p>
+									</div>
+								</li>
+								<li>
+									<h5>options: <a href="../interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command options</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">CommandHandler</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command handler</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L52">commandManager.ts:52</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a command with the default options.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command name</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">CommandHandler</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command handler</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L58">commandManager.ts:58</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Register a regex triggered command with the default options.</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command trigger</p>
+									</div>
+								</li>
+								<li>
+									<h5>handler: <span class="tsd-signature-type">CommandHandler</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command handler</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="command.html" class="tsd-signature-type">Command</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="run" class="tsd-anchor"></a>
+					<h3>run</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">run<span class="tsd-signature-symbol">(</span>cmd<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span>, msg<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Discord.Message</span>, args<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExpExecArray</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L199">commandManager.ts:199</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
+									<h5>cmd: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExp</span></h5>
 								</li>
 								<li>
-									<h5>handler: <a href="../globals.html#commandhandler" class="tsd-signature-type">CommandHandler</a></h5>
+									<h5>msg: <span class="tsd-signature-type">Discord.Message</span></h5>
+								</li>
+								<li>
+									<h5>args: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">RegExpExecArray</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">undefined</span>
+								<span class="tsd-signature-symbol"> | </span>
+								<span class="tsd-signature-type">false</span>
+							</h4>
 						</li>
 					</ul>
 				</section>
@@ -395,19 +497,19 @@
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
 						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>command<span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">unregister<span class="tsd-signature-symbol">(</span>commands<span class="tsd-signature-symbol">: </span><a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:215</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L114">commandManager.ts:114</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Unregisters command(s)</p>
+									<p>Unregisters a command</p>
 								</div>
 							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -415,7 +517,7 @@
 								<li>
 									<h5>name: <span class="tsd-signature-type">string</span></h5>
 									<div class="tsd-comment tsd-typography">
-										<p>The command to unregister (name)</p>
+										<p>Command to unregister (name)</p>
 									</div>
 								</li>
 							</ul>
@@ -424,13 +526,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:216</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L119">commandManager.ts:119</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters a regex triggered command.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command to unregister (RegExp trigger)</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -438,13 +548,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:217</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L124">commandManager.ts:124</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters a command instance.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>command: <a href="botcommand.html" class="tsd-signature-type">BotCommand</a></h5>
+									<h5>command: <a href="command.html" class="tsd-signature-type">Command</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command instance to unregister</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -452,13 +570,21 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in commands.ts:218</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/commandManager.ts#L129">commandManager.ts:129</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Unregisters multiple command instances.</p>
+								</div>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>commands: <a href="botcommand.html" class="tsd-signature-type">BotCommand</a><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>commands: <a href="command.html" class="tsd-signature-type">Command</a><span class="tsd-signature-symbol">[]</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command instances to unregister</p>
+									</div>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -477,11 +603,14 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="../enums/modulestate.html" class="tsd-kind-icon">Module<wbr>State</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="azarasi.html" class="tsd-kind-icon">Azarasi</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="botcommand.html" class="tsd-kind-icon">Bot<wbr>Command</a>
+						<a href="command.html" class="tsd-kind-icon">Command</a>
 					</li>
 				</ul>
 				<ul class="current">
@@ -493,6 +622,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="commandmanager.html#az" class="tsd-kind-icon">az</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
+								<a href="commandmanager.html#mentionregex" class="tsd-kind-icon">mention<wbr>Regex</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="commandmanager.html#plain" class="tsd-kind-icon">plain</a>
@@ -511,6 +643,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="commandmanager.html#register" class="tsd-kind-icon">register</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="commandmanager.html#run" class="tsd-kind-icon">run</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="commandmanager.html#unregister" class="tsd-kind-icon">unregister</a>
@@ -538,6 +673,12 @@
 						<a href="memorydatastore.html" class="tsd-kind-icon">Memory<wbr>Data<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="module.html" class="tsd-kind-icon">Module</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="modulemanager.html" class="tsd-kind-icon">Module<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="permissionhelper.html" class="tsd-kind-icon">Permission<wbr>Helper</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -546,13 +687,13 @@
 					<li class=" tsd-kind-class">
 						<a href="settingsmanager.html" class="tsd-kind-icon">Settings<wbr>Manager</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="../interfaces/commandhandlerargs.html" class="tsd-kind-icon">Command<wbr>Handler<wbr>Args</a>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
+					<li class=" tsd-kind-interface">
 						<a href="../interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -570,11 +711,11 @@
 					<li class=" tsd-kind-interface">
 						<a href="../interfaces/userpermissions.html" class="tsd-kind-icon">User<wbr>Permissions</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="../globals.html#commandhandler" class="tsd-kind-icon">Command<wbr>Handler</a>
+					<li class=" tsd-kind-function">
+						<a href="../globals.html#registercommand" class="tsd-kind-icon">register<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="../globals.html#getdatastore" class="tsd-kind-icon">Get<wbr>Data<wbr>Store</a>
+						<a href="../globals.html#registerevent" class="tsd-kind-icon">register<wbr>Event</a>
 					</li>
 				</ul>
 			</nav>

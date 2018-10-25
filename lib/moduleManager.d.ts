@@ -67,6 +67,10 @@ export declare class ModuleManager {
      */
     isModuleDisabledForGuild(guild: Discord.Guild, module: Module | string): Promise<boolean>;
 }
+/**
+ * Contains information about a module's dependency.
+ * @hidden
+ */
 export interface ModuleDependency {
     module: string;
     dependsOn: string;

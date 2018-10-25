@@ -66,10 +66,16 @@
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
+							<h3>Enumerations</h3>
+							<ul class="tsd-index-list">
+								<li class="tsd-kind-enum"><a href="enums/modulestate.html" class="tsd-kind-icon">Module<wbr>State</a></li>
+							</ul>
+						</section>
+						<section class="tsd-index-section ">
 							<h3>Classes</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-class"><a href="classes/azarasi.html" class="tsd-kind-icon">Azarasi</a></li>
-								<li class="tsd-kind-class"><a href="classes/botcommand.html" class="tsd-kind-icon">Bot<wbr>Command</a></li>
+								<li class="tsd-kind-class"><a href="classes/command.html" class="tsd-kind-icon">Command</a></li>
 								<li class="tsd-kind-class"><a href="classes/commandmanager.html" class="tsd-kind-icon">Command<wbr>Manager</a></li>
 								<li class="tsd-kind-class"><a href="classes/guild.html" class="tsd-kind-icon">Guild</a></li>
 								<li class="tsd-kind-class"><a href="classes/guildmanager.html" class="tsd-kind-icon">Guild<wbr>Manager</a></li>
@@ -77,6 +83,8 @@
 								<li class="tsd-kind-class"><a href="classes/locale.html" class="tsd-kind-icon">Locale</a></li>
 								<li class="tsd-kind-class"><a href="classes/localemanager.html" class="tsd-kind-icon">Locale<wbr>Manager</a></li>
 								<li class="tsd-kind-class"><a href="classes/memorydatastore.html" class="tsd-kind-icon">Memory<wbr>Data<wbr>Store</a></li>
+								<li class="tsd-kind-class"><a href="classes/module.html" class="tsd-kind-icon">Module</a></li>
+								<li class="tsd-kind-class"><a href="classes/modulemanager.html" class="tsd-kind-icon">Module<wbr>Manager</a></li>
 								<li class="tsd-kind-class"><a href="classes/permissionhelper.html" class="tsd-kind-icon">Permission<wbr>Helper</a></li>
 								<li class="tsd-kind-class"><a href="classes/redisdatastore.html" class="tsd-kind-icon">Redis<wbr>Data<wbr>Store</a></li>
 								<li class="tsd-kind-class"><a href="classes/settingsmanager.html" class="tsd-kind-icon">Settings<wbr>Manager</a></li>
@@ -85,9 +93,9 @@
 						<section class="tsd-index-section ">
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a></li>
-								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/commandhandlerargs.html" class="tsd-kind-icon">Command<wbr>Handler<wbr>Args</a></li>
-								<li class="tsd-kind-interface tsd-is-not-exported"><a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/guilddata.html" class="tsd-kind-icon">Guild<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/idatastore.html" class="tsd-kind-icon">IData<wbr>Store</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/parameter.html" class="tsd-kind-icon">Parameter</a></li>
@@ -95,77 +103,354 @@
 								<li class="tsd-kind-interface"><a href="interfaces/userpermissions.html" class="tsd-kind-icon">User<wbr>Permissions</a></li>
 							</ul>
 						</section>
-						<section class="tsd-index-section tsd-is-not-exported">
-							<h3>Type aliases</h3>
-							<ul class="tsd-index-list">
-								<li class="tsd-kind-type-alias tsd-is-not-exported"><a href="globals.html#commandhandler" class="tsd-kind-icon">Command<wbr>Handler</a></li>
-							</ul>
-						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function"><a href="globals.html#getdatastore" class="tsd-kind-icon">Get<wbr>Data<wbr>Store</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#registercommand" class="tsd-kind-icon">register<wbr>Command</a></li>
+								<li class="tsd-kind-function"><a href="globals.html#registerevent" class="tsd-kind-icon">register<wbr>Event</a></li>
 							</ul>
 						</section>
-					</div>
-				</section>
-			</section>
-			<section class="tsd-panel-group tsd-member-group tsd-is-not-exported">
-				<h2>Type aliases</h2>
-				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-is-not-exported">
-					<a name="commandhandler" class="tsd-anchor"></a>
-					<h3>Command<wbr>Handler</h3>
-					<div class="tsd-signature tsd-kind-icon">Command<wbr>Handler<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in commands.ts:242</li>
-						</ul>
-					</aside>
-					<div class="tsd-type-declaration">
-						<h4>Type declaration</h4>
-						<ul class="tsd-parameters">
-							<li class="tsd-parameter-siganture">
-								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>args<span class="tsd-signature-symbol">: </span><a href="interfaces/commandhandlerargs.html" class="tsd-signature-type">CommandHandlerArgs</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
-								</ul>
-								<ul class="tsd-descriptions">
-									<li class="tsd-description">
-										<h4 class="tsd-parameters-title">Parameters</h4>
-										<ul class="tsd-parameters">
-											<li>
-												<h5>args: <a href="interfaces/commandhandlerargs.html" class="tsd-signature-type">CommandHandlerArgs</a></h5>
-											</li>
-										</ul>
-										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
-									</li>
-								</ul>
-							</li>
-						</ul>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function">
-					<a name="getdatastore" class="tsd-anchor"></a>
-					<h3>Get<wbr>Data<wbr>Store</h3>
+					<a name="registercommand" class="tsd-anchor"></a>
+					<h3>register<wbr>Command</h3>
 					<ul class="tsd-signatures tsd-kind-function">
-						<li class="tsd-signature tsd-kind-icon">Get<wbr>Data<wbr>Store<span class="tsd-signature-symbol">(</span>az<span class="tsd-signature-symbol">: </span><a href="classes/azarasi.html" class="tsd-signature-type">Azarasi</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="interfaces/idatastore.html" class="tsd-signature-type">IDataStore</a></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Command<span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Command<span class="tsd-signature-symbol">(</span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, options<span class="tsd-signature-symbol">?: </span><a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Command<span class="tsd-signature-symbol">(</span>trigger<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">RegExp</span>, options<span class="tsd-signature-symbol">?: </span><a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Command<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">?: </span><a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in data.ts:7</li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L58">decorators.ts:58</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registercommand">Module.registerCommand</a></p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>By default, the command name will be the same as the method name, but this can be
+								overridden by explicitly specifying it.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerCommand</span> ping ({ msg } : CommandArgs) {
+    msg.reply(<span class="hljs-string">'Pong!'</span>)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>az: <a href="classes/azarasi.html" class="tsd-signature-type">Azarasi</a></h5>
+									<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+								</li>
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <a href="interfaces/idatastore.html" class="tsd-signature-type">IDataStore</a></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L80">decorators.ts:80</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registercommand">Module.registerCommand</a> with custom name and options.</p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>Use this syntax if you want the command name to be different from the method name.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerCommand</span>(<span class="hljs-string">'superPing'</span>, { adminOnly: <span class="hljs-literal">true</span> })
+  unrelatedName ({ msg } : CommandArgs) {
+    msg.reply(<span class="hljs-string">'Super Pong!'</span>)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>name: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Custom command name</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Command options</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+												</li>
+												<li>
+													<h5>name: <span class="tsd-signature-type">string</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L102">decorators.ts:102</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registercommand">Module.registerCommand</a> with a RegExp trigger.</p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>Use this syntax if you want the command to be triggered when a message matches a regular expression.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerCommand</span>(<span class="hljs-regexp">/^bada bing$/</span>)
+  insertOldGreentextReference ({ msg } : CommandArgs) {
+    msg.reply(<span class="hljs-string">'bada boom!'</span>)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>trigger: <span class="tsd-signature-type">RegExp</span></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Regular expression that triggers this command.</p>
+									</div>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
+									<div class="tsd-comment tsd-typography">
+										<p>Custom command options</p>
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+												</li>
+												<li>
+													<h5>name: <span class="tsd-signature-type">string</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L122">decorators.ts:122</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registercommand">Module.registerCommand</a> with custom options.</p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>Use this syntax if you want the command name to be the same as the method name, but still want to use custom options.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerCommand</span>({ ownerOnly: <span class="hljs-literal">true</span> })
+  omegaPing ({ msg } : CommandArgs) {
+    msg.reply(<span class="hljs-string">'Omega Pong!'</span>)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> options: <a href="interfaces/commandoptions.html" class="tsd-signature-type">CommandOptions</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+												</li>
+												<li>
+													<h5>name: <span class="tsd-signature-type">string</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function">
+					<a name="registerevent" class="tsd-anchor"></a>
+					<h3>register<wbr>Event</h3>
+					<ul class="tsd-signatures tsd-kind-function">
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Event<span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, evt<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">register<wbr>Event<span class="tsd-signature-symbol">(</span>evt<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">function</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L170">decorators.ts:170</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registerevent">Module.registerEvent</a></p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>The event name will be the same as the method name unless a name is explicitly set.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerEvent } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Example <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerEvent</span> customEvent () {
+    <span class="hljs-keyword">this</span>.az.log(<span class="hljs-string">'customEvent triggered!'</span>)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+								</li>
+								<li>
+									<h5>evt: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+						</li>
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L190">decorators.ts:190</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Decorator syntax for <a href="classes/module.html#registerevent">Module.registerEvent</a></p>
+								</div>
+								<p>Can only be applied to methods in a module class.</p>
+								<p>Use this syntax to listen to an event other than the method&#39;s name.</p>
+								<dl class="tsd-comment-tags">
+									<dt>example</dt>
+									<dd><pre><code class="lang-typescript">
+<span class="hljs-keyword">import</span> { registerEvent } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Echo <span class="hljs-keyword">extends</span> Azarasi.Module {
+  <span class="hljs-meta">@registerEvent</span>(<span class="hljs-string">'discord.message'</span>)
+  handleMessage (msg : Discord.Message) {
+    msg.channel.send(msg.content)
+  }
+}
+</code></pre>
+									</dd>
+								</dl>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> evt: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">function</span></h4>
+							<ul class="tsd-parameters">
+								<li class="tsd-parameter-siganture">
+									<ul class="tsd-signatures tsd-kind-type-literal tsd-is-not-exported">
+										<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>mod<span class="tsd-signature-symbol">: </span><a href="classes/module.html" class="tsd-signature-type">Module</a>, name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+									</ul>
+									<ul class="tsd-descriptions">
+										<li class="tsd-description">
+											<h4 class="tsd-parameters-title">Parameters</h4>
+											<ul class="tsd-parameters">
+												<li>
+													<h5>mod: <a href="classes/module.html" class="tsd-signature-type">Module</a></h5>
+												</li>
+												<li>
+													<h5>name: <span class="tsd-signature-type">string</span></h5>
+												</li>
+											</ul>
+											<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+										</li>
+									</ul>
+								</li>
+							</ul>
 						</li>
 					</ul>
 				</section>
@@ -181,11 +466,14 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
+					<li class=" tsd-kind-enum">
+						<a href="enums/modulestate.html" class="tsd-kind-icon">Module<wbr>State</a>
+					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/azarasi.html" class="tsd-kind-icon">Azarasi</a>
 					</li>
 					<li class=" tsd-kind-class">
-						<a href="classes/botcommand.html" class="tsd-kind-icon">Bot<wbr>Command</a>
+						<a href="classes/command.html" class="tsd-kind-icon">Command</a>
 					</li>
 					<li class=" tsd-kind-class">
 						<a href="classes/commandmanager.html" class="tsd-kind-icon">Command<wbr>Manager</a>
@@ -209,6 +497,12 @@
 						<a href="classes/memorydatastore.html" class="tsd-kind-icon">Memory<wbr>Data<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-class">
+						<a href="classes/module.html" class="tsd-kind-icon">Module</a>
+					</li>
+					<li class=" tsd-kind-class">
+						<a href="classes/modulemanager.html" class="tsd-kind-icon">Module<wbr>Manager</a>
+					</li>
+					<li class=" tsd-kind-class">
 						<a href="classes/permissionhelper.html" class="tsd-kind-icon">Permission<wbr>Helper</a>
 					</li>
 					<li class=" tsd-kind-class">
@@ -217,13 +511,13 @@
 					<li class=" tsd-kind-class">
 						<a href="classes/settingsmanager.html" class="tsd-kind-icon">Settings<wbr>Manager</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
-						<a href="interfaces/commandhandlerargs.html" class="tsd-kind-icon">Command<wbr>Handler<wbr>Args</a>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
 					</li>
-					<li class=" tsd-kind-interface tsd-is-not-exported">
+					<li class=" tsd-kind-interface">
 						<a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
@@ -241,11 +535,11 @@
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/userpermissions.html" class="tsd-kind-icon">User<wbr>Permissions</a>
 					</li>
-					<li class=" tsd-kind-type-alias tsd-is-not-exported">
-						<a href="globals.html#commandhandler" class="tsd-kind-icon">Command<wbr>Handler</a>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#registercommand" class="tsd-kind-icon">register<wbr>Command</a>
 					</li>
 					<li class=" tsd-kind-function">
-						<a href="globals.html#getdatastore" class="tsd-kind-icon">Get<wbr>Data<wbr>Store</a>
+						<a href="globals.html#registerevent" class="tsd-kind-icon">register<wbr>Event</a>
 					</li>
 				</ul>
 			</nav>

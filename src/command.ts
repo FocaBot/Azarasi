@@ -139,8 +139,15 @@ export class Command {
   }
 }
 
+/**
+ * The function that gets executed when the command is triggered.
+ * @hidden
+ */
 export type CommandHandler = (args : CommandArgs) => void
 
+/**
+ * Command arguments passed to all command handlers.
+ */
 export interface CommandArgs {
   /** Message */
   msg : Discord.Message
@@ -159,7 +166,6 @@ export interface CommandArgs {
   /** Azarasi instance */
   core : Azarasi
 }
-
 // Long aliases
 export interface CommandArgs {
   /** Message (long alias) */
@@ -199,6 +205,9 @@ export interface CommandArgs {
   az : Azarasi
 }
 
+/**
+ * Custom Command Options
+ */
 export interface CommandOptions {
   /** Command aliases */
   aliases? : string[]

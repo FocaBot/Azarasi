@@ -58,8 +58,11 @@ export class Locale {
    * Each argument replaces {n} in the input template.
    * @param template - Template string
    * @example
+   * ```typescript
+   *
    * locale.gen("User {1} joined the server!", "TheBITLINK") // User TheBITLINK joined the server!
    * locale.gen("Not enough votes ({1}/{2})", count, required) // Not enough votes (4/9)
+   * ```
    */
   gen (template : string, ...args : string[]) {
     return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])
@@ -71,9 +74,12 @@ export class Locale {
    * Each argument replaces {n} in the input template.
    * @param template - Template string
    * @example
+   * ```typescript
+   *
    * locale.gen("User {1} joined the server!", "TheBITLINK") // User TheBITLINK joined the server!
    * locale.gen("Not enough votes ({1}/{2})", count, required) // Not enough votes (4/9)
    * locale.ugen("This is a {1} mention", '@here') // This is a @here mention
+   * ```
    */
   ugen (template : string, ...args : string[]) {
     return template.replace(/\{(\d+)\}/g, (m, index) => arguments[index])

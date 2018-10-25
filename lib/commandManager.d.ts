@@ -13,19 +13,40 @@ export declare class CommandManager {
     regexes: Map<RegExp, Command>;
     constructor(az: Azarasi);
     /**
-     * Register command(s)
+     * Register a command and link it to this Azarasi instance.
      * @param command - [[Command]] instance to register
+     */
+    register(command: Command): Command;
+    /**
+     * Register an array of commands and link them to this Azarasi instance.
      * @param commands - Array of [[Command]] instances to register
+     */
+    register(commands: Command[]): Command[];
+    /**
+     * Register a command.
      * @param name - Command name
-     * @param trigger - Command trigger (RegExp)
      * @param options - Command options
      * @param handler - Command handler
      */
-    register(command: Command): Command;
-    register(commands: Command[]): Command[];
     register(name: string, options: CommandOptions, handler: CommandHandler): Command;
+    /**
+     * Register a regex triggered command.
+     * @param trigger - Command trigger
+     * @param options - Command options
+     * @param handler - Command handler
+     */
     register(trigger: RegExp, options: CommandOptions, handler: CommandHandler): Command;
+    /**
+     * Register a command with the default options.
+     * @param name - Command name
+     * @param handler - Command handler
+     */
     register(name: string, handler: CommandHandler): Command;
+    /**
+     * Register a regex triggered command with the default options.
+     * @param trigger - Command trigger
+     * @param handler - Command handler
+     */
     register(trigger: RegExp, handler: CommandHandler): Command;
     /**
      * Find a command by its key (name, alias, regex)
@@ -33,15 +54,24 @@ export declare class CommandManager {
      */
     get(key: string | RegExp): Command | undefined;
     /**
-     * Unregisters command(s)
-     * @param name - The command to unregister (name)
-     * @param trigger - The command to unregister (regex)
-     * @param command - The command to unregister
-     * @param commands - The commands to unregister
+     * Unregisters a command
+     * @param name - Command to unregister (name)
      */
     unregister(name: string): void;
+    /**
+     * Unregisters a regex triggered command.
+     * @param trigger - Command to unregister (RegExp trigger)
+     */
     unregister(trigger: RegExp): void;
+    /**
+     * Unregisters a command instance.
+     * @param command - Command instance to unregister
+     */
     unregister(command: Command): void;
+    /**
+     * Unregisters multiple command instances.
+     * @param commands - Command instances to unregister
+     */
     unregister(commands: Command[]): void;
     /**
      * Process a message

@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Parameter | azarasi</title>
+	<title>ModuleState | azarasi</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -54,131 +54,114 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="parameter.html">Parameter</a>
+					<a href="modulestate.html">ModuleState</a>
 				</li>
 			</ul>
-			<h1>Interface Parameter</h1>
+			<h1>Enumeration ModuleState</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">Parameter</span>
-					</li>
-				</ul>
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Current module state.</p>
+					</div>
+				</div>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Enumeration members</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#def" class="tsd-kind-icon">def</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#integer" class="tsd-kind-icon">integer</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#max" class="tsd-kind-icon">max</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#min" class="tsd-kind-icon">min</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#module" class="tsd-kind-icon">module</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="parameter.html#type" class="tsd-kind-icon">type</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="modulestate.html#errored" class="tsd-kind-icon">Errored</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="modulestate.html#loaded" class="tsd-kind-icon">Loaded</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="modulestate.html#loading" class="tsd-kind-icon">Loading</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="modulestate.html#reloading" class="tsd-kind-icon">Reloading</a></li>
+								<li class="tsd-kind-enum-member tsd-parent-kind-enum"><a href="modulestate.html#unloading" class="tsd-kind-icon">Unloading</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="def" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> def</h3>
-					<div class="tsd-signature tsd-kind-icon">def<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+				<h2>Enumeration members</h2>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="errored" class="tsd-anchor"></a>
+					<h3>Errored</h3>
+					<div class="tsd-signature tsd-kind-icon">Errored<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L201">settings.ts:201</a></li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/module.ts#L362">module.ts:362</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Default value</p>
+							<p>An error occurred during a reload.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="integer" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> integer</h3>
-					<div class="tsd-signature tsd-kind-icon">integer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="loaded" class="tsd-anchor"></a>
+					<h3>Loaded</h3>
+					<div class="tsd-signature tsd-kind-icon">Loaded<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L207">settings.ts:207</a></li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/module.ts#L356">module.ts:356</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Accept integers only (numbers)</p>
+							<p>The module is loaded and active.</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="max" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> max</h3>
-					<div class="tsd-signature tsd-kind-icon">max<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="loading" class="tsd-anchor"></a>
+					<h3>Loading</h3>
+					<div class="tsd-signature tsd-kind-icon">Loading<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L205">settings.ts:205</a></li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/module.ts#L354">module.ts:354</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Maximum value (numbers) or length (strings)</p>
+							<p>The module is being loaded for the first time (or after a full unload)</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="min" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> min</h3>
-					<div class="tsd-signature tsd-kind-icon">min<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="reloading" class="tsd-anchor"></a>
+					<h3>Reloading</h3>
+					<div class="tsd-signature tsd-kind-icon">Reloading<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L203">settings.ts:203</a></li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/module.ts#L360">module.ts:360</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Minimum value (numbers) or length (strings)</p>
+							<p>The module is currently reloading</p>
 						</div>
 					</div>
 				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="module" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> module</h3>
-					<div class="tsd-signature tsd-kind-icon">module<span class="tsd-signature-symbol">:</span> <a href="../classes/module.html" class="tsd-signature-type">Module</a></div>
+				<section class="tsd-panel tsd-member tsd-kind-enum-member tsd-parent-kind-enum">
+					<a name="unloading" class="tsd-anchor"></a>
+					<h3>Unloading</h3>
+					<div class="tsd-signature tsd-kind-icon">Unloading<span class="tsd-signature-symbol">:</span> </div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L209">settings.ts:209</a></li>
+							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/module.ts#L358">module.ts:358</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
-							<p>Associated module</p>
-						</div>
-					</div>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="type" class="tsd-anchor"></a>
-					<h3>type</h3>
-					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">BooleanConstructor</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StringConstructor</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">NumberConstructor</span><span class="tsd-signature-symbol"> | </span><a href="../classes/locale.html" class="tsd-signature-type">Locale</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">VoiceChannel</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">TextChannel</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">User</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/settings.ts#L192">settings.ts:192</a></li>
-						</ul>
-					</aside>
-					<div class="tsd-comment tsd-typography">
-						<div class="lead">
-							<p>Parameter type</p>
+							<p>The module is currently unloading</p>
 						</div>
 					</div>
 				</section>
@@ -194,9 +177,30 @@
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-enum">
-						<a href="../enums/modulestate.html" class="tsd-kind-icon">Module<wbr>State</a>
+				</ul>
+				<ul class="current">
+					<li class="current tsd-kind-enum">
+						<a href="modulestate.html" class="tsd-kind-icon">Module<wbr>State</a>
+						<ul>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="modulestate.html#errored" class="tsd-kind-icon">Errored</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="modulestate.html#loaded" class="tsd-kind-icon">Loaded</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="modulestate.html#loading" class="tsd-kind-icon">Loading</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="modulestate.html#reloading" class="tsd-kind-icon">Reloading</a>
+							</li>
+							<li class=" tsd-kind-enum-member tsd-parent-kind-enum">
+								<a href="modulestate.html#unloading" class="tsd-kind-icon">Unloading</a>
+							</li>
+						</ul>
 					</li>
+				</ul>
+				<ul class="after-current">
 					<li class=" tsd-kind-class">
 						<a href="../classes/azarasi.html" class="tsd-kind-icon">Azarasi</a>
 					</li>
@@ -240,52 +244,28 @@
 						<a href="../classes/settingsmanager.html" class="tsd-kind-icon">Settings<wbr>Manager</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
+						<a href="../interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
+						<a href="../interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>
+						<a href="../interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="guilddata.html" class="tsd-kind-icon">Guild<wbr>Data</a>
+						<a href="../interfaces/guilddata.html" class="tsd-kind-icon">Guild<wbr>Data</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="idatastore.html" class="tsd-kind-icon">IData<wbr>Store</a>
-					</li>
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface">
-						<a href="parameter.html" class="tsd-kind-icon">Parameter</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#def" class="tsd-kind-icon">def</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#integer" class="tsd-kind-icon">integer</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#max" class="tsd-kind-icon">max</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#min" class="tsd-kind-icon">min</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#module" class="tsd-kind-icon">module</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="parameter.html#type" class="tsd-kind-icon">type</a>
-							</li>
-						</ul>
-					</li>
-				</ul>
-				<ul class="after-current">
-					<li class=" tsd-kind-interface">
-						<a href="settings.html" class="tsd-kind-icon">Settings</a>
+						<a href="../interfaces/idatastore.html" class="tsd-kind-icon">IData<wbr>Store</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="userpermissions.html" class="tsd-kind-icon">User<wbr>Permissions</a>
+						<a href="../interfaces/parameter.html" class="tsd-kind-icon">Parameter</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/settings.html" class="tsd-kind-icon">Settings</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="../interfaces/userpermissions.html" class="tsd-kind-icon">User<wbr>Permissions</a>
 					</li>
 					<li class=" tsd-kind-function">
 						<a href="../globals.html#registercommand" class="tsd-kind-icon">register<wbr>Command</a>
