@@ -1,5 +1,39 @@
+import 'reflect-metadata'
 import { Module } from './module'
 import { CommandOptions } from './command'
+
+/** Key for command metadata */
+export const CommandMetaKey = Symbol('azarasiCommand')
+/** Command metadata structure */
+export interface CommandMetadata {
+  name : string,
+  trigger ?: RegExp,
+  options : CommandOptions
+  handler : ()=> any
+}
+
+/** Key for event metadata */
+export const EventMetaKey = Symbol('azarasiEvent')
+/** Event metadata structure */
+export interface EventMetadata {
+  eventName : string,
+  handler : ()=> any
+}
+
+/**
+ * Helper function to define metadata.
+ * @param target - Target object
+ * @param key - Target key
+ * @param obj - Metadata to push
+ */
+function pushMetadata<T>(target : object, key : symbol, obj : T) {
+  const metadata : T[]  = Reflect.getMetadata(key, target)
+  if (metadata) {
+    metadata.push(obj)
+  } else {
+    Reflect.defineMetadata(key, [ obj ], target)
+  }
+}
 
 /**
  * Decorator syntax for module.registerCommand()
@@ -12,26 +46,36 @@ import { CommandOptions } from './command'
  * @param trigger - RegExp trigger.
  * @param options - Command options.
  */
+export function registerCommand(mod : Module, name : string) : void
 export function registerCommand(name : string, options ?: CommandOptions) : (mod : Module, name : string)=> void
 export function registerCommand(trigger : RegExp, options ?: CommandOptions) : (mod : Module, name : string)=> void
 export function registerCommand(options ?: CommandOptions) : (mod : Module, name : string)=> void
-export function registerCommand(arg1 ?: string | RegExp | CommandOptions, arg2 ?: CommandOptions) {
-  return function (mod : Module, name : string) {
+export function registerCommand(arg1 ?: string | RegExp | CommandOptions | Module, arg2 ?: CommandOptions | string) {
+  const injectMetadata = function (mod : Module, name : string) {
     //@ts-ignore
     const target = mod[name]
-    let nameOrTrigger : string | RegExp = name
-    let commandOptions : CommandOptions = {}
+    if (typeof target !== 'function') throw new Error('@registerCommand can only be used in module methods.')
 
-    if (typeof target !== 'function') throw new Error('@registerCommand() can only be used in module methods.')
-    if (typeof arg1 === 'string' || arg1 instanceof RegExp) {
-      nameOrTrigger = arg1
-      if (typeof arg2 === 'object') commandOptions = arg2
-    } else if (typeof arg1 === 'object') {
-      commandOptions = arg1
+    const meta : CommandMetadata = {
+      name: typeof arg1 === 'string' ? arg1 : name,
+      trigger: arg1 instanceof RegExp ? arg1 : undefined,
+      options: {},
+      handler: target
     }
 
-    //@ts-ignore
-    mod.registerCommand(nameOrTrigger, commandOptions, target)
+    if (typeof arg2 === 'object') {
+      meta.options = arg2
+    } else if (typeof arg1 === 'object' && !(arg1 instanceof Module || arg1 instanceof RegExp)) {
+      meta.options = arg1
+    }
+
+    pushMetadata(mod, CommandMetaKey, meta)
+  }
+
+  if (arg1 instanceof Module && typeof arg2 === 'string') {
+    injectMetadata(arg1, arg2)
+  } else {
+    return injectMetadata
   }
 }
 
@@ -42,14 +86,25 @@ export function registerCommand(arg1 ?: string | RegExp | CommandOptions, arg2 ?
  *
  * @param evt - Event name
  */
-export function registerEvent(evt ?: string) {
-  return function (mod : Module, name : string) {
+export function registerEvent(mod : Module, evt : string) : void
+export function registerEvent(evt ?: string) : (mod : Module, name : string)=> void
+export function registerEvent(arg1 ?: Module | string, arg2 ?: string) {
+  const injectMetadata = function (mod : Module, name : string) {
     //@ts-ignore
     const target = mod[name]
-    const eventName = evt || name
+    if (typeof target !== 'function') throw new Error('@registerEvent can only be used in module methods.')
 
-    if (typeof target !== 'function') throw new Error('@registerEvent() can only be used in module methods.')
+    const meta : EventMetadata = {
+      eventName: typeof arg1 === 'string' ? arg1 : name,
+      handler: target
+    }
 
-    mod.registerEvent(eventName, target)
+    pushMetadata(mod, EventMetaKey, meta)
+  }
+
+  if (arg1 instanceof Module && typeof arg2 === 'string') {
+    injectMetadata(arg1, arg2)
+  } else {
+    return injectMetadata
   }
 }

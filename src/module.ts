@@ -1,8 +1,10 @@
+import 'reflect-metadata'
 import Discord from 'discord.js'
 import { Azarasi } from '.'
 import { Command, CommandOptions, CommandHandler } from './command'
 import { Parameter } from './settings'
 import { DataSubscription } from './dataStores'
+import { EventMetaKey, EventMetadata, CommandMetaKey, CommandMetadata } from './decorators'
 
 export class Module {
   /** Internal name */
@@ -39,6 +41,14 @@ export class Module {
     this.id = id
     this.az = az
     this.bot = az.bot
+    // Read module metadata and register commands and events defined by decorators
+    for (const cmd of Reflect.getMetadata(CommandMetaKey, this) as CommandMetadata[]) {
+      //@ts-ignore
+      this.registerCommand(cmd.trigger || cmd.name, cmd.options, cmd.handler)
+    }
+    for (const evt of Reflect.getMetadata(EventMetaKey, this) as EventMetadata[]) {
+      this.registerEvent(evt.eventName, evt.handler)
+    }
   }
 
   /**
