@@ -139,9 +139,9 @@ export class Command {
   }
 }
 
-export type CommandHandler = (args : CommandHandlerArgs) => void
+export type CommandHandler = (args : CommandArgs) => void
 
-export interface CommandHandlerArgs {
+export interface CommandArgs {
   /** Message */
   msg : Discord.Message
   /** Arguments */
@@ -161,7 +161,7 @@ export interface CommandHandlerArgs {
 }
 
 // Long aliases
-export interface CommandHandlerArgs {
+export interface CommandArgs {
   /** Message (long alias) */
   message : Discord.Message
   /** Arguments (long alias) */
@@ -180,7 +180,7 @@ export interface CommandHandlerArgs {
   azarasi : Azarasi
 } 
 // Short aliases
-export interface CommandHandlerArgs {
+export interface CommandArgs {
   /** Message (short alias) */
   m : Discord.Message
   /** Arguments (short alias) */

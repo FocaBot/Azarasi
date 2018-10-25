@@ -114,3 +114,6 @@ export interface BotProperties {
     /** Default locale */
     locale?: string;
 }
+export { Command, CommandArgs } from './command';
+export { Locale } from './locales';
+export { Module } from './module';

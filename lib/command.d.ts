@@ -49,8 +49,8 @@ export declare class Command {
     exec(msg: Discord.Message, args: string | string[] | RegExpExecArray): Promise<void>;
     toString(): string;
 }
-export declare type CommandHandler = (args: CommandHandlerArgs) => void;
-export interface CommandHandlerArgs {
+export declare type CommandHandler = (args: CommandArgs) => void;
+export interface CommandArgs {
     /** Message */
     msg: Discord.Message;
     /** Arguments */
@@ -68,7 +68,7 @@ export interface CommandHandlerArgs {
     /** Azarasi instance */
     core: Azarasi;
 }
-export interface CommandHandlerArgs {
+export interface CommandArgs {
     /** Message (long alias) */
     message: Discord.Message;
     /** Arguments (long alias) */
@@ -86,7 +86,7 @@ export interface CommandHandlerArgs {
     /** Azarasi instance (long alias) */
     azarasi: Azarasi;
 }
-export interface CommandHandlerArgs {
+export interface CommandArgs {
     /** Message (short alias) */
     m: Discord.Message;
     /** Arguments (short alias) */

@@ -26,9 +26,9 @@ export declare class Module {
     /** Registered event handlers */
     readonly events: ModuleEvent[];
     /** Disable this module by default */
-    readonly defaultDisabled: boolean;
+    readonly defaultDisabled = false;
     /** Allow this module to be disabled */
-    readonly allowDisabling: boolean;
+    readonly allowDisabling = true;
     /** Module constructor (internal use only) */
     constructor(az: Azarasi, id: string);
     /**
