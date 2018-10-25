@@ -32,9 +32,9 @@ export class Module {
   readonly events : ModuleEvent[] = []
 
   /** Disable this module by default */
-  readonly defaultDisabled = false
+  readonly defaultDisabled : boolean = false
   /** Allow this module to be disabled */
-  readonly allowDisabling = true
+  readonly allowDisabling : boolean = true
 
   /** Module constructor (internal use only) */
   constructor (az : Azarasi, id : string) {
