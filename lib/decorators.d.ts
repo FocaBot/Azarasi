@@ -30,7 +30,7 @@ export interface EventMetadata {
  * import { registerCommand } from 'azarasi/lib/decorators'
  *
  * export class Ping extends Azarasi.Module {
- *   @registerCommand ping ({ msg } : CommandArgs) {
+ *   @registerCommand ping ({ msg } : CommandContext) {
  *     msg.reply('Pong!')
  *   }
  * }
@@ -52,7 +52,7 @@ export declare function registerCommand(mod: Module, name: string): void;
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand('superPing', { adminOnly: true })
- *   unrelatedName ({ msg } : CommandArgs) {
+ *   unrelatedName ({ msg } : CommandContext) {
  *     msg.reply('Super Pong!')
  *   }
  * }
@@ -74,7 +74,7 @@ export declare function registerCommand(name: string, options?: CommandOptions):
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand(/^bada bing$/)
- *   insertOldGreentextReference ({ msg } : CommandArgs) {
+ *   insertOldGreentextReference ({ msg } : CommandContext) {
  *     msg.reply('bada boom!')
  *   }
  * }
@@ -94,7 +94,7 @@ export declare function registerCommand(trigger: RegExp, options?: CommandOption
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand({ ownerOnly: true })
- *   omegaPing ({ msg } : CommandArgs) {
+ *   omegaPing ({ msg } : CommandContext) {
  *     msg.reply('Omega Pong!')
  *   }
  * }

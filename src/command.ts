@@ -95,6 +95,9 @@ export class Command {
         if (this.djOnly && !permissions.isDJ) return
       }
       if (this.module && await this.module.isDisabledForGuild(msg.guild)) return
+      // Args to pass to the handler
+      const plainArgs = typeof args === 'string' ? [args] : args
+
       await this.handler.call(this.module || this,{
         // Message
         msg,
@@ -128,7 +131,7 @@ export class Command {
         core: this.az,
         azarasi: this.az,
         az: this.az
-      })
+      }, ...plainArgs)
     } catch (e) {
       this.az.logError(e)
     }
@@ -143,7 +146,7 @@ export class Command {
  * The function that gets executed when the command is triggered.
  * @hidden
  */
-export type CommandHandler = (args : CommandArgs) => void
+export type CommandHandler = (ctx : CommandContext, ...args : string[]) => void
 
 /**
  * Command arguments passed to all command handlers.
@@ -167,7 +170,7 @@ export interface CommandArgs {
   core : Azarasi
 }
 // Long aliases
-export interface CommandArgs {
+export interface CommandContext {
   /** Message (long alias) */
   message : Discord.Message
   /** Arguments (long alias) */
@@ -186,7 +189,7 @@ export interface CommandArgs {
   azarasi : Azarasi
 } 
 // Short aliases
-export interface CommandArgs {
+export interface CommandContext {
   /** Message (short alias) */
   m : Discord.Message
   /** Arguments (short alias) */

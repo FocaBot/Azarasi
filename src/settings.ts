@@ -183,7 +183,7 @@ export interface Settings {
   botCommanderRole? : string
   /** DJ role */
   djRole? : string
-  // Otros
+  // Other
   [key : string] : any
 }
 

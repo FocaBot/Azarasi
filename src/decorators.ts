@@ -49,7 +49,7 @@ function pushMetadata<T>(target : object, key : symbol, obj : T) {
  * import { registerCommand } from 'azarasi/lib/decorators'
  *
  * export class Ping extends Azarasi.Module {
- *   @registerCommand ping ({ msg } : CommandArgs) {
+ *   @registerCommand ping ({ msg } : CommandContext) {
  *     msg.reply('Pong!')
  *   }
  * }
@@ -71,7 +71,7 @@ export function registerCommand(mod : Module, name : string) : void
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand('superPing', { adminOnly: true })
- *   unrelatedName ({ msg } : CommandArgs) {
+ *   unrelatedName ({ msg } : CommandContext) {
  *     msg.reply('Super Pong!')
  *   }
  * }
@@ -93,7 +93,7 @@ export function registerCommand(name : string, options ?: CommandOptions) : (mod
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand(/^bada bing$/)
- *   insertOldGreentextReference ({ msg } : CommandArgs) {
+ *   insertOldGreentextReference ({ msg } : CommandContext) {
  *     msg.reply('bada boom!')
  *   }
  * }
@@ -113,7 +113,7 @@ export function registerCommand(trigger : RegExp, options ?: CommandOptions) : (
  *
  * export class Ping extends Azarasi.Module {
  *   @registerCommand({ ownerOnly: true })
- *   omegaPing ({ msg } : CommandArgs) {
+ *   omegaPing ({ msg } : CommandContext) {
  *     msg.reply('Omega Pong!')
  *   }
  * }

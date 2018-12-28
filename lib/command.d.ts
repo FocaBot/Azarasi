@@ -53,7 +53,7 @@ export declare class Command {
  * The function that gets executed when the command is triggered.
  * @hidden
  */
-export declare type CommandHandler = (args: CommandArgs) => void;
+export declare type CommandHandler = (ctx: CommandContext, ...args: string[]) => void;
 /**
  * Command arguments passed to all command handlers.
  */
@@ -75,7 +75,7 @@ export interface CommandArgs {
     /** Azarasi instance */
     core: Azarasi;
 }
-export interface CommandArgs {
+export interface CommandContext {
     /** Message (long alias) */
     message: Discord.Message;
     /** Arguments (long alias) */
@@ -93,7 +93,7 @@ export interface CommandArgs {
     /** Azarasi instance (long alias) */
     azarasi: Azarasi;
 }
-export interface CommandArgs {
+export interface CommandContext {
     /** Message (short alias) */
     m: Discord.Message;
     /** Arguments (short alias) */

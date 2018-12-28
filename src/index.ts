@@ -193,6 +193,6 @@ export interface BotProperties {
   locale? : string
 }
 
-export { Command, CommandArgs } from './command'
+export { Command, CommandContext } from './command'
 export { Locale } from './locales'
 export { Module } from './module'
