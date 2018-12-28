@@ -191,7 +191,7 @@ export class Module {
   registerEvent (name : string, handler : (...args : any[]) => any) {
     // Wrapper to check if the module is enabled before actually calling the event handler
     const mod = this
-    const wrapper = async function (param : any) {
+    const wrapper = async function (param : any, ...args : any[]) {
       let guild : Discord.Guild | undefined
       if (param && param instanceof Discord.Guild) guild = param
       if (param && param.guild && param.guild instanceof Discord.Guild) guild = param.guild
@@ -199,7 +199,7 @@ export class Module {
         return false
       }
 
-      handler.apply(mod, arguments)
+      handler.call(mod, param, ...args)
     }
     // Match event type
     const nameParts = name.split('.')

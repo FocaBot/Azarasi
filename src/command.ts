@@ -95,7 +95,7 @@ export class Command {
         if (this.djOnly && !permissions.isDJ) return
       }
       if (this.module && await this.module.isDisabledForGuild(msg.guild)) return
-      await this.handler({
+      await this.handler.call(this.module || this,{
         // Message
         msg,
         message: msg,
