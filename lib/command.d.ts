@@ -57,7 +57,7 @@ export declare type CommandHandler = (ctx: CommandContext, ...args: string[]) =>
 /**
  * Command arguments passed to all command handlers.
  */
-export interface CommandArgs {
+export interface CommandContext {
     /** Message */
     msg: Discord.Message;
     /** Arguments */
