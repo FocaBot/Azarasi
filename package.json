@@ -1,6 +1,6 @@
 {
   "name": "azarasi",
-  "version": "3.0.0-alpha5",
+  "version": "3.0.0-alpha6",
   "description": "Useful framework for making discord bots",
   "main": "lib/index.js",
   "scripts": {
