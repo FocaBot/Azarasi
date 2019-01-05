@@ -21,7 +21,7 @@ export declare class Azarasi {
     /** Properties for this instance */
     properties: BotProperties;
     /** Discord.js client */
-    bot: Discord.Client;
+    client: Discord.Client;
     /** Shard manager client */
     shard: Discord.ShardClientUtil;
     /** Main Event Emitter */

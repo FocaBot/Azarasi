@@ -25,7 +25,7 @@ export class Azarasi {
   /** Properties for this instance */
   properties : BotProperties
   /** Discord.js client */
-  bot : Discord.Client
+  client : Discord.Client
   /** Shard manager client */
   shard : Discord.ShardClientUtil
   /** Main Event Emitter */
@@ -59,8 +59,8 @@ export class Azarasi {
     // Checks
     if (!properties.token) throw new Error('You must specify a bot token!')
 
-    this.bot = new Discord.Client()
-    this.shard = this.bot.shard
+    this.client = new Discord.Client()
+    this.shard = this.client.shard
     this.data = GetDataStore(this)
     this.events = new EventEmitter()
     this.events.setMaxListeners(1024)
@@ -72,17 +72,17 @@ export class Azarasi {
     this.locales = new LocaleManager(this)
     this.settings = new SettingsManager(this)
 
-    this.bot.on('ready', () => {
-      this.log(`Connected! (${this.bot.user.username}#${this.bot.user.discriminator}).`)
+    this.client.on('ready', () => {
+      this.log(`Connected! (${this.client.user.username}#${this.client.user.discriminator}).`)
       this.ready = true
       if (this.properties.selfBot) {
-        this.permissions.owner.push(this.bot.user.id)
+        this.permissions.owner.push(this.client.user.id)
       }
       this.events.emit('ready')
     })
-    this.bot.on('message', msg => this.processMessage(msg))
-    this.bot.on('debug', m => this.logDebug(m))
-    this.bot.on('error', e => {
+    this.client.on('message', msg => this.processMessage(msg))
+    this.client.on('debug', m => this.logDebug(m))
+    this.client.on('error', e => {
       this.logError('Something went wrong:')
       this.logError(e)
       process.exit(1)
@@ -95,7 +95,7 @@ export class Azarasi {
    * Establishes connection with Discord.
    */
   establishConnection () {
-    this.bot.login(this.properties.token)
+    this.client.login(this.properties.token)
   }
 
   /**

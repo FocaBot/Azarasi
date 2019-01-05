@@ -94,7 +94,7 @@
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface"><a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a></li>
-								<li class="tsd-kind-interface"><a href="interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a></li>
+								<li class="tsd-kind-interface"><a href="interfaces/commandcontext.html" class="tsd-kind-icon">Command<wbr>Context</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/guilddata.html" class="tsd-kind-icon">Guild<wbr>Data</a></li>
 								<li class="tsd-kind-interface"><a href="interfaces/idatastore.html" class="tsd-kind-icon">IData<wbr>Store</a></li>
@@ -128,7 +128,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L58">decorators.ts:58</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L58">decorators.ts:58</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -140,15 +140,14 @@
 								overridden by explicitly specifying it.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
-  <span class="hljs-meta">@registerCommand</span> ping ({ msg } : CommandArgs) {
+  <span class="hljs-meta">@registerCommand</span> ping ({ msg } : CommandContext) {
     msg.reply(<span class="hljs-string">'Pong!'</span>)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -166,7 +165,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L80">decorators.ts:80</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L80">decorators.ts:80</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -177,16 +176,15 @@
 								<p>Use this syntax if you want the command name to be different from the method name.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
   <span class="hljs-meta">@registerCommand</span>(<span class="hljs-string">'superPing'</span>, { adminOnly: <span class="hljs-literal">true</span> })
-  unrelatedName ({ msg } : CommandArgs) {
+  unrelatedName ({ msg } : CommandContext) {
     msg.reply(<span class="hljs-string">'Super Pong!'</span>)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -231,7 +229,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L102">decorators.ts:102</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L102">decorators.ts:102</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -242,16 +240,15 @@
 								<p>Use this syntax if you want the command to be triggered when a message matches a regular expression.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
   <span class="hljs-meta">@registerCommand</span>(<span class="hljs-regexp">/^bada bing$/</span>)
-  insertOldGreentextReference ({ msg } : CommandArgs) {
+  insertOldGreentextReference ({ msg } : CommandContext) {
     msg.reply(<span class="hljs-string">'bada boom!'</span>)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -296,7 +293,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L122">decorators.ts:122</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L122">decorators.ts:122</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -307,16 +304,15 @@
 								<p>Use this syntax if you want the command name to be the same as the method name, but still want to use custom options.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerCommand } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Ping <span class="hljs-keyword">extends</span> Azarasi.Module {
   <span class="hljs-meta">@registerCommand</span>({ ownerOnly: <span class="hljs-literal">true</span> })
-  omegaPing ({ msg } : CommandArgs) {
+  omegaPing ({ msg } : CommandContext) {
     msg.reply(<span class="hljs-string">'Omega Pong!'</span>)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -362,7 +358,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L170">decorators.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L170">decorators.ts:170</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -373,15 +369,14 @@
 								<p>The event name will be the same as the method name unless a name is explicitly set.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerEvent } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Example <span class="hljs-keyword">extends</span> Azarasi.Module {
   <span class="hljs-meta">@registerEvent</span> customEvent () {
     <span class="hljs-keyword">this</span>.az.log(<span class="hljs-string">'customEvent triggered!'</span>)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -399,7 +394,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/80f4cf0/src/decorators.ts#L190">decorators.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/FocaBot/FocaBotCore/blob/9e274a7/src/decorators.ts#L190">decorators.ts:190</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -410,7 +405,7 @@
 								<p>Use this syntax to listen to an event other than the method&#39;s name.</p>
 								<dl class="tsd-comment-tags">
 									<dt>example</dt>
-									<dd><pre><code class="lang-typescript">
+									<dd><pre><code class="language-typescript">
 <span class="hljs-keyword">import</span> { registerEvent } <span class="hljs-keyword">from</span> <span class="hljs-string">'azarasi/lib/decorators'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">class</span> Echo <span class="hljs-keyword">extends</span> Azarasi.Module {
@@ -418,8 +413,7 @@
   handleMessage (msg : Discord.Message) {
     msg.channel.send(msg.content)
   }
-}
-</code></pre>
+}</code></pre>
 									</dd>
 								</dl>
 							</div>
@@ -515,7 +509,7 @@
 						<a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
+						<a href="interfaces/commandcontext.html" class="tsd-kind-icon">Command<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>

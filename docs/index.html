@@ -68,8 +68,7 @@
 				It&#39;s 100% TypeScript and uses <a href="https://discord.js.org/">Discord.js</a> under the hood.</p>
 				<p>It strives to make bot development easier while providing most things you&#39;d expect from a
 				full-featured bot framework and staying out of the way of advanced users.</p>
-				<pre><code class="lang-bash">npm install --save azarasi@next
-</code></pre>
+				<pre><code class="language-bash">npm install --save azarasi@next</code></pre>
 				<p>Current features include:</p>
 				<ul>
 					<li>Command system<ul>
@@ -102,7 +101,7 @@
 				</ul>
 				<h2 id="example">Example</h2>
 				<p>This is a simple, single-file bot made using Azarasi:</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> { Azarasi } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'azarasi'</span>);
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> { Azarasi } = <span class="hljs-built_in">require</span>(<span class="hljs-string">'azarasi'</span>);
 
 <span class="hljs-keyword">const</span> myBot = <span class="hljs-keyword">new</span> Azarasi({
   <span class="hljs-attr">prefix</span>: <span class="hljs-string">'-'</span>,
@@ -120,8 +119,7 @@ myBot.commands.register(<span class="hljs-string">'echo'</span>, ({ msg, args })
 });
 
 <span class="hljs-comment">// Connect to discord</span>
-myBot.establishConnection();
-</code></pre>
+myBot.establishConnection();</code></pre>
 				<p>For more complex examples, check out the <a href="examples/">examples</a> directory.</p>
 			</div>
 		</div>
@@ -184,7 +182,7 @@ myBot.establishConnection();
 						<a href="interfaces/botproperties.html" class="tsd-kind-icon">Bot<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-interface">
-						<a href="interfaces/commandargs.html" class="tsd-kind-icon">Command<wbr>Args</a>
+						<a href="interfaces/commandcontext.html" class="tsd-kind-icon">Command<wbr>Context</a>
 					</li>
 					<li class=" tsd-kind-interface">
 						<a href="interfaces/commandoptions.html" class="tsd-kind-icon">Command<wbr>Options</a>

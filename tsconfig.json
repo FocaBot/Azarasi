@@ -56,5 +56,16 @@
   },
   "include": [
     "src/**/*"
-  ]
+  ],
+  "typedocOptions": {
+    "src": "./src",
+    "out": "./docs",
+    "ignoreCompilerErrors": true,
+    "excludeExternals": true,
+    "externalPattern": "**/node_modules/**/*",
+    "mode": "file",
+    "exclude": [
+      "**/*.d.ts"
+    ]
+  }
 }

@@ -24,7 +24,7 @@ export class Module {
   /** Azarasi instance */
   readonly az : Azarasi
   /** Discord client */
-  readonly bot : Discord.Client
+  readonly client : Discord.Client
 
   /** Registered commands */
   readonly commands : Map<string, Command> = new Map()
@@ -40,7 +40,7 @@ export class Module {
   constructor (az : Azarasi, id : string) {
     this.id = id
     this.az = az
-    this.bot = az.bot
+    this.client = az.client
 
     // Read module metadata and register commands and events defined by decorators
     const commandMeta : CommandMetadata[] = Reflect.getMetadata(CommandMetaKey, this) || []
@@ -208,7 +208,7 @@ export class Module {
       case 'client':
       case 'bot':
         const evName = nameParts.slice(1).join('.')
-        this.bot.on(evName, wrapper)
+        this.client.on(evName, wrapper)
         this.events.push({
           name,
           evName,
@@ -258,7 +258,7 @@ export class Module {
     }).forEach(e => {
       switch (e.type) {
         case ModuleEventType.Discord:
-          this.bot.removeListener(e.evName!, e.handler!)
+          this.client.removeListener(e.evName!, e.handler!)
           break
         case ModuleEventType.DataStore:
           e.sub!.off!()

@@ -20,7 +20,7 @@ export declare class Module {
     /** Azarasi instance */
     readonly az: Azarasi;
     /** Discord client */
-    readonly bot: Discord.Client;
+    readonly client: Discord.Client;
     /** Registered commands */
     readonly commands: Map<string, Command>;
     /** Registered event handlers */

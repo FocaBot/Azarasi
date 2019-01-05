@@ -100,7 +100,7 @@ export interface GuildData {
   /**
    * Command permission overrides
    */
-  permissionOverides? : {
+  permissionOverrides? : {
     [key : string] : string
   }
   /**

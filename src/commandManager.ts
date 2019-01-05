@@ -16,7 +16,7 @@ export class CommandManager {
   constructor (az : Azarasi) {
     this.az = az
     az.events.on('ready', () => {
-      this.mentionRegex = new RegExp(`^<@!?${az.bot.user.id}>\\s?(\\S+)([\\w\\W]*)`)
+      this.mentionRegex = new RegExp(`^<@!?${az.client.user.id}>\\s?(\\S+)([\\w\\W]*)`)
     })
   }
 
@@ -156,7 +156,7 @@ export class CommandManager {
     // Global prefix
     let pfx = az.properties.prefix
     // Selfbot public prefix
-    if (az.properties.selfBot && az.properties.publicPrefix && msg.author.id !== az.bot.user.id) {
+    if (az.properties.selfBot && az.properties.publicPrefix && msg.author.id !== az.client.user.id) {
       pfx = az.properties.publicPrefix
     }
     // Guild Prefix
@@ -204,7 +204,7 @@ export class CommandManager {
     if (!command) return false
     // Check if it can be executed
     if (!msg.guild && !command.allowDM) return
-    if (az.properties.selfBot && !command.everyone && msg.author.id !== az.bot.user.id) return
+    if (az.properties.selfBot && !command.everyone && msg.author.id !== az.client.user.id) return
     if (command.ownerOnly && !az.permissions.isOwner(msg.author)) return
     if (command.requiredPermissions && !msg.member.hasPermission(command.requiredPermissions)) return
     if (command.requiredRoles && !az.permissions.hasRoles(command.requiredRoles, msg.author, msg.guild)) return
