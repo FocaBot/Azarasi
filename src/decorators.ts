@@ -7,7 +7,7 @@ export const CommandMetaKey = Symbol('azarasiCommand')
 /** @hidden Command metadata structure */
 export interface CommandMetadata {
   name : string,
-  trigger ?: RegExp,
+  trigger? : RegExp,
   options : CommandOptions
   handler : ()=> any
 }
@@ -77,7 +77,7 @@ export function registerCommand(mod : Module, name : string) : void
  * }
  * ```
  */
-export function registerCommand(name : string, options ?: CommandOptions) : (mod : Module, name : string)=> void
+export function registerCommand(name : string, options? : CommandOptions) : (mod : Module, name : string)=> void
 /**
  * Decorator syntax for [[Module.registerCommand]] with a RegExp trigger.
  *
@@ -99,7 +99,7 @@ export function registerCommand(name : string, options ?: CommandOptions) : (mod
  * }
  * ```
  */
-export function registerCommand(trigger : RegExp, options ?: CommandOptions) : (mod : Module, name : string)=> void
+export function registerCommand(trigger : RegExp, options? : CommandOptions) : (mod : Module, name : string)=> void
 /**
  * Decorator syntax for [[Module.registerCommand]] with custom options.
  *
@@ -119,8 +119,8 @@ export function registerCommand(trigger : RegExp, options ?: CommandOptions) : (
  * }
  * ```
  */
-export function registerCommand(options ?: CommandOptions) : (mod : Module, name : string)=> void
-export function registerCommand(arg1 ?: string | RegExp | CommandOptions | Module, arg2 ?: CommandOptions | string) {
+export function registerCommand(options? : CommandOptions) : (mod : Module, name : string)=> void
+export function registerCommand(arg1? : string | RegExp | CommandOptions | Module, arg2? : CommandOptions | string) {
   const injectMetadata = function (mod : Module, name : string) {
     //@ts-ignore
     const target = mod[name]
@@ -129,7 +129,7 @@ export function registerCommand(arg1 ?: string | RegExp | CommandOptions | Modul
     const meta : CommandMetadata = {
       name: typeof arg1 === 'string' ? arg1 : name,
       trigger: arg1 instanceof RegExp ? arg1 : undefined,
-      options: {},
+      options: {} as CommandOptions,
       handler: target
     }
 
@@ -137,6 +137,13 @@ export function registerCommand(arg1 ?: string | RegExp | CommandOptions | Modul
       meta.options = arg2
     } else if (typeof arg1 === 'object' && !(arg1 instanceof Module || arg1 instanceof RegExp)) {
       meta.options = arg1
+    }
+
+    // Try to guess argument types based on typescript metadata
+    const paramTypes = Reflect.getMetadata('design:paramtypes', mod, name)
+    if (paramTypes) {
+      // Skip the first argument since it's always the command context.
+      meta.options.argTypes = paramTypes.slice(1)
     }
 
     pushMetadata(mod, CommandMetaKey, meta)
@@ -187,8 +194,8 @@ export function registerEvent(mod : Module, evt : string) : void
  * }
  * ```
  */
-export function registerEvent(evt ?: string) : (mod : Module, name : string)=> void
-export function registerEvent(arg1 ?: Module | string, arg2 ?: string) {
+export function registerEvent(evt? : string) : (mod : Module, name : string)=> void
+export function registerEvent(arg1? : Module | string, arg2? : string) {
   const injectMetadata = function (mod : Module, name : string) {
     //@ts-ignore
     const target = mod[name]

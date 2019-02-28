@@ -20,8 +20,10 @@ export class Command {
   djOnly? : boolean
   /** Make the command available to the owner only */
   ownerOnly? : boolean
-  /** Argument delimiter */
+  /** Argument separator */
   argSeparator? : string
+  /** Argument delimiter */
+  argTypes? : ArgumentType[]
   /** Include command name in arguments array. Useful for aliases */
   includeCommandNameInArgs? : boolean
   /** Allow this command to be executed in DMs */
@@ -96,7 +98,51 @@ export class Command {
       }
       if (this.module && await this.module.isDisabledForGuild(msg.guild)) return
       // Args to pass to the handler
-      const plainArgs = typeof args === 'string' ? [args] : args
+      let plainArgs : any[] = typeof args === 'string' ? [args] : args
+
+      // Transform/Parse arguments if there's an "argTypes" parameter.
+      if (this.argTypes && this.argTypes.length) {
+        let typeIndex = 0
+        plainArgs = await Promise.all(plainArgs.map((arg, i) => {
+          // Use the last known type if no type is specified for the current argument
+          if (this.argTypes![i] != null) typeIndex = i
+          const type = this.argTypes![typeIndex]
+          switch (type) {
+            case String:
+              return arg
+            case Number:
+              return parseFloat(arg)
+            case Boolean:
+              if (['true', '1', 'y', 'yes', 'on'].indexOf(arg.toLowerCase()) >= 0) return true
+              if (['false', '0', 'n', 'no', 'off'].indexOf(arg.toLowerCase()) >= 0) return false
+              return undefined
+            case Discord.User:
+              const userId = arg.match(/\d+/)
+              if (userId) {
+                return this.az!.client.fetchUser(userId[0]).catch(() => undefined)
+              }
+              return undefined
+            case Discord.GuildMember:
+              const memberId = arg.match(/\d+/)
+              if (memberId) {
+                return msg.guild.fetchMember(memberId[0]).catch(() => undefined)
+              }
+              return undefined
+            case Discord.TextChannel:
+              const channelId = arg.match(/\d+/)
+              if (channelId) {
+                return msg.guild.channels.find(c => c.type === 'text' && c.id === channelId[0])
+              }
+              return undefined
+            default:
+              throw new Error(
+                `Couldn't parse argument #${i + 1} of command ${this.name}. ` +
+                `Invalid type specified. (${type.name}).` +
+                'Valid types are: String, Boolean, Number, User, GuildMember, TextChannel'
+              )
+          }
+        }))
+      }
 
       await this.handler.call(this.module || this,{
         // Message
@@ -146,7 +192,19 @@ export class Command {
  * The function that gets executed when the command is triggered.
  * @hidden
  */
-export type CommandHandler = (ctx : CommandContext, ...args : string[]) => void
+export type CommandHandler = (ctx : CommandContext, ...args : any[]) => void
+
+/**
+ * Argument Types
+ */
+export type ArgumentType = (
+  BooleanConstructor |
+  StringConstructor |
+  NumberConstructor |
+  typeof Discord.User |
+  typeof Discord.GuildMember |
+  typeof Discord.TextChannel
+)
 
 /**
  * Command arguments passed to all command handlers.
@@ -155,7 +213,7 @@ export interface CommandContext {
   /** Message */
   msg : Discord.Message
   /** Arguments */
-  args : string | string[] | RegExpExecArray
+  args : any
   /** Guild Data */
   data : GuildData
   /** Guild Settings */
@@ -174,7 +232,7 @@ export interface CommandContext {
   /** Message (long alias) */
   message : Discord.Message
   /** Arguments (long alias) */
-  arguments : string | string[] | RegExpExecArray
+  arguments : any
   /** Guild Data (long alias) */
   guildData : GuildData
   /** Guild Settings (long alias) */
@@ -193,7 +251,7 @@ export interface CommandContext {
   /** Message (short alias) */
   m : Discord.Message
   /** Arguments (short alias) */
-  a : string | string[] | RegExpExecArray
+  a : any
   /** Guild Data (short alias) */
   d : GuildData
   /** Guild Settings (short alias) */
@@ -222,6 +280,8 @@ export interface CommandOptions {
   ownerOnly? : boolean
   /** Argument delimiter */
   argSeparator? : string
+  /** Argument types */
+  argTypes? : ArgumentType[]
   /** Include command name in arguments array. Useful for aliases */
   includeCommandNameInArgs? : boolean
   /** Allow this command to be executed in DMs */

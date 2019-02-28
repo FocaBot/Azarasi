@@ -19,8 +19,10 @@ export declare class Command {
     djOnly?: boolean;
     /** Make the command available to the owner only */
     ownerOnly?: boolean;
-    /** Argument delimiter */
+    /** Argument separator */
     argSeparator?: string;
+    /** Argument delimiter */
+    argTypes?: ArgumentType[];
     /** Include command name in arguments array. Useful for aliases */
     includeCommandNameInArgs?: boolean;
     /** Allow this command to be executed in DMs */
@@ -53,7 +55,11 @@ export declare class Command {
  * The function that gets executed when the command is triggered.
  * @hidden
  */
-export declare type CommandHandler = (ctx: CommandContext, ...args: string[]) => void;
+export declare type CommandHandler = (ctx: CommandContext, ...args: any[]) => void;
+/**
+ * Argument Types
+ */
+export declare type ArgumentType = (BooleanConstructor | StringConstructor | NumberConstructor | typeof Discord.User | typeof Discord.GuildMember | typeof Discord.TextChannel);
 /**
  * Command arguments passed to all command handlers.
  */
@@ -61,7 +67,7 @@ export interface CommandContext {
     /** Message */
     msg: Discord.Message;
     /** Arguments */
-    args: string | string[] | RegExpExecArray;
+    args: any;
     /** Guild Data */
     data: GuildData;
     /** Guild Settings */
@@ -79,7 +85,7 @@ export interface CommandContext {
     /** Message (long alias) */
     message: Discord.Message;
     /** Arguments (long alias) */
-    arguments: string | string[] | RegExpExecArray;
+    arguments: any;
     /** Guild Data (long alias) */
     guildData: GuildData;
     /** Guild Settings (long alias) */
@@ -97,7 +103,7 @@ export interface CommandContext {
     /** Message (short alias) */
     m: Discord.Message;
     /** Arguments (short alias) */
-    a: string | string[] | RegExpExecArray;
+    a: any;
     /** Guild Data (short alias) */
     d: GuildData;
     /** Guild Settings (short alias) */
@@ -125,6 +131,8 @@ export interface CommandOptions {
     ownerOnly?: boolean;
     /** Argument delimiter */
     argSeparator?: string;
+    /** Argument types */
+    argTypes?: ArgumentType[];
     /** Include command name in arguments array. Useful for aliases */
     includeCommandNameInArgs?: boolean;
     /** Allow this command to be executed in DMs */

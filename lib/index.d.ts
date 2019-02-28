@@ -23,7 +23,7 @@ export declare class Azarasi {
     /** Discord.js client */
     client: Discord.Client;
     /** Shard manager client */
-    shard: Discord.ShardClientUtil;
+    shard?: Discord.ShardClientUtil;
     /** Main Event Emitter */
     events: EventEmitter;
     /** Boot date (to calculate uptime) */
@@ -113,6 +113,8 @@ export interface BotProperties {
     localePath?: string;
     /** Default locale */
     locale?: string;
+    /** Log to master process instead of console in sharded setups */
+    logToMaster?: boolean;
 }
 export { Command, CommandContext } from './command';
 export { Locale } from './locales';

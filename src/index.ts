@@ -27,7 +27,7 @@ export class Azarasi {
   /** Discord.js client */
   client : Discord.Client
   /** Shard manager client */
-  shard : Discord.ShardClientUtil
+  shard? : Discord.ShardClientUtil
   /** Main Event Emitter */
   events : EventEmitter
   /** Boot date (to calculate uptime) */
@@ -116,8 +116,15 @@ export class Azarasi {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
     const prefix = `[${time.format('YYYY-MM-DD@').dim.cyan}${time.format('HH:mm').cyan} ${shard.toString().yellow}]`
-    
-    console.log(prefix, ...args)
+
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
+    msg.unshift(prefix)
+
+    if (this.shard && this.properties.logToMaster) {
+      this.shard.send({ event: 'az.log', payload: { kind: 'log', message: msg.join(' ') }})
+    } else {
+      console.log(msg.join(' '))
+    }
   }
 
   /**
@@ -127,8 +134,15 @@ export class Azarasi {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
     const prefix = `[${time.format('YYYY-MM-DD@').dim.red}${time.format('HH:mm').red} ${shard.toString().yellow}] `
-    
-    console.error(prefix, ...args)
+
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
+    msg.unshift(prefix)
+
+    if (this.shard && this.properties.logToMaster) {
+      this.shard.send({ event: 'az.log', payload: { kind: 'error', message: msg.join(' ') }})
+    } else {
+      console.error(msg.join(' '))
+    }
   }
 
   /**
@@ -144,7 +158,11 @@ export class Azarasi {
     const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
     msg.unshift(prefix)
 
-    console.log(msg.join(' '))
+    if (this.shard && this.properties.logToMaster) {
+      this.shard.send({ event: 'az.log', payload: { kind: 'debug', message: msg.join(' ') }})
+    } else {
+      console.info(msg.join(' '))
+    }
   }
 }
 
@@ -191,6 +209,8 @@ export interface BotProperties {
   localePath? : string
   /** Default locale */
   locale? : string
+  /** Log to master process instead of console in sharded setups */
+  logToMaster? : boolean
 }
 
 export { Command, CommandContext } from './command'
