@@ -1,6 +1,6 @@
 {
   "name": "azarasi",
-  "version": "3.0.0-alpha6",
+  "version": "3.0.0-alpha7",
   "description": "Useful framework for making discord bots",
   "main": "lib/index.js",
   "scripts": {
@@ -46,11 +46,6 @@
     "js-yaml": "^3.8.4",
     "moment": "^2.22.2",
     "reflect-metadata": "^0.1.12"
-  },
-  "optionalDependencies": {
-    "erlpack": "hammerandchisel/erlpack",
-    "sodium": "^2.0.1",
-    "uws": "^99.0.0"
   },
   "types": "lib/index.d.ts"
 }
