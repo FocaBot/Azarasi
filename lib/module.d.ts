@@ -178,11 +178,11 @@ export declare class Module {
      */
     ready(): any;
     /**
-     * Logs stuff to the console with timestamp, shard id and module name.
+     * Logs stuff to the console with timestamp, shard id and module ID.
      */
     log(...args: any[]): void;
     /**
-     * Logs an error to the console with timestamp and shard id
+     * Logs an error to the console with timestamp, shard id and module ID.
      */
     logError(...args: any[]): void;
     /**

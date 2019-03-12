@@ -192,8 +192,8 @@ export class Module {
    * @param handler - Event handler
    */
   registerEvent (name : string, handler : (...args : any[]) => any) {
-    // Wrapper to check if the module is enabled before actually calling the event handler
     const mod = this
+    // Wrapper to check if the module is enabled before actually calling the event handler
     const wrapper = async function (param : any, ...args : any[]) {
       let guild : Discord.Guild | undefined
       if (param && param instanceof Discord.Guild) guild = param
@@ -234,7 +234,7 @@ export class Module {
         })
         break
       default:
-        this.az.events.on(name, handler)
+        this.az.events.on(name, wrapper)
         this.events.push({
           name,
           handler: wrapper,
@@ -329,13 +329,13 @@ export class Module {
   ready () : any {
   }
   /**
-   * Logs stuff to the console with timestamp, shard id and module name.
+   * Logs stuff to the console with timestamp, shard id and module ID.
    */
   log (...args : any[]) {
     const time = moment()
     const shard = this.az.shard && this.az.shard.id || 0
     const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} `
-      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+      + `${c.yellow(shard.toString())} ${c.magenta(this.id)}]`
 
     const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
@@ -348,13 +348,13 @@ export class Module {
   }
 
   /**
-   * Logs an error to the console with timestamp and shard id
+   * Logs an error to the console with timestamp, shard id and module ID.
    */
   logError (...args : any[]) {
     const time = moment()
     const shard = this.az.shard && this.az.shard.id || 0
     const prefix = `[${c.dim.red(time.format('YYYY-MM-DD@'))}${c.red(time.format('HH:mm'))} `
-      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+      + `${c.yellow(shard.toString())} ${c.magenta(this.id)}]`
 
     const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
@@ -375,7 +375,7 @@ export class Module {
     const time = moment()
     const shard = this.az.shard && this.az.shard.id || 0
     const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} `
-      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+      + `${c.yellow(shard.toString())} ${c.magenta(this.id)}]`
 
     const msg = args.map(a => c.gray(typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
