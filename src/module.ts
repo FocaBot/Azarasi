@@ -1,5 +1,8 @@
 import 'reflect-metadata'
 import Discord from 'discord.js'
+import c from 'chalk'
+import moment from 'moment'
+import util from 'util'
 import { Azarasi } from '.'
 import { Command, CommandOptions, CommandHandler } from './command'
 import { Parameter } from './settings'
@@ -324,6 +327,64 @@ export class Module {
    * If the bot is already initialized, it gets called immediatly after init()
    */
   ready () : any {
+  }
+  /**
+   * Logs stuff to the console with timestamp, shard id and module name.
+   */
+  log (...args : any[]) {
+    const time = moment()
+    const shard = this.az.shard && this.az.shard.id || 0
+    const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} `
+      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
+    msg.unshift(prefix)
+
+    if (this.az.shard && this.az.properties.logToMaster) {
+      this.az.shard.send({ event: 'az.log', payload: { kind: 'log', message: msg.join(' ') }})
+    } else {
+      console.log(msg.join(' '))
+    }
+  }
+
+  /**
+   * Logs an error to the console with timestamp and shard id
+   */
+  logError (...args : any[]) {
+    const time = moment()
+    const shard = this.az.shard && this.az.shard.id || 0
+    const prefix = `[${c.dim.red(time.format('YYYY-MM-DD@'))}${c.red(time.format('HH:mm'))} `
+      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
+    msg.unshift(prefix)
+
+    if (this.az.shard && this.az.properties.logToMaster) {
+      this.az.shard.send({ event: 'az.log', payload: { kind: 'error', message: msg.join(' ') }})
+    } else {
+      console.error(msg.join(' '))
+    }
+  }
+
+  /**
+   * Logs information to the console (only in debug mode)
+   */
+  logDebug (...args : any[]) {
+    if (!this.az.properties.debug) return
+
+    const time = moment()
+    const shard = this.az.shard && this.az.shard.id || 0
+    const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} `
+      + `${c.yellow(shard.toString())} ${c.magenta(this.name || '?')}]`
+
+    const msg = args.map(a => c.gray(typeof a === 'string' ? a : util.inspect(a)))
+    msg.unshift(prefix)
+
+    if (this.az.shard && this.az.properties.logToMaster) {
+      this.az.shard.send({ event: 'az.log', payload: { kind: 'debug', message: msg.join(' ') }})
+    } else {
+      console.info(msg.join(' '))
+    }
   }
 }
 

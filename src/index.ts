@@ -1,9 +1,9 @@
-import 'colors'
 import Discord from 'discord.js'
 import util from 'util'
 import moment, { Moment } from 'moment'
 import pkg from '../package.json'
 import EventEmitter from 'events'
+import c from 'chalk'
 
 import { IDataStore } from './dataStores'
 import GetDataStore from './data'
@@ -115,9 +115,9 @@ export class Azarasi {
   log (...args : any[]) {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
-    const prefix = `[${time.format('YYYY-MM-DD@').dim.cyan}${time.format('HH:mm').cyan} ${shard.toString().yellow}]`
+    const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} ${c.yellow(shard.toString())}]`
 
-    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
 
     if (this.shard && this.properties.logToMaster) {
@@ -133,9 +133,9 @@ export class Azarasi {
   logError (...args : any[]) {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
-    const prefix = `[${time.format('YYYY-MM-DD@').dim.red}${time.format('HH:mm').red} ${shard.toString().yellow}] `
+    const prefix = `[${c.dim.red(time.format('YYYY-MM-DD@'))}${c.red(time.format('HH:mm'))} ${c.yellow(shard.toString())}] `
 
-    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
+    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
 
     if (this.shard && this.properties.logToMaster) {
@@ -153,9 +153,9 @@ export class Azarasi {
 
     const time = moment()
     const shard = this.shard && this.shard.id || 0
-    const prefix = `[${time.format('YYYY-MM-DD@').dim.cyan}${time.format('HH:mm').cyan} ${shard.toString().yellow}]`
+    const prefix = `[${c.dim.cyan(time.format('YYYY-MM-DD@'))}${c.cyan(time.format('HH:mm'))} ${c.yellow(shard.toString())}]`
 
-    const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)).gray)
+    const msg = args.map(a => c.gray(typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
 
     if (this.shard && this.properties.logToMaster) {

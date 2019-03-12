@@ -177,6 +177,18 @@ export declare class Module {
      * If the bot is already initialized, it gets called immediatly after init()
      */
     ready(): any;
+    /**
+     * Logs stuff to the console with timestamp, shard id and module name.
+     */
+    log(...args: any[]): void;
+    /**
+     * Logs an error to the console with timestamp and shard id
+     */
+    logError(...args: any[]): void;
+    /**
+     * Logs information to the console (only in debug mode)
+     */
+    logDebug(...args: any[]): void;
 }
 /**
  * Contains data about a module's event listener.

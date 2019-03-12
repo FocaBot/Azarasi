@@ -141,7 +141,7 @@ export function registerCommand(arg1? : string | RegExp | CommandOptions | Modul
 
     // Try to guess argument types based on typescript metadata
     const paramTypes = Reflect.getMetadata('design:paramtypes', mod, name)
-    if (paramTypes) {
+    if (paramTypes && !meta.options.argTypes) {
       // Skip the first argument since it's always the command context.
       meta.options.argTypes = paramTypes.slice(1)
     }

@@ -1,5 +1,6 @@
 examples
 docs
+docs-src
 tsconfig.json
 .vscode
 testbot.js

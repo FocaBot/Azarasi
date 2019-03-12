@@ -31,7 +31,7 @@ export class Command {
   /** For selfbots, allow the command to be executed by others */
   everyone? : boolean
   /** Required permissions to run the command */
-  requiredPermissions? : Discord.PermissionResolvable[]
+  requiredPermissions? : Discord.PermissionResolvable
   /** Required role (names) to run this command */
   requiredRoles? : string[]
   /** Regular expression to trigger the command. If this is set, the default triggers are disabled */
@@ -289,7 +289,7 @@ export interface CommandOptions {
   /** For selfbots, allow the command to be executed by others */
   everyone? : boolean
   /** Required permissions to run the command */
-  requiredPermissions? : Discord.PermissionResolvable[]
+  requiredPermissions? : Discord.PermissionResolvable
   /** Required role (names) to run this command */
   requiredRoles? : string[]
   /** Regular expression to trigger the command. If this is set, the default triggers are disabled */
