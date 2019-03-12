@@ -133,7 +133,7 @@ export class Azarasi {
   logError (...args : any[]) {
     const time = moment()
     const shard = this.shard && this.shard.id || 0
-    const prefix = `[${c.dim.red(time.format('YYYY-MM-DD@'))}${c.red(time.format('HH:mm'))} ${c.yellow(shard.toString())}] `
+    const prefix = `[${c.dim.red(time.format('YYYY-MM-DD@'))}${c.red(time.format('HH:mm'))} ${c.yellow(shard.toString())}]`
 
     const msg = args.map(a => (typeof a === 'string' ? a : util.inspect(a)))
     msg.unshift(prefix)
