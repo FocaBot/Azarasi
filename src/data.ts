@@ -1,7 +1,7 @@
 import { IDataStore } from './dataStores'
 import { RedisDataStore } from './dataStores/redis'
 import { GunDataStore } from './dataStores/gun'
-import { CouchDataStore } from './dataStores/couch'
+import { CouchDataStore } from './dataStores/couchdb'
 import { MemoryDataStore } from './dataStores/memory'
 import { Azarasi } from '.'
 
