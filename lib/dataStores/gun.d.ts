@@ -39,5 +39,5 @@ export declare class GunDataStore implements IDataStore {
     get(key: string): Promise<{}>;
     set(key: string, val: any): Promise<{}>;
     del(key: string): Promise<{}>;
-    subscribe(key: string, handler: SubscriptionHandler): DataSubscription;
+    subscribe(key: string, handler: SubscriptionHandler): Promise<DataSubscription>;
 }

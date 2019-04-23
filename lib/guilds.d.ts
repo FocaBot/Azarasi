@@ -5,6 +5,7 @@ export declare class Guild {
     private readonly az;
     discordGuild?: Discord.Guild;
     data: GuildData;
+    unsubscribe?: () => any;
     constructor(az: Azarasi, discordGuild?: Discord.Guild);
     /**
      * Initializes guild data

@@ -225,13 +225,12 @@ export class Module {
       case 'datastore':
       case 'database':
         const channelName = nameParts.slice(1).join('.')
-        const sub = this.az.data.subscribe(channelName, wrapper)
-        this.events.push({
+        this.az.data.subscribe(channelName, wrapper).then(sub => this.events.push({
           name,
           sub,
           originalHandler: handler,
           type: ModuleEventType.DataStore
-        })
+        }))
         break
       default:
         this.az.events.on(name, wrapper)

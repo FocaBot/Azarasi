@@ -6,6 +6,7 @@ export class Guild {
   private readonly az : Azarasi
   discordGuild? : Discord.Guild
   data : GuildData
+  unsubscribe? : ()=> any
 
   constructor (az : Azarasi, discordGuild? : Discord.Guild) {
     this.az = az
@@ -17,7 +18,7 @@ export class Guild {
         if (msg.type === 'updated' && this.discordGuild && msg.guild === this.discordGuild.id) {
           this.init()
         }
-      })
+      }).then(sub => this.unsubscribe = sub.off)
     }
   }
 

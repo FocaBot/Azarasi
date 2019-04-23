@@ -16,7 +16,7 @@ export interface IDataStore {
   /** Deletes a key */
   del (key : string) : Promise<any>
   /** Subscribes to a key and listens for changes */
-  subscribe (key : string, handler : SubscriptionHandler) : DataSubscription
+  subscribe (key : string, handler : SubscriptionHandler) : Promise<DataSubscription>
 }
 
 /**

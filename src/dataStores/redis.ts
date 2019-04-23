@@ -105,7 +105,8 @@ export class RedisDataStore implements IDataStore {
     return this.db.del(key)
   }
 
-  subscribe (key : string, handler : SubscriptionHandler) : DataSubscription {
+  async subscribe (key : string, handler : SubscriptionHandler) : Promise<DataSubscription> {
+    await this.ensureReady()
     const sub = new DataSubscription(key, handler)
     sub.off = () => this.subscriptions.splice(this.subscriptions.indexOf(sub, 1))
     this.subscriptions.push(sub)

@@ -39,8 +39,8 @@ export class GunDataStore implements IDataStore {
    */
   private _emitter : EventEmitter = new EventEmitter()
 
-  connected : boolean = false
-  ready : boolean = false
+  connected = false
+  ready = false
 
   /**
    * Instantiate new Gun Data Store
@@ -131,7 +131,8 @@ export class GunDataStore implements IDataStore {
     return this.set(key, null)
   }
 
-  subscribe (key : string, handler : SubscriptionHandler) : DataSubscription {
+  async subscribe (key : string, handler : SubscriptionHandler) : Promise<DataSubscription> {
+    await this.ensureReady()
     const sub = new DataSubscription(key, handler)
     const gsub = this.db.get(key).get('val').on((data : string) => sub.handler(JSON.parse(data || 'null')))
     sub.off = () => gsub.off()
