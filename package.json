@@ -30,8 +30,8 @@
     "@types/js-yaml": "^3.11.2",
     "@types/node": "^10.5.2",
     "typedoc": "^0.14.2",
-    "typescript": "^3.3.3333",
-    "vuepress": "^1.0.0-alpha.42"
+    "typescript": "^3.4.4",
+    "vuepress": "^1.0.0-alpha.47"
   },
   "standard": {
     "globals": [
@@ -46,7 +46,7 @@
     "discord.js": "^11.3.2",
     "gun": "0.9.9993",
     "ioredis": "^4.0.2",
-    "js-yaml": "^3.8.4",
+    "js-yaml": "^3.13.1",
     "moment": "^2.22.2",
     "reflect-metadata": "^0.1.12"
   },
