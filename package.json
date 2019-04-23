@@ -48,6 +48,7 @@
     "ioredis": "^4.0.2",
     "js-yaml": "^3.13.1",
     "moment": "^2.22.2",
+    "nano": "^8.0.1",
     "reflect-metadata": "^0.1.12"
   },
   "types": "lib/index.d.ts"

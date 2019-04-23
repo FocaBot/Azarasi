@@ -194,13 +194,17 @@ export interface BotProperties {
    * You can choose between [Redis](https://redis.io/), [Gun](http://gun.js.org/) and
    * temporary in-memory storage
    */
-  dataStore? : 'redis' | 'gun' | 'memory'
+  dataStore? : 'redis' | 'couchdb' | 'gun' | 'memory'
   /** Database path (Gun backend only) */
   dbPath? : string
   /** Database port (Gun backend only) */
   dbPort? : number
   /** Database URL (Redis backend only) */
   redisUrl? : string
+  /** Database server URL (CouchDB backend only) */
+  couchdbUrl? : string
+  /** Database name (CouchDB backend only) */
+  couchdbDatabase? : string
   /** Debug mode (verbose logging) */
   debug? : boolean
   /** Watch module directory for changes */

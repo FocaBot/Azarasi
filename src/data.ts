@@ -1,6 +1,7 @@
 import { IDataStore } from './dataStores'
 import { RedisDataStore } from './dataStores/redis'
 import { GunDataStore } from './dataStores/gun'
+import { CouchDataStore } from './dataStores/couch'
 import { MemoryDataStore } from './dataStores/memory'
 import { Azarasi } from '.'
 
@@ -18,11 +19,14 @@ export default function GetDataStore(az : Azarasi) : IDataStore {
       dataStore = new RedisDataStore(az)
       break
     case 'gun':
-    case undefined:
-    case null:
       dataStore = new GunDataStore(az)
       break
+    case 'couchdb':
+      dataStore = new CouchDataStore(az)
+      break
     case 'memory':
+    case undefined:
+    case null:
       dataStore = new MemoryDataStore(az)
       break
     default:

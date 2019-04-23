@@ -21,6 +21,7 @@ console.log = log
  * [Gun](http://gun.js.org/) Data Store
  * 
  * **NOT RECOMMENDED FOR LARGE BOTS**
+ * @deprecated Another embedded data store will be provided in the future. For now, use Redis or CouchDB.
  */
 export class GunDataStore implements IDataStore {
   /**

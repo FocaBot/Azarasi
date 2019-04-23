@@ -1,22 +1,34 @@
 import { IDataStore, SubscriptionHandler, DataSubscription } from '.';
 import { Azarasi } from '..';
 /**
- * [Gun](http://gun.js.org/) Data Store
- *
- * **NOT RECOMMENDED FOR LARGE BOTS**
- * @deprecated Another embedded data store will be provided in the future. For now, use Redis or CouchDB.
+ * [CouchDB](http://couchdb.apache.org/) data store.
  */
-export declare class GunDataStore implements IDataStore {
+export declare class CouchDataStore implements IDataStore {
     /**
-     * Underlying Gun instance
+     * Nano server scope
+     * @hidden
+     */
+    private nano;
+    /**
+     * Database scope
      * @hidden
      */
     private db;
+    /**
+     * Follow feed
+     * @hidden
+     */
+    private feed;
     /**
      * Azarasi instance
      * @hidden
      */
     private readonly az;
+    /**
+     * Data Subscriptions
+     * @hidden
+     */
+    private subscriptions;
     /**
      * Internal event emitter
      * @hidden
@@ -25,20 +37,20 @@ export declare class GunDataStore implements IDataStore {
     connected: boolean;
     ready: boolean;
     /**
-     * Instantiate new Gun Data Store
+     * Instantiate new Redis Data Store
      * @param az - Azarasi instance
      * @hidden
      */
     constructor(az: Azarasi);
-    /**
-     * Create Gun server
-     * @hidden
-     */
-    createServer(): Promise<any>;
     connect(): Promise<void>;
     ensureReady(): Promise<void> | Promise<{}>;
-    get(key: string): Promise<{}>;
-    set(key: string, val: any): Promise<{}>;
-    del(key: string): Promise<{}>;
+    get(key: string, raw?: boolean): Promise<any>;
+    set(key: string, val: any): Promise<string>;
+    del(key: string): Promise<string>;
     subscribe(key: string, handler: SubscriptionHandler): Promise<DataSubscription>;
+}
+export interface DataStructure {
+    _id: string;
+    _rev: string;
+    val: any;
 }
