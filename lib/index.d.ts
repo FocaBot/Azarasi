@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import Discord from 'discord.js';
 import { Moment } from 'moment';
 import EventEmitter from 'events';

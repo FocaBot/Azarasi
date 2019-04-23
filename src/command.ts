@@ -162,9 +162,9 @@ export class Command {
         settings: guildSettings,
         s: guildSettings,
         // Locale
-        guildLocale,
-        locale: guildLocale,
-        l: guildLocale,
+        guildLocale: guildLocale!,
+        locale: guildLocale!,
+        l: guildLocale!,
         // Permissions
         permissions,
         perms: permissions,
@@ -219,7 +219,7 @@ export interface CommandContext {
   /** Guild Settings */
   settings : Settings
   /** Guild Locale */
-  locale? : Locale
+  locale : Locale
   /** User permissions */
   perms : UserPermissions
   /** Client instance */
@@ -238,7 +238,7 @@ export interface CommandContext {
   /** Guild Settings (long alias) */
   guildSettings : Settings
   /** Guild Locale (long alias) */
-  guildLocale? : Locale
+  guildLocale : Locale
   /** User permissions (long alias) */
   permissions : UserPermissions
   /** Client instance (long alias) */
@@ -257,7 +257,7 @@ export interface CommandContext {
   /** Guild Settings (short alias) */
   s : Settings
   /** Guild Locale (short alias) */
-  l? : Locale
+  l : Locale
   /** User permissions (short alias) */
   p : UserPermissions
   /** Client instance (short alias) */

@@ -54,3 +54,6 @@ testbot.js
 .idea/**/uiDesigner.xml
 .idea/**/dbnavigator.xml
 .idea/httpRequests
+
+# TypeScript
+*.tsbuildinfo
