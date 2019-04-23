@@ -41,5 +41,5 @@ export declare class MemoryDataStore implements IDataStore {
     get(key: string): Promise<any>;
     set(key: string, val: any): Promise<string>;
     del(key: string): Promise<"OK" | "ERROR">;
-    subscribe(key: string, handler: SubscriptionHandler): DataSubscription;
+    subscribe(key: string, handler: SubscriptionHandler): Promise<DataSubscription>;
 }

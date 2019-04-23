@@ -74,7 +74,7 @@ export class MemoryDataStore implements IDataStore {
     return this.db.delete(key) ? 'OK' : 'ERROR'
   }
 
-  subscribe (key : string, handler : SubscriptionHandler) : DataSubscription {
+  async subscribe (key : string, handler : SubscriptionHandler) : Promise<DataSubscription> {
     const sub = new DataSubscription(key, handler)
     sub.off = () => this.subscriptions.splice(this.subscriptions.indexOf(sub, 1))
     this.subscriptions.push(sub)
