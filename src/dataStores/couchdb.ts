@@ -72,8 +72,8 @@ export class CouchDataStore implements IDataStore {
       }
     }
     // Connect to change feed
-    this.feed = this.nano.followUpdates({
-      db: this.az.properties.couchdbDatabase || 'azarasi',
+    //@ts-ignore
+    this.feed = this.nano.db.follow(this.az.properties.couchdbDatabase || 'azarasi', {
       since: 'now',
       include_docs: true
     })
