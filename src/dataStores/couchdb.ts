@@ -103,7 +103,7 @@ export class CouchDataStore implements IDataStore {
       const doc = await this.db.get(key)
       return raw ? doc : doc.val
     } catch (e) {
-      return raw ? { val: null } : null
+      return raw ? { _id: key, val: null } : null
     }
   }
 
