@@ -52,7 +52,7 @@ export class CouchDataStore implements IDataStore {
     this.nano = Nano.default({
       url: this.az.properties.couchdbUrl || 'http://127.0.0.1:5984',
       log (id, args) {
-        az.logDebug(id, args)
+        az.logDebug('CouchDB Query', id, args)
       }
     })
     // Document scope
@@ -62,7 +62,8 @@ export class CouchDataStore implements IDataStore {
   async connect () {
     try {
       // Check if database exists
-      const dbInfo = this.nano.db.get(this.az.properties.couchdbDatabase || 'azarasi')
+      const dbInfo = await this.nano.db.get(this.az.properties.couchdbDatabase || 'azarasi')
+      this.az.logDebug()
     } catch (e) {
       if (e.headers && e.headers.statusCode === 404) {
         // Create database
