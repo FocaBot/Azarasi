@@ -110,7 +110,7 @@ export class CouchDataStore implements IDataStore {
   async set (key : string, val : any) {
     await this.ensureReady()
     const orig = await this.get(key, true)
-    await this.db.insert({ ...orig, val })
+    await this.db.insert({ ...orig, val: JSON.parse(JSON.stringify(val)) })
     return 'OK'
   }
 
