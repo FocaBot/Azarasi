@@ -64,7 +64,7 @@ export class CouchDataStore implements IDataStore {
       // Check if database exists
       const dbInfo = this.nano.db.get(this.az.properties.couchdbDatabase || 'azarasi')
     } catch (e) {
-      if (e.statusCode === 404) {
+      if (e.headers && e.headers.statusCode === 404) {
         // Create database
         this.nano.db.create(this.az.properties.couchdbDatabase || 'azarasi')
       } else {
