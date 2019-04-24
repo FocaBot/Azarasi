@@ -45,6 +45,7 @@ export class RedisDataStore implements IDataStore {
    */
   constructor (az : Azarasi) {
     this.az = az
+    this._emitter.setMaxListeners(1024)
     this.db = new Redis(this.az.properties.redisUrl || 'redis://127.0.0.1/1', {
       reconnectOnError: () => true,
       lazyConnect: true

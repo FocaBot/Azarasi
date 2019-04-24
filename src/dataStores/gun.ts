@@ -50,6 +50,7 @@ export class GunDataStore implements IDataStore {
    */
   constructor (az : Azarasi) {
     this.az = az
+    this._emitter.setMaxListeners(1024)
   }
 
   /**

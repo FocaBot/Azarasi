@@ -48,6 +48,7 @@ export class CouchDataStore implements IDataStore {
    */
   constructor (az : Azarasi) {
     this.az = az
+    this._emitter.setMaxListeners(1024)
     // Server Scope
     this.nano = Nano.default({
       url: this.az.properties.couchdbUrl || 'http://127.0.0.1:5984',
@@ -63,7 +64,7 @@ export class CouchDataStore implements IDataStore {
     try {
       // Check if database exists
       const dbInfo = await this.nano.db.get(this.az.properties.couchdbDatabase || 'azarasi')
-      this.az.logDebug()
+      this.az.logDebug('CouchDB Database Info: ', dbInfo)
     } catch (e) {
       if (e.headers && e.headers.statusCode === 404) {
         // Create database
@@ -87,6 +88,8 @@ export class CouchDataStore implements IDataStore {
     })
     //@ts-ignore
     this.feed.follow()
+    this.ready = true
+    this._emitter.emit('connected')
   }
 
   ensureReady () {

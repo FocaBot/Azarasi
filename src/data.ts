@@ -33,6 +33,9 @@ export default function GetDataStore(az : Azarasi) : IDataStore {
       throw new Error('Invalid data store requested.')
   }
 
-  dataStore.connect()
+  dataStore.connect().catch(e => {
+    az.logError('Data store backend returned an error: ', e.message)
+    process.exit(1)
+  })
   return dataStore
 }
