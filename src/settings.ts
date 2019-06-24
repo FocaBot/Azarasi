@@ -160,7 +160,7 @@ export class SettingsManager {
     // Update guild
     const g = await this.az.guilds.getGuild(guild)
     if (!g.data.settings) g.data.settings = {}
-    g.data.settings[key] = newVal || oldVal
+    g.data.settings[key] = newVal != null ? newVal : oldVal
     await g.saveData()
   }
 }
